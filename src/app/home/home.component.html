@@ -1,0 +1,15 @@
+<div class="container">
+    <!-- Carousel -->
+    <acuw-carousel #carousel class="carousel">
+      <acuw-carousel-item *ngFor="let item of carouselItems;index as i"
+         class="carousel-item">
+        <h2>Item {{ i+1 }}</h2>
+        <img [src]="item" loading="lazy" />
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+          diam nonumy eirmod tempor invidunt ut labore et dolore magna
+          aliquyam erat, sed diam voluptua.
+        </p>
+      </acuw-carousel-item>
+    </acuw-carousel>
+    </div>

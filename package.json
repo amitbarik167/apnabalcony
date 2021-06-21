@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -11,14 +11,21 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.0.5",
+    "@angular/cdk": "^12.0.5",
     "@angular/common": "~12.0.5",
     "@angular/compiler": "~12.0.5",
     "@angular/core": "~12.0.5",
     "@angular/forms": "~12.0.5",
+    "@angular/material": "^12.0.5",
     "@angular/platform-browser": "~12.0.5",
     "@angular/platform-browser-dynamic": "~12.0.5",
     "@angular/router": "~12.0.5",
+    "@types/three": "^0.129.1",
+    "angularx-social-login": "^3.5.7",
+    "bootstrap": "^5.0.1",
+    "ngx-acuw": "^1.4.2",
     "rxjs": "~6.6.0",
+    "three": "^0.129.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },
@@ -27,7 +34,6 @@
     "@angular/cli": "~12.0.5",
     "@angular/compiler-cli": "~12.0.5",
     "@types/jasmine": "~3.6.0",
-    "@types/node": "^12.11.1",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",

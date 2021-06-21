@@ -75,7 +75,10 @@
               "browserTarget": "apnabalcony:build:production"
             },
             "development": {
-              "browserTarget": "apnabalcony:build:development"
+              "browserTarget": "apnabalcony:build:development",
+              "sslKey": "src/ssl/server.key",
+              "sslCert": "src/ssl/server.crt",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -99,6 +102,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []
