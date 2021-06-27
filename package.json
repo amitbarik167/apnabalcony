@@ -26,7 +26,6 @@
     "ag-grid-community": "^25.3.0",
     "angularx-social-login": "^3.5.7",
     "bootstrap": "^5.0.1",
-    "ngx-acuw": "^1.4.2",
     "ngx-toastr": "^14.0.0",
     "rxjs": "~6.6.0",
     "three": "^0.129.0",
