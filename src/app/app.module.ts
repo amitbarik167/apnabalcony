@@ -27,6 +27,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductSetupService } from './services/product-setup.services';
+import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
+
 
 
 
@@ -34,7 +36,9 @@ import { ProductSetupService } from './services/product-setup.services';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProductSetupComponent
+    
 
   ],
   imports: [

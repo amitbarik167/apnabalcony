@@ -1,4 +1,4 @@
-import { Component, OnInit,VERSION } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 // import { HttpParams } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,8 @@ import { ProductSetupService } from 'src/app/services/product-setup.services';
 import { UtilityService } from 'src/app/services/utility.services';
 import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
 
+
+
 @Component({
   selector: 'app-product-setup',
   templateUrl: './product-setup.component.html',
@@ -24,9 +26,8 @@ import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
   providers: [ProductSetupService, UtilityService]
 })
 
-@Pipe({ name: 'safeHtml' })
+export class ProductSetupComponent  implements OnInit {
 
-export class ProductSetupComponent implements OnInit {
   formProductCategories:FormGroup; formProductSubCategories:FormGroup; formProductColors:FormGroup; formProductBrands:FormGroup; formProducts: FormGroup;
   //user: SocialUser;
   productCategoryList: any;
@@ -51,6 +52,7 @@ export class ProductSetupComponent implements OnInit {
   selectedProductImage: File ;
   selected:[];
 
+  @Pipe({ name: 'safeHtml' })
 
   columnDefsProductCategories = [
     { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false },
@@ -93,12 +95,14 @@ export class ProductSetupComponent implements OnInit {
     { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true },
   ];
 
+ 
+
   constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService, //private fbService: SocialUser,
      //private authService: AuthService,
       private domSanitizer: DomSanitizer) {
     this.productCategoryIdSelectedValue = 0;
     this.productSubCategoryIdSelectedValue = 0;
-  }
+  };
 
   rowDataProductCategories: any;
   rowDataProductSubCategories: any;
@@ -107,6 +111,25 @@ export class ProductSetupComponent implements OnInit {
   rowDataProducts: any;
   isSubmitted = false;
 
+  ngOnInit():void{
+    
+    this.createForm();
+    this.rowDataProductCategories = this.apiService.getProductCategories();
+    this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
+    this.rowDataProductColors = this.apiService.getProductColors();
+    this.rowDataProductBrands = this.apiService.getProductBrands();
+    this.rowDataProducts = this.apiService.getProducts();
+    this.productCategoryList = this.rowDataProductCategories;
+    this.productColorList = this.rowDataProductColors;
+    this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
+    this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
+    this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
+    this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
+    // this.authService.authState.subscribe((user) => {
+    //   this.user = user;
+    // });
+    }
+  
 
   // gridApi and columnApi
   private apiProductCategory:GridApi; apiProductSubCategory:GridApi; apiProductColor:GridApi; apiProductBrand:GridApi; apiProduct: GridApi;
@@ -116,24 +139,6 @@ export class ProductSetupComponent implements OnInit {
   private itemsProductSubCategory: Observable<ProductSubCategory[]>;
   private itemsProductBrand: Observable<ProductBrand[]>;
 
-  ngOnInit():void{
-    
-  this.createForm();
-  this.rowDataProductCategories = this.apiService.getProductCategories();
-  this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
-  this.rowDataProductColors = this.apiService.getProductColors();
-  this.rowDataProductBrands = this.apiService.getProductBrands();
-  this.rowDataProducts = this.apiService.getProducts();
-  this.productCategoryList = this.rowDataProductCategories;
-  this.productColorList = this.rowDataProductColors;
-  this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
-  this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
-  this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
-  this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
-  // this.authService.authState.subscribe((user) => {
-  //   this.user = user;
-  // });
-  }
 
   createForm() {
     this.formProductCategories = this.fb.group({
