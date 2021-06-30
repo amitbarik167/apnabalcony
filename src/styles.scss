@@ -43,6 +43,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 .column {
   float: left;
@@ -61,4 +62,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .checkboxlist tr {
   display:inline-block;
   margin-right:20px;
+}
+
+
+
+body, html{
+  height: 100%;
+  margin: 0;
+}
+
+.mat-tab-body-wrapper{
+  flex-grow: 1;
 }

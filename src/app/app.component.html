@@ -1,12 +1,6 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">  
-    <title>Document</title>
-  </head>
-  <body class="bg-light">
-<div class="container">
+
+  
+<div>
   <h2 class="text-center mb-5">Angular Login with Google</h2>
 
   <div *ngIf="isLoggedin === true">
@@ -75,11 +69,10 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div  style="height: 88vh;">
+    
         <router-outlet></router-outlet>
-      </div>
+    
     </mat-sidenav-content>
   </mat-sidenav-container>
-</div>
-</body>
-</html>
+
+

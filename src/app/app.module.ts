@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +28,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductSetupService } from './services/product-setup.services';
 import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
+import { CarouselModule } from 'ngx-acuw';
 
 
 
@@ -68,7 +69,11 @@ import { ProductSetupComponent } from './UI/product-setup/product-setup.componen
     MatDialogModule,
     ToastrModule.forRoot(), // ToastrModule added
     AgGridModule.withComponents([ImageFormatterComponent]),
+    CarouselModule
     
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [
     {
