@@ -25,7 +25,7 @@ export class UserAuthService {
   getUserAuthoriation(userId:string) {
     return this.httpClient.get(nodeServer + "/" + "userAuthorization/" + userId);
   }
-  addUserAuthorization(userId:string,postData:string) {
+  addUserAuthorization(userId:string,postData:any) {
     return this.httpClient.post((nodeServer + "/" + "userAuthorization/"+ userId), JSON.stringify(postData), httpOptions);
   }
 }
