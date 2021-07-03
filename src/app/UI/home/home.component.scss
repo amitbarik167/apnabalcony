@@ -2,10 +2,33 @@
   width: 100%;
   height: calc(100vh - 150px);
 }
+
+.header {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.roate-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -10px 0 10px 0;
+}
+
+.roate-button-container button {
+  width: 100px;
+}
+
 .carousel {
   position: relative;
   background-color: rgb(0, 0, 0);
 }
+
 .carousel-item {
   position: relative;
   background-color: rgb(255, 255, 255);
@@ -15,10 +38,12 @@
   padding: 10px;
   pointer-events: none;
 }
+
 .carousel-item img {
   width: 100%;
   object-fit: cover;
 }
+
 .carousel-item h2 {
   width: 100%;
   text-align: center;
@@ -26,6 +51,7 @@
   color: rgb(0, 0, 0);
   margin: 5px 0 10px 0;
 }
+
 .carousel-item p {
   text-align: center;
   color: rgb(0, 0, 0);

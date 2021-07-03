@@ -1,15 +1,6 @@
-
-  
 <div>
-  <h2 class="text-center mb-5">Angular Login with Google</h2>
 
-  <div *ngIf="isLoggedin === true">
-    <div>
-      <button type="button" (click)="loginWithGoogle()" class="btn btn-danger">Login with Google</button>
-    </div>
-  </div>
-
-  <div *ngIf="isLoggedin === true">
+  <!-- <div *ngIf="isLoggedin === true">
     <div class="form-group">
       <label>First Name</label>
       <input type="text" class="form-control" [value]="socialUser?.firstName" id="firstname" readonly>
@@ -24,7 +15,7 @@
     </div>
 
     <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
-  </div>
+  </div> -->
 
 
   <mat-toolbar color="primary">
@@ -43,19 +34,27 @@
         <a mat-button [routerLink]="'/policy'"> Policy </a>
         <a mat-button [routerLink]="'/gallery'"> Gallery </a>
         <a mat-button [routerLink]="'/contactus'"> Contact us </a>
-
+       
       </div>
-    </mat-toolbar-row>
-
-    <mat-toolbar-row>
-      <span style="font-size: 12px;"></span>
-    </mat-toolbar-row>
+      <span class="flexspacer"></span>
+	    <span flex></span>
+      <div style="font-size: 15px">
+       
+       <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="40"></a>  
+        <mat-icon style="font-size: 15px">person</mat-icon>
+      </div>
+      <div *ngIf="isLoggedin === true">
+        <div> 
+          <label style="font-size: 15px">Welcome,{{socialUser?.firstName}}</label>
+          &nbsp; <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
+       </div>
+      </div>
+      </mat-toolbar-row>
   </mat-toolbar>
 
   <mat-sidenav-container>
     <mat-sidenav #sidenav>
       <mat-nav-list>
-
         <a mat-list-item [routerLink]="'/home'"> Home </a>
         <a mat-list-item [routerLink]="'/aboutus'"> About Us </a>
         <a mat-list-item [routerLink]="'/productsetup'"> Product Setup </a>
