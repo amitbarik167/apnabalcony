@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild  } from '@angular/core';
+import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +9,21 @@ import { Component, OnInit } from '@angular/core';
 
 
 export class HomeComponent implements OnInit {
-
+  @ViewChild('carousel', { static: true }) carousel: NgbCarousel;
   constructor() { }
 
   ngOnInit(): void {
+  }
+  prevSlide() {
+    this.carousel.prev();
+  }
+
+  nextSlide() {
+    this.carousel.next();
+  }
+
+  stopSlider() {
+    this.carousel.pause();
   }
 
 }

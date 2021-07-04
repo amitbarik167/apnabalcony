@@ -576,6 +576,21 @@ export class ProductSetupComponent  implements OnInit {
     }
   }
 
+  deleteRowProduct() {
+    var selectedData = this.apiProductBrand.getSelectedRows();
+    if (selectedData.length > 0) {
+      if (this.utilityService.ConfirmDeleteDialog()) {
+        this.apiService.deleteProduct(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
+          (this.toastrService.success('Product  deleted successfully!',
+            'Confirmation Msg!'), this.rowDataProducts = this.apiService.getProducts()),
+          error => (this.toastrService.error('Product delete failed!', 'Confirmation Msg!'), console.log('error'))
+        )
+      }
+    }
+    else {
+      alert('Please select a row!');
+    }
+  }
   
 
   resetAllDropDowns(){

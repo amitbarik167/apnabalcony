@@ -1,6 +1,5 @@
-<div class="content-wrapper" win-height>
-
-	<mat-tab-group (selectedTabChange)="loadProductsSetup()">
+<div >
+	<mat-tab-group (selectedTabChange)="loadProductsSetup()" id="tab-group">
 		<mat-tab label="Product Categories">
 	
 			<form [formGroup]="formProductCategories" novalidate (ngSubmit)="onSubmitProductCategories()">
@@ -55,7 +54,9 @@
 			</form>
 	
 			<div align="right">
-				<button type="submit" class="btn btn-primary" (click)="deleteRowProductCategories();">Delete</button>
+				<button mat-icon-button color="primary">
+				<mat-icon style="font-size: 30px" class="mat-icon-rtl-mirror" (click)="deleteRowProductCategories();">delete</mat-icon>
+				</button>
 			</div>
 	
 			<ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-balham"
@@ -137,10 +138,12 @@
 			</form>
 	
 			<div align="right">
-				<button type="submit" class="btn btn-primary" (click)="deleteRowProductSubCategories()">Delete</button>
+				<button mat-icon-button color="primary">
+					<mat-icon style="font-size: 30px" class="mat-icon-rtl-mirror" (click)="deleteRowProductSubCategories();">delete</mat-icon>
+					</button>
 			</div>
 	
-			<ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-balham"
+			<ag-grid-angular style="width: 100%; height: 100%;" class="ag-theme-balham" 
 				[rowData]="rowDataProductSubCategories | async" [columnDefs]="columnDefsProductSubCategories"
 				rowSelection="single" [pagination]="true" [paginationAutoPageSize]="true" [animateRows]="true"
 				enableColResize enableSorting enableFilter enableRowResize rowHeight="50"
@@ -207,7 +210,9 @@
 			</form>
 	
 			<div align="right">
-				<button type="submit" class="btn btn-primary" (click)="deleteRowProductColors()">Delete</button>
+				<button mat-icon-button color="primary">
+					<mat-icon style="font-size: 30px" class="mat-icon-rtl-mirror" (click)="deleteRowProductColors();">delete</mat-icon>
+					</button>
 			</div>
 	
 			<ag-grid-angular class="ag-theme-balham" style="width: 100%; height: 100%;"
@@ -310,7 +315,10 @@
 			</form>
 	
 			<div align="right">
-				<button type="submit" class="btn btn-primary" (click)="deleteRowProductBrands()">Delete</button>
+
+				<button mat-icon-button color="primary">
+					<mat-icon style="font-size: 30px" class="mat-icon-rtl-mirror" (click)="deleteRowProductBrands();">delete</mat-icon>
+					</button>
 			</div>
 	
 			<ag-grid-angular class="ag-theme-balham" style="width: 100%; height: 100%;"
@@ -445,7 +453,7 @@
 					</div>
 	
 					<div class="row">
-						<div class="column">
+						<!-- <div class="column">
 							<label for="product_size" class="control-label">Product Size</label>
 							<br>
 							<ng-select [items]="productSizeList"  (change)="onProductSizeChange($event)" bindLabel="name" placeholder="Select Product Size"
@@ -459,8 +467,8 @@
 							</div>
 							<div *ngIf="formProducts.controls['ProductSize'].errors?.maxlength">
 							</div>
-						</div>
-						<div class="column">
+						</div> -->
+						<!-- <div class="column">
 							<label for="product_for" class="control-label">Product For</label>
 							<br>
 							<select class="form-control"  formControlName="selectProductFor" (change)="changeProductFor($event)">
@@ -476,8 +484,8 @@
 							</div>
 							<div *ngIf="formProducts.controls['selectProductFor'].errors?.maxlength">
 							</div>
-						</div>
-						<div class="column">
+						</div> -->
+						<!-- <div class="column">
 							<label for="product_occasion" class="control-label">Product Occasion</label>
 							<br>
 							<select class="form-control" (change)="changeProductOccasion($event)">
@@ -493,8 +501,8 @@
 							</div>
 							<div *ngIf="formProducts.controls['ProductOccasion'].errors?.maxlength">
 							</div>
-						</div>
-						<div class="column">
+						</div> -->
+						<!-- <div class="column">
 							<label for="product_fit" class="control-label">Product Fit</label>
 							<br>
 							<select class="form-control" (change)="changeProductFit($event)">
@@ -512,7 +520,7 @@
 							</div>
 							<div *ngIf="formProducts.controls['ProductFit'].errors?.maxlength">
 							</div>
-						</div>
+						</div> -->
 						<div class="column">
 							<label for="product_price" class="control-label">Product Price</label>
 							<input type="text" class="form-control" id="product_price" maxlength="50"
@@ -538,7 +546,12 @@
 			</form>
 	
 			<div align="right">
-				<button type="submit" class="btn btn-primary" (click)="deleteRowProductBrands()">Delete</button>
+				
+				<button mat-icon-button color="primary">
+					<mat-icon style="font-size: 30px" class="mat-icon-rtl-mirror" (click)="deleteRowProduct();">delete</mat-icon>
+					</button>
+		
+
 			</div>
 	
 	

@@ -1,23 +1,4 @@
 <div>
-
-  <!-- <div *ngIf="isLoggedin === true">
-    <div class="form-group">
-      <label>First Name</label>
-      <input type="text" class="form-control" [value]="socialUser?.firstName" id="firstname" readonly>
-    </div>
-    <div class="form-group">
-      <label>Last Name</label>
-      <input type="text" class="form-control" [value]="socialUser?.lastName" id="lastname" readonly>
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="text" class="form-control" [value]="socialUser?.email" id="email" readonly>
-    </div>
-
-    <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
-  </div> -->
-
-
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <button mat-icon-button>
@@ -38,13 +19,16 @@
       </div>
       <span class="flexspacer"></span>
 	    <span flex></span>
-      <div style="font-size: 15px">
+      <div style="font-size: 15px" *ngIf="isLoggedin === false">
        
        <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="40"></a>  
-        <mat-icon style="font-size: 15px">person</mat-icon>
+       <mat-icon style="font-size: 15px">person</mat-icon>
+       
       </div>
       <div *ngIf="isLoggedin === true">
         <div> 
+          <img src="{{socialUser?.photoUrl}}" height="50px">
+         
           <label style="font-size: 15px">Welcome,{{socialUser?.firstName}}</label>
           &nbsp; <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
        </div>
