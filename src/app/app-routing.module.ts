@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AboutusComponent } from './aboutus/aboutus.component';
-import { ContactusComponent } from './contactus/contactus.component';
-import { GalleryComponent } from './gallery/gallery.component';
-import { PolicyComponent } from './policy/policy.component';
-import { ProductcatalogueComponent } from './productcatalogue/productcatalogue.component';
-import { ProductsetupComponent } from './productsetup/productsetup.component';
-import { TemplateComponent } from './template/template.component';
+import { HomeComponent } from './UI/home/home.component';
+import { AboutUsComponent } from './UI/about-us/about-us.component';
+import { ContactUsComponent } from './UI/contact-us/contact-us.component';
+import { GalleryComponent } from './UI/gallery/gallery.component';
+import { PolicyComponent } from './UI/policy/policy.component';
+import { ProductCatalogueComponent } from './UI/product-catalogue/product-catalogue.component';
+import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
+import { TemplateComponent } from './UI/template/template.component';
 
 
-const routes: Routes = [{path:'home', component:HomeComponent}, {path:'aboutus', component:AboutusComponent}, {path:'contactus',component:ContactusComponent},
-{path:'gallery', component:GalleryComponent}, {path:'policy', component:PolicyComponent}, {path:'productcatalogue', component: ProductcatalogueComponent}, 
-{path:'productsetup', component: ProductsetupComponent}, {path:'template', component:TemplateComponent}];
+const routes: Routes = [{path:'home', component:HomeComponent}, {path:'aboutus', component:AboutUsComponent}, {path:'contactus',component:ContactUsComponent},
+{path:'gallery', component:GalleryComponent}, {path:'policy', component:PolicyComponent}, {path:'productcatalogue', component: ProductCatalogueComponent}, 
+{path:'productsetup', component: ProductSetupComponent}, {path:'template', component:TemplateComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

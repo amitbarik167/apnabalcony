@@ -1,0 +1,23 @@
+
+
+  // :host ::ng-deep .mat-tab-body-wrapper {
+  //   height: 100%;
+  
+  // }
+  
+  // :host ::ng-deep .mat-tab-body.mat-tab-body-active {
+  //   height: 100%;
+  
+  // }
+
+  /** No CSS for this example */
+.flexspacer {
+  flex: 1 1 auto;
+}
+
+:host{
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
