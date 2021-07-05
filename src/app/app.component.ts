@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
       this.userAuthService.addUserAuthorization(this.socialUser.email,{userId : this.socialUser?.email, authorizationToken : this.socialUser?.authToken})
       .subscribe((response:any) =>
       (localStorage.setItem('token',  response['token']),
-      localStorage.setItem('authorizationToken',this.socialUser?.authToken as string)),
+      localStorage.setItem('authorizationToken',this.socialUser?.authToken as string),localStorage.setItem('userId', this.socialUser?.email as string)),
       (this.toastrService.success('User Signed in successfully!', 'Confirmation Msg!'), 
       error => (this.toastrService.error('User Sign in failed!', 'Confirmation Msg!'), console.log('error'))
       ))
@@ -77,5 +77,6 @@ ngOnDestroy(){
     localStorage.clear();
 
   }
+ 
 
 }

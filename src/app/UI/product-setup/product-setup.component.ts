@@ -29,7 +29,7 @@ import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
 export class ProductSetupComponent  implements OnInit {
 
   formProductCategories:FormGroup; formProductSubCategories:FormGroup; formProductColors:FormGroup; formProductBrands:FormGroup; formProducts: FormGroup;
-  //user: SocialUser;
+  socialUser: any;
   productCategoryList: any;
   productSubCategoryList: any;
   productBrandList: any;
@@ -52,7 +52,31 @@ export class ProductSetupComponent  implements OnInit {
   selectedProductImage: File ;
   selected:[];
 
-  @Pipe({ name: 'safeHtml' })
+  constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService,
+     private domSanitizer: DomSanitizer) {
+   this.productCategoryIdSelectedValue = 0;
+   this.productSubCategoryIdSelectedValue = 0;
+ };
+
+
+  ngOnInit():void{
+
+    this.createForm();
+    this.rowDataProductCategories = this.apiService.getProductCategories();
+    this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
+    this.rowDataProductColors = this.apiService.getProductColors();
+    this.rowDataProductBrands = this.apiService.getProductBrands();
+    this.rowDataProducts = this.apiService.getProducts();
+    this.productCategoryList = this.rowDataProductCategories;
+    this.productColorList = this.rowDataProductColors;
+    this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
+    this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
+    this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
+    this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
+    this.socialUser = localStorage.getItem('userId')?.toString();
+  }
+
+    @Pipe({ name: 'safeHtml' })
 
   columnDefsProductCategories = [
     { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false },
@@ -88,47 +112,19 @@ export class ProductSetupComponent  implements OnInit {
     { headerName: 'Product Name', field: 'productName', sortable: true, filter: true, editable: true },
     { headerName: 'Product Desc', field: 'productDesc', sortable: true, filter: true, editable: true },
     { headerName: 'Product Image', field: 'productImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Product Size', field: 'productSize', sortable: true, filter: true, editable: true },
-    { headerName: 'Product For', field: 'productFor', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Occasion', field: 'productOccasion', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Fit', field: 'productFit', sortable: true, filter: true, editable: true },
     { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true },
+    { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true },
   ];
 
  
 
-  constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService, //private fbService: SocialUser,
-     //private authService: AuthService,
-      private domSanitizer: DomSanitizer) {
-    this.productCategoryIdSelectedValue = 0;
-    this.productSubCategoryIdSelectedValue = 0;
-  };
-
+ 
   rowDataProductCategories: any;
   rowDataProductSubCategories: any;
   rowDataProductColors: any;
   rowDataProductBrands: any;
   rowDataProducts: any;
   isSubmitted = false;
-
-  ngOnInit():void{
-    
-    this.createForm();
-    this.rowDataProductCategories = this.apiService.getProductCategories();
-    this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
-    this.rowDataProductColors = this.apiService.getProductColors();
-    this.rowDataProductBrands = this.apiService.getProductBrands();
-    this.rowDataProducts = this.apiService.getProducts();
-    this.productCategoryList = this.rowDataProductCategories;
-    this.productColorList = this.rowDataProductColors;
-    this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
-    this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
-    this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
-    this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
-    // this.authService.authState.subscribe((user) => {
-    //   this.user = user;
-    // });
-    }
   
 
   // gridApi and columnApi
@@ -186,7 +182,8 @@ export class ProductSetupComponent  implements OnInit {
       selectProductFor:['0'],
       ProductOccasion: [''],
       ProductFit: [''],
-      ProductPrice:['',Validators.required]
+      ProductPrice:['',Validators.required],
+      ProductDiscount:['']
     });
 
   }
@@ -201,7 +198,7 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productCategoryCode", this.formProductCategories.get('ProductCategoryCode')?.value);
     formData.append("productCategoryName", this.formProductCategories.get('ProductCategoryName')?.value);
     formData.append("productCategoryDesc", this.formProductCategories.get('ProductCategoryDesc')?.value);
-    //formData.append("createdBy", this.user.email);
+    formData.append("createdBy", this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productCategoryCode = this.formProductCategories.get('ProductCategoryCode')?.value;
 
@@ -221,7 +218,7 @@ export class ProductSetupComponent  implements OnInit {
   }
   onCellValueChangedProductCategories(params: any) {
     if (params.oldValue === params.newValue) return;
-    //params.data.modifiedBy = this.user.email;
+    params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product Category updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product Category update failed!', 'Confirmation Msg!'), console.log('error'))
@@ -263,7 +260,7 @@ export class ProductSetupComponent  implements OnInit {
 
   onCellValueChangedProductSubCategories(params: any) {
     if (params.oldValue === params.newValue) return;
-   // params.data.modifiedBy = this.user.email;
+    params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductSubCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product SubCategory updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product SubCategory update failed!', 'Confirmation Msg!'), console.log('error'))
@@ -276,7 +273,19 @@ export class ProductSetupComponent  implements OnInit {
     this.apiProductSubCategory.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductSubCategory.hideOverlay();
+  
+  
   }
+
+  // onFirstDataRenderedProductSubCategories(params:any): void {
+  //   this.apiProductSubCategory = params.api;
+  //   this.columnApiProductSubCategory = params.columnApi;
+  //   this.apiProductSubCategory.sizeColumnsToFit();
+  //   // temp fix until AG-1181 is fixed
+  //   this.apiProductSubCategory.hideOverlay();
+  
+  
+  // }
 
   onSubmitProductSubCategories() {
 
@@ -291,7 +300,7 @@ export class ProductSetupComponent  implements OnInit {
       formData.append("productSubCategoryCode", this.formProductSubCategories.get('ProductSubCategoryCode')?.value);
       formData.append("productSubCategoryName", this.formProductSubCategories.get('ProductSubCategoryName')?.value);
       formData.append("productSubCategoryDesc", this.formProductSubCategories.get('ProductSubCategoryDesc')?.value);
-      //formData.append("createdBy", this.user.email);
+      formData.append("createdBy", this.socialUser);
       let postData = this.utilityService.ConvertFormDataToJson(formData);
       let productSubCategoryCode = this.formProductSubCategories.get('ProductSubCategoryCode')?.value;
 
@@ -341,7 +350,7 @@ export class ProductSetupComponent  implements OnInit {
 
   onCellValueChangedProductColors(params: any) {
     if (params.oldValue === params.newValue) return;
-    //params.data.modifiedBy = this.user.email;
+    params.data.modifiedBy =this.socialUser;
     this.apiService.updateProductColor(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product Color updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product Color update failed!', 'Confirmation Msg!'), console.log('error'))
@@ -370,7 +379,7 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productColorName", this.formProductColors.get('ProductColorName')?.value);
     formData.append("productColorDesc", this.formProductColors.get('ProductColorDesc')?.value);
     formData.append("productColorImg", this.formProductColors.get('ProductColorImg')?.value, this.selectedProductColorImage.name);
-   // formData.append("createdBy", this.user.email);
+    formData.append("createdBy", this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productColorCode = this.formProductColors.get('ProductColorCode')?.value;
 
@@ -430,7 +439,7 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productBrandName", this.formProductBrands.get('ProductBrandName')?.value);
     formData.append("productBrandDesc", this.formProductBrands.get('ProductBrandDesc')?.value);
     formData.append("productBrandImg", this.formProductBrands.get('ProductBrandImg')?.value, this.selectedProductBrandImage.name);
-  //  formData.append("createdBy", this.user.email);
+    formData.append("createdBy",this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productBrandCode = this.formProductBrands.get('ProductBrandCode')?.value;
 
@@ -473,7 +482,7 @@ export class ProductSetupComponent  implements OnInit {
 
   onCellValueChangedProductBrands(params: any) {
     if (params.oldValue === params.newValue) return;
-    // params.data.modifiedBy = this.user.email;
+     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductBrand(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product Brand updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product Brand update failed!', 'Confirmation Msg!'), console.log('error'))
@@ -501,7 +510,7 @@ export class ProductSetupComponent  implements OnInit {
 
   onCellValueChangedProducts(params: any) {
     if (params.oldValue === params.newValue) return;
-   // params.data.modifiedBy = this.user.email;
+    params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product Category updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product Category update failed!', 'Confirmation Msg!'), console.log('error'))
@@ -559,7 +568,7 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productOccasion", this.productOccasionIdSelectedValue);
     formData.append("productFit", this.productFitIdSelectedValue);
     formData.append("productPrice", this.formProducts.get('ProductPrice')?.value);
-    //formData.append("createdBy", this.user.email);
+    formData.append("createdBy", this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productCode = this.formProducts.get('ProductCode')?.value;
 
@@ -612,9 +621,7 @@ export class ProductSetupComponent  implements OnInit {
     this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
     this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
     this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
-  //   this.authService.authState.subscribe((user) => {
-  //     this.user = user;
-  // });
+   
 }
 }
 

@@ -219,7 +219,7 @@
 				[rowData]="rowDataProductColors | async" [columnDefs]="columnDefsProductColors" rowSelection="single"
 				[pagination]="true" [paginationAutoPageSize]="true" [animateRows]="true" enableColResize enableRowResize
 				rowHeight="100" enableSorting enableFilter (gridReady)="onGridReadyProductColors($event)"
-				(cellValueChanged)="onCellValueChangedProductColors($event)"> -->
+				(cellValueChanged)="onCellValueChangedProductColors($event)"> 
 			</ag-grid-angular>
 		</mat-tab>
 	
@@ -533,6 +533,22 @@
 								</div>
 							</div>
 							<div *ngIf="formProducts.controls['ProductPrice'].errors?.maxlength">
+	
+							</div>
+						</div>
+
+						<div class="column">
+							<label for="product_discount" class="control-label">Product Discount</label>
+							<input type="text" class="form-control" id="product_discount" maxlength="50"
+								formControlName="ProductDiscount" placeholder="">
+	
+							<div *ngIf="formProducts.controls['ProductDiscount'].invalid && (formProducts.controls['ProductDiscount'].dirty || formProducts.controls['ProductDiscount'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formProducts.controls['ProductDiscount'].errors?.required">
+									Product Price is required.
+								</div>
+							</div>
+							<div *ngIf="formProducts.controls['ProductDiscount'].errors?.maxlength">
 	
 							</div>
 						</div>
