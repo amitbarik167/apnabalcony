@@ -84,10 +84,10 @@ export class ProductSetupComponent  implements OnInit {
     { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true }];
 
   columnDefsProductSubCategories = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true }];
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, suppressSizeToFit: false },
+    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false,suppressSizeToFit: false },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true, suppressSizeToFit: false },
+    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true, suppressSizeToFit: false }];
 
   columnDefsProductColors = [
     { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false },
@@ -270,7 +270,7 @@ export class ProductSetupComponent  implements OnInit {
   onGridReadyProductSubCategories(params:any): void {
     this.apiProductSubCategory = params.api;
     this.columnApiProductSubCategory = params.columnApi;
-    this.apiProductSubCategory.sizeColumnsToFit();
+   // this.apiProductSubCategory.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductSubCategory.hideOverlay();
   
@@ -360,7 +360,7 @@ export class ProductSetupComponent  implements OnInit {
   onGridReadyProductColors(params:any): void {
     this.apiProductColor = params.api;
     this.columnApiProductColor = params.columnApi;
-    this.apiProductColor.sizeColumnsToFit();
+  //  this.apiProductColor.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductColor.hideOverlay();
 
@@ -474,7 +474,7 @@ export class ProductSetupComponent  implements OnInit {
   onGridReadyProductBrands(params:any): void {
     this.apiProductBrand = params.api;
     this.columnApiProductBrand = params.columnApi;
-    this.apiProductBrand.sizeColumnsToFit();
+  //  this.apiProductBrand.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductBrand.hideOverlay();
 
@@ -521,7 +521,7 @@ export class ProductSetupComponent  implements OnInit {
   onGridReadyProducts(params:any): void {
     this.apiProduct = params.api;
     this.columnApiProduct = params.columnApi;
-    this.apiProduct.sizeColumnsToFit();
+   // this.apiProduct.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProduct.hideOverlay();
   }
@@ -621,7 +621,18 @@ export class ProductSetupComponent  implements OnInit {
     this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
     this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
     this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
+
+    this.apiProductCategory.sizeColumnsToFit();
+    this.apiProductSubCategory.sizeColumnsToFit();
+    this.apiProductBrand.sizeColumnsToFit();
+    this.apiProductColor.sizeColumnsToFit();
+    this.apiProduct.sizeColumnsToFit();
+  
    
 }
+
+
 }
+
+
 
