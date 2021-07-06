@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ProductSubCategory } from 'src/app/classes/productSubCategory';
 import { ProductBrand } from '../classes/productBrand';
 import {Product} from '../classes/product';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 
 
@@ -17,6 +18,7 @@ export class ProductSetupService {
   nodeServer:string;
   httpOptions:any;
   httpOptionsMultiFormData:any;
+  returnData:any;
  
 
  public constructor(private httpClient: HttpClient) { 
@@ -62,12 +64,21 @@ export class ProductSetupService {
   //#region  Product SubCategory
 
   getProductSubCategories():Observable<ProductSubCategory[]> {
-    return this.httpClient.get<ProductSubCategory[]>(this.nodeServer + "/" + "productSubCategories",{
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
-      })
-    });
+     
+    try {
+      this.returnData =  this.httpClient.get<ProductSubCategory[]>(this.nodeServer + "/" + "productSubCategories",{
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
+        })
+      });
+    } catch (error) {
+
+      console.log(error);
+      
+    }
+    return this.returnData;
+    
      
   }
 
@@ -153,7 +164,7 @@ export class ProductSetupService {
     return this.httpClient.post((this.nodeServer + "/" + "product/" + productCode), postData,this.httpOptionsMultiFormData);
   }
 
-  updateBrand(postData:string, id:string) {
+  updateProduct(postData:string, id:string) {
     return this.httpClient.put((this.nodeServer + "/" + "product/" + id), postData, this.httpOptions);
   }
   deleteProduct(id: string) {

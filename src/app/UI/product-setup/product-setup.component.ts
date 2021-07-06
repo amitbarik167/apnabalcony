@@ -84,10 +84,10 @@ export class ProductSetupComponent  implements OnInit {
     { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true }];
 
   columnDefsProductSubCategories = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, suppressSizeToFit: false },
-    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false,suppressSizeToFit: false },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true, suppressSizeToFit: false },
-    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true, suppressSizeToFit: false }];
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
+    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true },
+    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true}];
 
   columnDefsProductColors = [
     { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false },
@@ -249,7 +249,7 @@ export class ProductSetupComponent  implements OnInit {
   }
   changeProductCategory(e:any) {
     this.productCategoryIdSelectedValue = e.target.value;
-    this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory._id == this.productCategoryIdSelectedValue)));
+    this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
     return;
   }
 
@@ -511,9 +511,9 @@ export class ProductSetupComponent  implements OnInit {
   onCellValueChangedProducts(params: any) {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
-    this.apiService.updateProductCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product Category updated successfully!', 'Confirmation Msg!')),
-      error => (this.toastrService.error('Product Category update failed!', 'Confirmation Msg!'), console.log('error'))
+    this.apiService.updateProduct(JSON.stringify(params.data), params.data._id).subscribe((response) =>
+      (this.toastrService.success('Product  updated successfully!', 'Confirmation Msg!')),
+      error => (this.toastrService.error('Product  update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
   }
@@ -586,7 +586,7 @@ export class ProductSetupComponent  implements OnInit {
   }
 
   deleteRowProduct() {
-    var selectedData = this.apiProductBrand.getSelectedRows();
+    var selectedData = this.apiProduct.getSelectedRows();
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
         this.apiService.deleteProduct(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
@@ -609,12 +609,34 @@ export class ProductSetupComponent  implements OnInit {
     
   }
   
-  loadProductsSetup(){
-    this.rowDataProductCategories = this.apiService.getProductCategories();
-    this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
-    this.rowDataProductColors = this.apiService.getProductColors();
-    this.rowDataProductBrands = this.apiService.getProductBrands();
-    this.rowDataProducts = this.apiService.getProducts();
+  loadProductsSetup(params:any){
+
+    if(params.index == 0)
+    {
+      this.rowDataProductCategories = this.apiService.getProductCategories();
+      this.apiProductCategory.sizeColumnsToFit();
+    }
+    else if (params.index == 1)
+    {
+      this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
+      this.apiProductSubCategory.sizeColumnsToFit();
+    }
+    else if (params.index == 2)
+    {
+      this.rowDataProductColors = this.apiService.getProductColors();
+      this.apiProductColor.sizeColumnsToFit();
+    }
+    else if (params.index == 3)
+    {
+      this.rowDataProductBrands = this.apiService.getProductBrands();
+      this.apiProductBrand.sizeColumnsToFit();
+    }
+    else if (params.index == 4)
+    {
+      this.rowDataProducts = this.apiService.getProducts();
+      this.apiProduct.sizeColumnsToFit();
+    }
+
     this.productCategoryList = this.rowDataProductCategories;
     this.productColorList = this.rowDataProductColors;
     this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
@@ -622,13 +644,7 @@ export class ProductSetupComponent  implements OnInit {
     this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
     this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
 
-    this.apiProductCategory.sizeColumnsToFit();
-    this.apiProductSubCategory.sizeColumnsToFit();
-    this.apiProductBrand.sizeColumnsToFit();
-    this.apiProductColor.sizeColumnsToFit();
-    this.apiProduct.sizeColumnsToFit();
-  
-   
+
 }
 
 
