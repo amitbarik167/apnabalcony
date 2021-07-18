@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule   } from '@angular/core';
+import { NgModule , NO_ERRORS_SCHEMA   } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -32,13 +32,27 @@ import { CarouselModule } from 'ngx-acuw';
 import { HomeComponent } from './UI/home/home.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CartComponent } from './UI/product-catalogue/cart/cart.component';
+import { ProductListComponent } from './UI/product-catalogue/product-list/product-list.component';
+import { FiltersComponent } from './UI/product-catalogue/filters/filters.component';
+import {ProductCatalogueComponent} from './UI/product-catalogue/product-catalogue.component';
+import { ProductItemComponent } from './UI/product-catalogue/product-list/product-item/product-item.component';
+import { CartItemComponent } from './UI/product-catalogue/cart/cart-item/cart-item.component';
+import {MatSliderModule} from '@angular/material/slider';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductSetupComponent,
-    HomeComponent
+    HomeComponent,
+    CartComponent,
+    ProductListComponent,
+    FiltersComponent,
+    ProductCatalogueComponent,
+    ProductItemComponent,
+    CartItemComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,10 +83,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AgGridModule.withComponents([ImageFormatterComponent]),
     CarouselModule,
     MatCarouselModule.forRoot(),
-    NgbModule    
+    NgbModule,
+    MatSliderModule   
     
     
   ],
+  schemas: [ NO_ERRORS_SCHEMA ],
  
   providers: [
     {

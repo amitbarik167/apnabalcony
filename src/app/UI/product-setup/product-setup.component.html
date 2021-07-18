@@ -1,5 +1,5 @@
 <div >
-	<mat-tab-group (selectedTabChange)="loadProductsSetup()" id="tab-group">
+	<mat-tab-group (selectedTabChange)="loadProductsSetup($event)" id="tab-group" >
 		<mat-tab label="Product Categories">
 	
 			<form [formGroup]="formProductCategories" novalidate (ngSubmit)="onSubmitProductCategories()">
@@ -76,14 +76,14 @@
 					<br>
 					<select class="form-control" (change)="changeProductCategory($event)">
 						<option [value]="0">Choose Product Category</option>
-						<option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory._id">
-							{{productCategory.productCategoryName}}</option>
+						<option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory?._id">
+							{{productCategory?.productCategoryName}}</option>
 					</select>
 	
 					<!-- error block -->
-					<div *ngIf="isSubmitted && productCategoryList.errors?.required">
+					<!-- <div *ngIf="isSubmitted && productCategoryList.errors?.required">
 						<sup>*</sup>Please select product category
-					</div>
+					</div> -->
 				</div>
 	
 				<div class="form-group">
@@ -93,11 +93,11 @@
 				</div>
 				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode'].invalid && (formProductSubCategories.controls['ProductSubCategoryCode'].dirty || formProductSubCategories.controls['ProductSubCategoryCode'].touched)"
 					class="alert alert-danger">
-					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode'].errors?.required">
+					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode']?.errors?.required">
 						Product SubCategory Code is required.
 					</div>
 				</div>
-				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode'].errors?.maxlength">
+				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode']?.errors?.maxlength">
 	
 				</div>
 				<div class="form-group">
@@ -107,11 +107,11 @@
 				</div>
 				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName'].invalid && (formProductSubCategories.controls['ProductSubCategoryName'].dirty || formProductSubCategories.controls['ProductSubCategoryName'].touched)"
 					class="alert alert-danger">
-					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName'].errors?.required">
+					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName']?.errors?.required">
 						Product SubCategory Name is required.
 					</div>
 				</div>
-				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName'].errors?.maxlength">
+				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName']?.errors?.maxlength">
 	
 				</div>
 				<div class="form-group">
@@ -122,11 +122,11 @@
 				</div>
 				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc'].invalid && (formProductSubCategories.controls['ProductSubCategoryDesc'].dirty || formProductSubCategories.controls['ProductSubCategoryDesc'].touched)"
 					class="alert alert-danger">
-					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc'].errors?.required">
+					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc']?.errors?.required">
 						Product SubCategory Description is required.
 					</div>
 				</div>
-				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc'].errors?.maxlength">
+				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc']?.errors?.maxlength">
 	
 				</div>
 	
