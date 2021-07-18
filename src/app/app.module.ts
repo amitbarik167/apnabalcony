@@ -37,7 +37,7 @@ import { ProductListComponent } from './UI/product-catalogue/product-list/produc
 import { FiltersComponent } from './UI/product-catalogue/filters/filters.component';
 import {ProductCatalogueComponent} from './UI/product-catalogue/product-catalogue.component';
 import { ProductItemComponent } from './UI/product-catalogue/product-list/product-item/product-item.component';
-import { CartItemComponent } from './UI/Product-catalogue/cart/cart-item/cart-item.component';
+import { CartItemComponent } from './UI/product-catalogue/cart/cart-item/cart-item.component';
 import {MatSliderModule} from '@angular/material/slider';
 
 
