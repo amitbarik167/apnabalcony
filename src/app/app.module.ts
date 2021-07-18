@@ -38,6 +38,7 @@ import { FiltersComponent } from './UI/product-catalogue/filters/filters.compone
 import {ProductCatalogueComponent} from './UI/product-catalogue/product-catalogue.component';
 import { ProductItemComponent } from './UI/product-catalogue/product-list/product-item/product-item.component';
 import { CartItemComponent } from './UI/Product-catalogue/cart/cart-item/cart-item.component';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 
@@ -82,7 +83,8 @@ import { CartItemComponent } from './UI/Product-catalogue/cart/cart-item/cart-it
     AgGridModule.withComponents([ImageFormatterComponent]),
     CarouselModule,
     MatCarouselModule.forRoot(),
-    NgbModule    
+    NgbModule,
+    MatSliderModule   
     
     
   ],

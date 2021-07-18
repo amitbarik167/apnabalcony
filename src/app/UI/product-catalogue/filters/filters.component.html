@@ -1,23 +1,91 @@
 <div class="card filters">
 
+  <div class="card-header">
+    <strong>Filters</strong>
+  </div>
+
+  <div class="card-body">
     <div class="card-header">
-      <strong>Filters</strong>
+      <strong>Price</strong>
+     
     </div>
-  
+    <mat-slider thumbLabel min="500" max="10000" step="1" value="4"></mat-slider>
+
+    <div class="card-header">
+      <strong>Discount</strong>
+      
+    </div>
+    <mat-slider thumbLabel min="10" max="50" step="1" value="4"></mat-slider>
+    
+    <!-- <form>
+      <div class="form-group">
+        <label for="from">From</label>
+        <input type="number" id="from" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="to">To</label>
+        <input type="number" id="to" class="form-control">
+      </div>
+      <br />
+      <button class="btn btn-primary btn-block btn-sm">Submit</button>
+    </form> -->
+  </div>
     <div class="card-body">
+      <div class="card-header">
+      <strong>Product Category</strong>
+     </div>
       <form>
         <div class="form-group">
-          <label for="from">From</label>
-          <input type="number" id="from" class="form-control">
+          <br>
+          <select class="form-control" (change)="changeProductCategory($event)">
+            <option [value]="0">Choose Product Category</option>
+            <option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory?._id">
+              {{productCategory?.productCategoryName}}</option>
+          </select>
+
         </div>
-  
-        <div class="form-group">
-          <label for="to">To</label>
-          <input type="number" id="to" class="form-control">
-        </div>
-  
-        <button class="btn btn-primary btn-block btn-sm">Filter by Price</button>
       </form>
     </div>
-  </div>
-  
+
+
+    <div class="card-body">
+      <div class="card-header">
+      <strong>Product Sub-Category</strong>
+     </div>
+      <form>
+        <div class="form-group">
+          <br>
+          <select class="form-control" (change)="changeProductSubCategory($event)">
+            <option [value]="0">Choose Product Sub-Category</option>
+            <option *ngFor="let productSubCategory of productSubCategoryList|async"
+              [value]="productSubCategory._id">{{productSubCategory.productSubCategoryName}}</option>
+          </select>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="card-body">
+      <div class="card-header">
+      <strong>Brand</strong>
+     </div>
+      <form>
+        <div class="form-group">
+          <br>
+          <mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
+          (selectionChange)="changeProductBrand($event)">
+          <mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
+            <img alt="Image" width="10%" height="10%"
+              src="data:image/png;base64,{{productBrand.productBrandImg}}" />
+            {{productBrand.productBrandName}}
+          </mat-option>
+        </mat-select>
+
+        </div>
+      </form>
+    </div>
+
+
+
+</div>
