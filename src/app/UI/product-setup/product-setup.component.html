@@ -552,6 +552,22 @@
 	
 							</div>
 						</div>
+
+						<div class="column">
+							<label for="productstockunits" class="control-label">Product Stock Units</label>
+							<input type="text" class="form-control" id="product_stockunits" maxlength="50"
+								formControlName="ProductStockUnits" placeholder="">
+	
+							<div *ngIf="formProducts.controls['ProductStockUnits'].invalid && (formProducts.controls['ProductStockUnits'].dirty || formProducts.controls['ProductStockUnits'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formProducts.controls['ProductStockUnits'].errors?.required">
+									Product Price is required.
+								</div>
+							</div>
+							<div *ngIf="formProducts.controls['ProductStockUnits'].errors?.maxlength">
+	
+							</div>
+						</div>
 					</div>
 					<div class="form-group">
 						<!-- Submit Button -->

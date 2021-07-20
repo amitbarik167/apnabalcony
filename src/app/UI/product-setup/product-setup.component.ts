@@ -114,6 +114,7 @@ export class ProductSetupComponent  implements OnInit {
     { headerName: 'Product Image', field: 'productImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
     { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true },
     { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true },
+    { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true },
   ];
 
  
@@ -183,7 +184,8 @@ export class ProductSetupComponent  implements OnInit {
       ProductOccasion: [''],
       ProductFit: [''],
       ProductPrice:['',Validators.required],
-      ProductDiscount:['']
+      ProductDiscount:[''],
+      ProductStockUnits:['']
     });
 
   }
@@ -568,6 +570,8 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productOccasion", this.productOccasionIdSelectedValue);
     formData.append("productFit", this.productFitIdSelectedValue);
     formData.append("productPrice", this.formProducts.get('ProductPrice')?.value);
+    formData.append("productDiscount", this.formProducts.get('ProductDiscount')?.value);
+    formData.append("productStockUnits", this.formProducts.get('ProductStockUnits')?.value);
     formData.append("createdBy", this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productCode = this.formProducts.get('ProductCode')?.value;
