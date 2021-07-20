@@ -9,13 +9,13 @@
       <strong>Price</strong>
      
     </div>
-    <mat-slider thumbLabel min="500" max="10000" step="1" value="4"></mat-slider>
+    <mat-slider thumbLabel min="500" max="10000" step="1" value="4" (input)="onInputChangePrice($event)"></mat-slider>
 
     <div class="card-header">
       <strong>Discount</strong>
       
     </div>
-    <mat-slider thumbLabel min="10" max="50" step="1" value="4"></mat-slider>
+    <mat-slider thumbLabel min="10" max="50" step="1" value="4" (input)="onInputChangeDiscount($event)"></mat-slider>
     
     <!-- <form>
       <div class="form-group">
@@ -79,6 +79,26 @@
             <img alt="Image" width="10%" height="10%"
               src="data:image/png;base64,{{productBrand.productBrandImg}}" />
             {{productBrand.productBrandName}}
+          </mat-option>
+        </mat-select>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="card-body">
+      <div class="card-header">
+      <strong>Color</strong>
+     </div>
+      <form>
+        <div class="form-group">
+          <br>
+          <mat-select class="form-control" [value]="0" placeholder="Choose Product Color"
+          (selectionChange)="changeProductColor($event)">
+          <mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
+            <img alt="Image" width="10%" height="10%"
+              src="data:image/png;base64,{{productColor.productColorImg}}" />
+            {{productColor.productColorName}}
           </mat-option>
         </mat-select>
 

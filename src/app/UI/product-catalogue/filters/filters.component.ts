@@ -18,6 +18,7 @@ export class FiltersComponent implements OnInit {
   productCategoryList: any;
   productSubCategoryList: any;
   productBrandList: any;
+  productColorList: any;
   productCategoryIdSelectedValue: any;
   productSubCategoryIdSelectedValue:any;
   private itemsProductSubCategory: Observable<ProductSubCategory[]>;
@@ -28,6 +29,7 @@ export class FiltersComponent implements OnInit {
   ngOnInit(): void {
 
    this.productCategoryList = this.apiService.getProductCategories();
+   this.productColorList =  this.apiService.getProductColors()
   }
 
   changeProductCategory(e:any) {
@@ -44,6 +46,21 @@ export class FiltersComponent implements OnInit {
   }
 
   changeProductBrand(e:any) {
+  }
+
+  changeProductColor(e:any) {
+  }
+
+  onInputChangePrice(event:any) {
+    alert(event.value);
+    console.log("This is emitted as the thumb slides");
+    console.log(event.value);
+  }
+
+  onInputChangeDiscount(event:any) {
+    alert(event.value);
+    console.log("This is emitted as the thumb slides");
+    console.log(event.value);
   }
   //#en
 
