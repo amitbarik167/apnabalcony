@@ -8,9 +8,9 @@ export class ProductBrand
         productBrandName:string;
         productBrandDesc:string;
         productBrandImg: string;
-        isActive:Boolean;
-        createdBy:String;
-        modifiedBy:String;
+        isActive:boolean;
+        createdBy:string;
+        modifiedBy:string;
         productCategory:ProductCategory;
         productSubCategory:ProductSubCategory
 }
