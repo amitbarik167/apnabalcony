@@ -10,6 +10,11 @@ export class CartItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
+  }
+
+  remove(){
+    
   }
 
 }
