@@ -1,6 +1,12 @@
 <div class="cart-item">
     <span>{{cartItem.productName}}</span> x
     <span>{{cartItem.qty }}</span>:
-    <strong>{{(cartItem.qty * cartItem.price) | currency:'INR' }} </strong>
+    <medium>{{(cartItem.qty * cartItem.price) | currency:'INR' }} </medium> 
+    <button type="button" class="close" aria-label="Close" (click)=remove();>
+      <span aria-hidden="true">&times;</span>
+    </button>
+   <p style="text-align: center;" *ngIf="cartItem.discount > 0">
+    <strong style="color:green; text-align: right;">- {{cartItem.discount}}%</strong>
+   </p> 
   </div>
   

@@ -52,13 +52,11 @@ export class FiltersComponent implements OnInit {
   }
 
   onInputChangePrice(event:any) {
-    alert(event.value);
     console.log("This is emitted as the thumb slides");
     console.log(event.value);
   }
 
   onInputChangeDiscount(event:any) {
-    alert(event.value);
     console.log("This is emitted as the thumb slides");
     console.log(event.value);
   }
