@@ -24,7 +24,7 @@
         </div>
       <span class="flexspacer"></span>
 	    <span flex></span>
-      <div style="font-size: 15px" *ngIf="isLoggedin === false">
+      <div style="font-size: 15px" *ngIf="isNotLoggedin">
        
        <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="40"></a>  
        <mat-icon style="font-size: 15px">person</mat-icon>

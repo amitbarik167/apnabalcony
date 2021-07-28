@@ -39,6 +39,7 @@ import {ProductCatalogueComponent} from './UI/product-catalogue/product-catalogu
 import { ProductItemComponent } from './UI/product-catalogue/product-list/product-item/product-item.component';
 import { CartItemComponent } from './UI/product-catalogue/cart/cart-item/cart-item.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -104,7 +105,7 @@ import {MatSliderModule} from '@angular/material/slider';
           }
         ]
       } as SocialAuthServiceConfig,
-    } , ProductSetupService,UtilityService 
+    } , ProductSetupService,UtilityService , CookieService
   ],
   bootstrap: [AppComponent]
 })

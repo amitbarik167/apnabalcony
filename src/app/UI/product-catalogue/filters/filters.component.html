@@ -9,27 +9,14 @@
       <strong>Price</strong>
      
     </div>
-    <mat-slider thumbLabel min="500" max="10000" step="1" value="4" (input)="onInputChangePrice($event)"></mat-slider>
+    <mat-slider thumbLabel min="0" max="10000" step="1" value="0" (input)="onInputChangePrice($event)"></mat-slider>
 
     <div class="card-header">
-      <strong>Discount</strong>
+      <strong>Minimum Discount</strong>
       
     </div>
-    <mat-slider thumbLabel min="10" max="50" step="1" value="4" (input)="onInputChangeDiscount($event)"></mat-slider>
+    <mat-slider thumbLabel min="0" max="50" step="1" value="0" (input)="onInputChangeDiscount($event)"></mat-slider>
     
-    <!-- <form>
-      <div class="form-group">
-        <label for="from">From</label>
-        <input type="number" id="from" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="to">To</label>
-        <input type="number" id="to" class="form-control">
-      </div>
-      <br />
-      <button class="btn btn-primary btn-block btn-sm">Submit</button>
-    </form> -->
   </div>
     <div class="card-body">
       <div class="card-header">
@@ -93,7 +80,7 @@
       <form>
         <div class="form-group">
           <br>
-          <mat-select class="form-control" [value]="0" placeholder="Choose Product Color"
+          <mat-select class="form-control" [value]="0" [(ngModel)]="selectedColor" placeholder="Choose Product Color"
           (selectionChange)="changeProductColor($event)">
           <mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
             <img alt="Image" width="10%" height="10%"

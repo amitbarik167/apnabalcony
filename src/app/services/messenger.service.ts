@@ -7,17 +7,28 @@ import { Product } from '../classes/product';
 })
 export class MessengerService {
 
-  subject = new Subject();
+  subjectCartItems = new Subject();
+  subjectSearchItems = new Subject();
 
   constructor() { }
 
-  sendMsg(product:Product){
+  sendCartDetails(product:Product){
 
-    this.subject.next(product);
+    this.subjectCartItems.next(product);
   }
 
-  getMsg(){
-   return this.subject.asObservable();
+  sendSearchFilters(product:Product){
+
+    this.subjectSearchItems.next(product);
   }
 
+
+  getCartDetails(){
+   return this.subjectCartItems.asObservable();
+  }
+
+  getSearchFilters(){
+    return this.subjectSearchItems.asObservable();
+   }
+ 
 }
