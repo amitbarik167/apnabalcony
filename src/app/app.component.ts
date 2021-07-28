@@ -17,6 +17,8 @@ export class AppComponent implements OnInit {
   loginForm?: FormGroup;
   socialUser?: SocialUser;
   isLoggedin?: boolean;  
+  isNotLoggedin?:boolean;
+  isLoginNotClicked?:boolean=false;
   userId?:string;
   authorizationToken?:string
 
@@ -31,13 +33,19 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() :void{
+    this.isNotLoggedin = true;
 
-   this.socialAuthService.initState.subscribe(value=> {
-   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
-   console.log('GoogleContainerComponent.ngOnInit user:', user)
+  localStorage.clear();
+  this.socialAuthService.initState.subscribe(value=> {
+  this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
+  
+  console.log('GoogleContainerComponent.ngOnInit user:', user)
   });
   });
-    
+
+
+
+  
 
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
@@ -50,6 +58,7 @@ export class AppComponent implements OnInit {
       console.log(this.socialUser);
 
     if(this.socialUser != null){
+      this.isNotLoggedin=false;
       this.userAuthService.addUserAuthorization(this.socialUser.email,{userId : this.socialUser?.email, authorizationToken : this.socialUser?.authToken})
       .subscribe((response:any) =>
       (localStorage.setItem('token',  response['token']),
@@ -60,6 +69,7 @@ export class AppComponent implements OnInit {
     }
   });
 }
+  
 
 ngOnDestroy(){
 
@@ -70,10 +80,13 @@ ngOnDestroy(){
 
   loginWithGoogle(): void {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.isLoginNotClicked = true;
+  ;
   }
 
   logOut(): void {
     this.socialAuthService.signOut();
+    this.isNotLoggedin=true;
     localStorage.clear();
 
   }

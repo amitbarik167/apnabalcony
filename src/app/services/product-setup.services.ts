@@ -171,6 +171,8 @@ export class ProductSetupService {
     return this.httpClient.delete((this.nodeServer + "/" + "product/" + id), this.httpOptionsMultiFormData);
   }
 
+ 
+
 }
 
 

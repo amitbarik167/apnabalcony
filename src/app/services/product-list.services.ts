@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Product} from '../classes/product';
+import { ProductSubCategory } from 'src/app/classes/productSubCategory';
+import { ProductBrand } from '../classes/productBrand';
 
 
 
@@ -23,7 +25,6 @@ export class ProductListService {
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
       })
     };
 
@@ -41,24 +42,38 @@ export class ProductListService {
   //#region  Product
 
   getProducts():Observable<Product[]> {
-    return  <Observable<Product[]>> this.httpClient.get<Product[]>(this.nodeServer + "/" + "products",{
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
-      })
-    });
+    return  <Observable<Product[]>> this.httpClient.get<Product[]>(this.nodeServer + "/" + "products/all")
+    };
      
-  }
-  addProduct(postData:string, productCode:string) {
-    return this.httpClient.post((this.nodeServer + "/" + "product/" + productCode), postData,this.httpOptionsMultiFormData);
+
+
+  searchProducts(postData:string) :Observable<Product[]>{
+    return  <Observable<Product[]>> this.httpClient.put<Product[]>(this.nodeServer + "/" + "products",postData)
+  };
+
+   
+  getProductBrands():Observable<ProductBrand[]> {
+    return this.httpClient.get<ProductBrand[]>(this.nodeServer + "/" + "productsList/productBrands")
+    };
+
+     //#region Product Category
+  getProductCategories() {
+    return this.httpClient.get(this.nodeServer + "/" + "productsList/productCategories",this.httpOptions);
   }
 
-  updateProduct(postData:string, id:string) {
-    return this.httpClient.put((this.nodeServer + "/" + "product/" + id), postData, this.httpOptions);
+   getProductSubCategories():Observable<ProductSubCategory[]> {
+     
+     return this.returnData =  this.httpClient.get<ProductSubCategory[]>(this.nodeServer + "/" + "productsList/productSubCategories");
+      
   }
-  deleteProduct(id: string) {
-    return this.httpClient.delete((this.nodeServer + "/" + "product/" + id), this.httpOptionsMultiFormData);
-  }
+
+    //#region  Product Color
+
+    getProductColors() {
+      return this.httpClient.get(this.nodeServer + "/" + "productsList/productColors");
+    }
+  
+     
 
 }
 

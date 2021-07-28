@@ -11,14 +11,14 @@ import { MessengerService } from 'src/app/services/messenger.service';
 export class ProductItemComponent implements OnInit {
  @Input() productItem : Product
    
-  constructor(private msg :MessengerService) { }
+  constructor(private msgService :MessengerService) { }
 
   ngOnInit(): void {
   
   }
 
   handleAddToCart(){
-    this.msg.sendMsg(this.productItem)
+    this.msgService.sendCartDetails(this.productItem)
   }
 
 }
