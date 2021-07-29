@@ -8,6 +8,8 @@ import { Product } from 'src/app/classes/product';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { ProductCategory } from 'src/app/classes/productCategory';
 import { ProductColor } from 'src/app/classes/productColor';
+import { FormControl, FormGroup } from '@angular/forms';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
   selector: 'app-filters',
@@ -16,7 +18,7 @@ import { ProductColor } from 'src/app/classes/productColor';
  
 })
 export class FiltersComponent implements OnInit {
-
+  formFilters:FormGroup;
   productCategoryList: any;
   productSubCategoryList: any;
   productBrandList: any;
@@ -32,6 +34,7 @@ export class FiltersComponent implements OnInit {
   productBrand : ProductBrand;
   ProductColor : ProductColor;
   selectedColor : string;
+ 
   constructor(private apiService: ProductListService, private msgServicice :MessengerService) { }
 
   ngOnInit(): void {
@@ -115,6 +118,16 @@ export class FiltersComponent implements OnInit {
        this.msgServicice.sendSearchFilters(this.product);
      }
   }
+
+  reset(){
+ 
+     this.ngOnInit()
+     this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
+     this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == null)));
+  
+     this.product = new Product();
+     this.msgServicice.sendSearchFilters(this.product);
+    }
   //#en
 
 }
