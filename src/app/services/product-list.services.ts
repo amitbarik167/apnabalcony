@@ -21,7 +21,7 @@ export class ProductListService {
  
 
  public constructor(private httpClient: HttpClient) { 
-    this.nodeServer = 'http://localhost:3000';
+    this.nodeServer = 'https://apnabalconyapi.azurewebsites.net:3000';
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

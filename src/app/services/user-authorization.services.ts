@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 
-const nodeServer = 'http://localhost:3000';
+const nodeServer = 'https://apnabalconyapi.azurewebsites.net:3000';
 
 const httpOptions = {
   headers: new HttpHeaders({
