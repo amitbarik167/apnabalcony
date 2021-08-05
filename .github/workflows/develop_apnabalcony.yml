@@ -52,5 +52,5 @@ jobs:
       with:
         app-name: 'apnabalcony'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_4db3e27921eb435faa9b09d8cfcb8b6e }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7bb18ff8d9e54e87a2229c1b540ebf2f }}
         package: .
