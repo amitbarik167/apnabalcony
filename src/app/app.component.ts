@@ -36,16 +36,7 @@ export class AppComponent implements OnInit {
     this.isNotLoggedin = true;
 
   localStorage.clear();
-  this.socialAuthService.initState.subscribe(value=> {
-  this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
-  
-  console.log('GoogleContainerComponent.ngOnInit user:', user)
-  });
-  });
 
-
-
-  
 
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
