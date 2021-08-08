@@ -40,6 +40,8 @@ import { ProductItemComponent } from './UI/product-catalogue/product-list/produc
 import { CartItemComponent } from './UI/product-catalogue/cart/cart-item/cart-item.component';
 import {MatSliderModule} from '@angular/material/slider';
 import { CookieService } from 'ngx-cookie-service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 
@@ -85,7 +87,9 @@ import { CookieService } from 'ngx-cookie-service';
     CarouselModule,
     MatCarouselModule.forRoot(),
     NgbModule,
-    MatSliderModule   
+    MatSliderModule  ,
+    MatAutocompleteModule,
+    MatProgressBarModule
     
     
   ],

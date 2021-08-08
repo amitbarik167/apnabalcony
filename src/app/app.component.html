@@ -7,6 +7,8 @@
   </head>
 <body class="bg-light">
 
+
+  
 <div >
   <mat-toolbar >
     <mat-toolbar-row>
@@ -26,10 +28,20 @@
         <a mat-button [routerLink]="'/gallery'"> Gallery </a>
         <a mat-button [routerLink]="'/contactus'"> Contact us </a> -->
         <div class="divMainSearch">
-          <mat-form-field appearance="outline">
-            <mat-icon matPrefix>search</mat-icon>
-            <input type="search" matInput placeholder="Search Balcony Products" />
+        
+          <form class="example-form">
+          <mat-form-field>
+            <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" (change)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
+              <mat-option   *ngFor="let product of autoProductFilter | async" [value]="product.productName">
+                <img alt="Image" width="5%" height="5%" 
+                src="data:image/png;base64,{{product.productImg}}" />
+                {{product.productName}}
+              </mat-option>
+            </mat-autocomplete>
+          
           </mat-form-field>
+        </form>
         </div>
       <span class="flexspacer"></span>
 	    <span flex></span>

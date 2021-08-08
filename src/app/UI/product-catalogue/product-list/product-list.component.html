@@ -1,4 +1,7 @@
+
+
 <div class="row">
+  <mat-progress-bar mode="determinate"  [value]="progressbarValue" ></mat-progress-bar>
     <div class="col-md-4" *ngFor="let product of productList">
       <app-product-item [productItem]= "product"> </app-product-item>
     </div>
