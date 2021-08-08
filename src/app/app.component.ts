@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   productSearchControl:  FormControl;
   autoProductFilter: Observable<Product[]>;
   product:Product;
+  isEventFired:boolean=false;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -117,11 +118,20 @@ ngOnDestroy(){
 
   }
   onEnter(evn:any){
+  
+   setTimeout(() => {
+    console.log('sleep');
+    if(this.router.url.indexOf('/productcatalogue')>-1){
+      this.product = new Product();
+      this.product.productName = evn.option.value
+      this.msgServicice.sendSearchFilters(this.product );
    
-    this.product = new Product();
-    this.product.productName = evn.option.value
-    this.msgServicice.sendSearchFilters(this.product );
-    this.router.navigate(['/productcatalogue']);
+    }
+    else{
+      this.router.navigate(['/productcatalogue',{searchedProductName:evn.option.value}]);
+    }
+    // And any other code that should run only after 5s
+  }, 3000);
     
   }
 
@@ -131,19 +141,6 @@ ngOnDestroy(){
       this.msgServicice.sendSearchFilters(this.product );
     }
  
-  }
-
-  private async sleepExample()
-  {
-    console.log("Beforep: " + new Date().toString());
-    // Sleep thread for 3 seconds
-    await this.delay(3000);
-    console.log("Afterp:  " + new Date().toString());
-  }
-  
-  private delay(ms: number)
-  {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

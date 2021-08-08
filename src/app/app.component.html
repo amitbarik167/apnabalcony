@@ -31,7 +31,11 @@
         
           <form class="example-form">
           <mat-form-field>
-            <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" (change)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
+          
+              <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
+             
+           
+            
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
               <mat-option   *ngFor="let product of autoProductFilter | async" [value]="product.productName">
                 <img alt="Image" width="5%" height="5%" 

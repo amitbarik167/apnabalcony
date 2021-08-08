@@ -11,7 +11,7 @@ import { TemplateComponent } from './UI/template/template.component';
 
 
 const routes: Routes = [{path:'', component:HomeComponent},{path:'home', component:HomeComponent}, {path:'aboutus', component:AboutUsComponent}, {path:'contactus',component:ContactUsComponent},
-{path:'gallery', component:GalleryComponent}, {path:'policy', component:PolicyComponent}, {path:'productcatalogue', component: ProductCatalogueComponent}, 
+{path:'gallery', component:GalleryComponent}, {path:'policy', component:PolicyComponent}, {path:'productcatalogue', component: ProductCatalogueComponent},
 {path:'productsetup', component: ProductSetupComponent}, {path:'template', component:TemplateComponent}];
 
 @NgModule({
