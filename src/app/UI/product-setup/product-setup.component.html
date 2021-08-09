@@ -367,7 +367,7 @@
 							<label for="product_brand" class="control-label">Product Brand</label>
 							<br>
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
-								(selectionChange)="changeProductBrand($event)">
+								(optionSelected)="changeProductBrand($event)">
 								<mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
 									<img alt="Image" width="10%" height="10%"
 										src="data:image/png;base64,{{productBrand.productBrandImg}}" />

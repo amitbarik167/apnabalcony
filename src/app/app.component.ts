@@ -5,6 +5,13 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-soc
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, Routes } from '@angular/router';
+import {map, startWith} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import { ProductListService } from 'src/app/services/product-list.services';
+import { Product } from 'src/app/classes/product';
+import { FormControl } from '@angular/forms';
+import { MessengerService } from 'src/app/services/messenger.service';
+
 
 @Component({
   selector: 'app-root',
@@ -21,30 +28,45 @@ export class AppComponent implements OnInit {
   isLoginNotClicked?:boolean=false;
   userId?:string;
   authorizationToken?:string
+  productList : Product[] = [];
+  productSearchControl:  FormControl;
+  autoProductFilter: Observable<Product[]>;
+  product:Product;
+  isEventFired:boolean=false;
 
-  
   constructor(
     private formBuilder: FormBuilder, 
     private socialAuthService: SocialAuthService,
     private userAuthService : UserAuthService,
     private toastrService: ToastrService,
     private httpClient: HttpClient,
-    private router: Router
-  ) { }
+    private router: Router,
+    private productService : ProductListService,
+    private msgServicice :MessengerService
+  ) { 
+    this.productSearchControl = new FormControl();
+    this.productService.getProducts().subscribe(res=> {this.productList=res;});
+  }
+ 
 
   ngOnInit() :void{
     this.isNotLoggedin = true;
+    
+    this.productService.getProducts().subscribe(res=> {this.productList=res;});
+    this.autoProductFilter = this.productSearchControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(products => products? this.mat_filter(products): this.productList.slice())
+    );
 
+       
   localStorage.clear();
   this.socialAuthService.initState.subscribe(value=> {
-  this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
-  
-  console.log('GoogleContainerComponent.ngOnInit user:', user)
-  });
-  });
-
-
-
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
+    
+    console.log('GoogleContainerComponent.ngOnInit user:', user)
+    });
+    });
   
 
     this.loginForm = this.formBuilder.group({
@@ -69,7 +91,12 @@ export class AppComponent implements OnInit {
     }
   });
 }
+
+
   
+private mat_filter(value: string): Product[] {
+    return this.productList.filter(option => option.productName.toLowerCase().indexOf(value.toLowerCase()) === 0);
+}  
 
 ngOnDestroy(){
 
@@ -77,7 +104,7 @@ ngOnDestroy(){
   
   }
   
-
+ 
   loginWithGoogle(): void {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     this.isLoginNotClicked = true;
@@ -90,6 +117,30 @@ ngOnDestroy(){
     localStorage.clear();
 
   }
+  onEnter(evn:any){
+  
+   setTimeout(() => {
+    console.log('sleep');
+    if(this.router.url.indexOf('/productcatalogue')>-1){
+      this.product = new Product();
+      this.product.productName = evn.option.value
+      this.msgServicice.sendSearchFilters(this.product );
+   
+    }
+    else{
+      this.router.navigate(['/productcatalogue',{searchedProductName:evn.option.value}]);
+    }
+    // And any other code that should run only after 5s
+  }, 3000);
+    
+  }
+
+  getAllProducts(searchParams:string){
+    if(searchParams==''){
+      this.product = new Product();
+      this.msgServicice.sendSearchFilters(this.product );
+    }
  
+  }
 
 }
