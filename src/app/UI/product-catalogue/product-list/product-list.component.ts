@@ -33,19 +33,19 @@ export class ProductListComponent implements OnInit {
    else{
     this.productService.getProducts().subscribe(res => { this.productList  = res; });
    }
-    this.progressBar(10);
+    this.progressBar(5);
    
     
       this.msgService.getSearchFilters().subscribe((product: any) => {
       this.productList = [];
-      this.progressBar(3);
+      this.progressBar(2);
       if(Object.keys(product).length>0){
         
       this.productService.searchProducts(product).subscribe(res => { this.productList  = res;});;
       
       }
       else{
-        this.progressBar(10);
+        this.progressBar(5);
         this.productService.getProducts().subscribe(res => { this.productList  = res; });
       }
       

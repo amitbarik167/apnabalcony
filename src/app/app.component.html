@@ -7,8 +7,11 @@
   </head>
 <body class="bg-light">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+<link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 
-  
 <div >
   <mat-toolbar >
     <mat-toolbar-row>
@@ -33,9 +36,6 @@
           <mat-form-field>
           
               <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
-             
-           
-            
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
               <mat-option   *ngFor="let product of autoProductFilter | async" [value]="product.productName">
                 <img alt="Image" width="5%" height="5%" 
@@ -51,8 +51,8 @@
 	    <span flex></span>
       <div style="font-size: 15px" *ngIf="isNotLoggedin">
        
-       <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="40"></a>  
-       <mat-icon style="font-size: 15px">person</mat-icon>
+       <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="20"></a>  
+       <mat-icon style="font-size: 10px">person</mat-icon>
        
       </div>
       <div *ngIf="isLoggedin === true">
@@ -88,6 +88,16 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 
+  <div class="icon-bar">
+    <a href="https://www.facebook.com/ApnaBalcony-105996071745123/" class="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+    <a href="#" class="google"><i class="fa fa-google"></i></a>
+    <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+    <a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
+  </div>
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="https://apnabalcony.com/"> apnabalcony.com</a>
+  </div>
 </div>
 </body>
 </html>
