@@ -42,6 +42,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import { CookieService } from 'ngx-cookie-service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ModalComponent } from './UI/modal/modal.component';
 
 
 
@@ -55,7 +56,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     FiltersComponent,
     ProductCatalogueComponent,
     ProductItemComponent,
-    CartItemComponent
+    CartItemComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

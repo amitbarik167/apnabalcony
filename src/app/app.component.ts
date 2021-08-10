@@ -11,7 +11,11 @@ import { ProductListService } from 'src/app/services/product-list.services';
 import { Product } from 'src/app/classes/product';
 import { FormControl } from '@angular/forms';
 import { MessengerService } from 'src/app/services/messenger.service';
-
+import { ModalComponent } from 'src/app/UI/modal/modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { ThrowStmt } from '@angular/compiler';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +46,9 @@ export class AppComponent implements OnInit {
     private httpClient: HttpClient,
     private router: Router,
     private productService : ProductListService,
-    private msgServicice :MessengerService
+    private msgServicice :MessengerService,
+    private dialog: MatDialog,
+    private location: Location
   ) { 
     this.productSearchControl = new FormControl();
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
@@ -50,6 +56,11 @@ export class AppComponent implements OnInit {
  
 
   ngOnInit() :void{
+   
+    if(this.location.path().indexOf('/productsetup') >-1){
+      this.router.navigate(['/home'])
+    }
+       
     this.isNotLoggedin = true;
     
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
@@ -60,14 +71,14 @@ export class AppComponent implements OnInit {
     );
 
        
-  localStorage.clear();
+   localStorage.clear();
   this.socialAuthService.initState.subscribe(value=> {
+
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
     
-    console.log('GoogleContainerComponent.ngOnInit user:', user)
-    });
-    });
-  
+      console.log('GoogleContainerComponent.ngOnInit user:', user)
+      });
+      });
 
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
@@ -106,9 +117,19 @@ ngOnDestroy(){
   
  
   loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    this.isLoginNotClicked = true;
-  ;
+    if(this.router.url.indexOf('/productcatalogue')>-1){
+      
+    }else{
+      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+      this.isLoginNotClicked = true;
+  
+      this.socialAuthService.authState.subscribe((user) => {
+        this.socialUser = user;
+        this.isLoggedin = (user != null);
+        console.log(this.socialUser);})
+    
+    }
+
   }
 
   logOut(): void {
@@ -142,5 +163,22 @@ ngOnDestroy(){
     }
  
   }
+
+  openDialogIfNotLoggedIn(): void {
+if(localStorage.getItem('token') != null){
+  this.router.navigate(['/productsetup'])
+}
+else{
+  const dialogRef = this.dialog.open(ModalComponent, {
+    width: '250px',
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed', result);
+   
+  });
+}
+}
+
 
 }
