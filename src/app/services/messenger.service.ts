@@ -9,6 +9,9 @@ export class MessengerService {
 
   subjectCartItems = new Subject();
   subjectSearchItems = new Subject();
+  subjectCartQtyDisplay = new Subject();
+  subjectRemoveItemFromCart = new Subject();
+  subjectClearItemsFromCart = new Subject();
 
   constructor() { }
 
@@ -30,5 +33,30 @@ export class MessengerService {
   getSearchFilters(){
     return this.subjectSearchItems.asObservable();
    }
- 
+
+   sendCartItemsForQtyDisplay(product:Product){
+
+    this.subjectCartQtyDisplay.next(product);
+ }
+   getCartItemsForQtyDisplay(){
+    return this.subjectCartQtyDisplay.asObservable();
+   }
+
+   sendRemoveItemFromCart(id:string){
+
+    this.subjectRemoveItemFromCart.next(id)
+   }
+
+   getRemoveItemFromCart(){
+     return this.subjectRemoveItemFromCart.asObservable();
+   }
+
+   sendClearItemsFromCart(){
+
+    this.subjectClearItemsFromCart.next()
+   }
+
+   getClearItemFromCart(){
+     return this.subjectClearItemsFromCart.asObservable();
+   }
 }

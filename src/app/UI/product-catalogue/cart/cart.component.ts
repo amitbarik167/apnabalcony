@@ -70,6 +70,8 @@ export class CartComponent implements OnInit {
   this.cookieService.delete('cart');
   this.cookieService.set('cart', JSON.stringify(this.cartItems))
   this.recalculateTotalPrice()
+
+  this.msgService.sendRemoveItemFromCart(id)
   
 }
 
@@ -85,12 +87,12 @@ recalculateTotalPrice(){
 clearCart(){
   this.cartItems = []
   this.cookieService.delete('cart');
+  this.msgService.sendClearItemsFromCart();
 }
 
 
 openDialogIfNotLoggedIn(): void {
   if(localStorage.getItem('token') != null){
-    this.router.navigate(['/productsetup'])
   }
   else{
     const dialogRef = this.dialog.open(ModalComponent, {

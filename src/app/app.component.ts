@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ThrowStmt } from '@angular/compiler';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
   autoProductFilter: Observable<Product[]>;
   product:Product;
   isEventFired:boolean=false;
+  cartItems = [] as any;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -48,19 +50,41 @@ export class AppComponent implements OnInit {
     private productService : ProductListService,
     private msgServicice :MessengerService,
     private dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private cookieService: CookieService,
+    private msgService : MessengerService
   ) { 
     this.productSearchControl = new FormControl();
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
+    this.cartItems.length =0;
+
+
   }
  
 
-  ngOnInit() :void{
+  ngOnInit(){
+
+    if(this.cookieService.get('cart') != ""){
+      this.cartItems = JSON.parse(this.cookieService.get('cart'))
+    }
+
+        this.msgService.getCartItemsForQtyDisplay().subscribe((product: any) => {
+         this.addCartQty(product)
+      })
+
+      this.msgServicice.getRemoveItemFromCart().subscribe((id:any) => {
+        this.cartItems = this.cartItems.filter((item:any) => item.id !== id);
+      })
+
+      this.msgService.getClearItemFromCart().subscribe(() =>{
+        this.cartItems = []
+      })
    
     if(this.location.path().indexOf('/productsetup') >-1){
       this.router.navigate(['/home'])
     }
-       
+
+  
     this.isNotLoggedin = true;
     
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
@@ -104,6 +128,26 @@ export class AppComponent implements OnInit {
 }
 
 
+ addCartQty(product:any){
+  let productExists = false
+  for (let i in this.cartItems){
+    if(this.cartItems[i].id === product._id){
+     this.cartItems[i].qty++
+   console.log("Length", this.cartItems.length)
+   break;
+     }
+   }
+
+   if(!productExists){
+    this.cartItems.push({
+      id: product._id,
+      discount: product.productDiscount,
+      productName : product.productName,
+      qty:1,
+      price:product.productPrice
+    })
+}
+ }
   
 private mat_filter(value: string): Product[] {
     return this.productList.filter(option => option.productName.toLowerCase().indexOf(value.toLowerCase()) === 0);
@@ -179,6 +223,12 @@ else{
   });
 }
 }
+
+openCart(){
+  this.router.navigate(['/productcatalogue'])
+}
+
+
 
 
 }
