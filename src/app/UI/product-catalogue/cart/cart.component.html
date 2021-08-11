@@ -17,7 +17,7 @@
       <strong>Total</strong> {{ cartTotal| currency:'INR' }}
     </li>
     <br/>
-    <button type="button" class="btn btn-secondary">Submit and Design Template</button>
+    <button type="button" (click)="openDialogIfNotLoggedIn()" class="btn btn-secondary">Submit and Design Template</button>
     <br/>
     <button type="button" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
   </ul>

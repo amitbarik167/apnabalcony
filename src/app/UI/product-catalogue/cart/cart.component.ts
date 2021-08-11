@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/classes/product';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ModalComponent } from 'src/app/UI/modal/modal.component';
+import { MatDialog } from '@angular/material/dialog';
+
+import { Router, Routes } from '@angular/router';
+
 
 @Component({
   selector: 'app-cart',
@@ -12,7 +17,7 @@ export class CartComponent implements OnInit {
 
    cartItems = [] as any;
    cartTotal = 0;
-  constructor(private msgService : MessengerService, private cookieService: CookieService) { 
+  constructor(private msgService : MessengerService, private cookieService: CookieService ,   private router: Router,  private dialog: MatDialog,) { 
     this.cartItems.length =0;
   }
 
@@ -65,6 +70,8 @@ export class CartComponent implements OnInit {
   this.cookieService.delete('cart');
   this.cookieService.set('cart', JSON.stringify(this.cartItems))
   this.recalculateTotalPrice()
+
+  this.msgService.sendRemoveItemFromCart(id)
   
 }
 
@@ -80,5 +87,22 @@ recalculateTotalPrice(){
 clearCart(){
   this.cartItems = []
   this.cookieService.delete('cart');
+  this.msgService.sendClearItemsFromCart();
+}
+
+
+openDialogIfNotLoggedIn(): void {
+  if(localStorage.getItem('token') != null){
+  }
+  else{
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '250px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+     
+    });
+  }
 }
 }

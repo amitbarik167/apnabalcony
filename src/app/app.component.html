@@ -63,21 +63,35 @@
           &nbsp; <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
        </div>
       </div>
+    
+     
+      
       </mat-toolbar-row>
+      <!-- <mat-toolbar-row>
+        <span class="flexspacer"></span>
+        <span flex></span>
+        <div  *ngIf="cartItems?.length > 0" ><a routerLink="/productcatalogue"><medium>{{cartItems?.length}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a>
+        
+        </div>
+      </mat-toolbar-row> -->
+      
   </mat-toolbar>
-
+  
+  <div class="divAlightContentRight"  *ngIf="cartItems?.length > 0" ><a style="text-decoration: none;" routerLink="/productcatalogue"><medium>{{cartItems?.length}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a>
+        
+  </div>
   <mat-sidenav-container>
     <mat-sidenav #sidenav>
       <mat-nav-list>
-        <a mat-list-item [routerLink]="'/home'"> Home </a>
-        <a mat-list-item [routerLink]="'/aboutus'"> About Us </a>
-        <a mat-list-item [routerLink]="'/productsetup'"> Product Setup </a>
-        <a mat-list-item [routerLink]="'/productcatalogue'"> Product Catalogue </a>
-        <a mat-list-item [routerLink]="'/template'"> Template </a>
-        <a mat-list-item [routerLink]="'/policy'"> Policy </a>
-        <a mat-list-item [routerLink]="'/gallery'"> Gallery </a>
-        <a mat-list-item [routerLink]="'/contactus'"> Contact us </a>
-        <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/home'"> Home </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/aboutus'"> About Us </a>
+        <a mat-list-item  (click)="openDialogIfNotLoggedIn()"> Product Setup </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/productcatalogue'"> Product Catalogue </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/template'"> Template </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/policy'"> Policy </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/gallery'"> Gallery </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/contactus'"> Contact us </a>
+        <a mat-list-item  style="text-decoration: none;" (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
 
       </mat-nav-list>
     </mat-sidenav>
