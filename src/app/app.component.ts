@@ -196,7 +196,7 @@ ngOnDestroy(){
       this.router.navigate(['/productcatalogue',{searchedProductName:evn.option.value}]);
     }
     // And any other code that should run only after 5s
-  }, 3000);
+  }, 2000);
     
   }
 
