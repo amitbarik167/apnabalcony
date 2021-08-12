@@ -54,7 +54,8 @@ export class CartComponent implements OnInit {
       discount: product.productDiscount,
       productName : product.productName,
       qty:1,
-      price:product.productPrice
+      price:product.productPrice,
+      productImg:product.productImg
     })
   
     this.recalculateTotalPrice()
