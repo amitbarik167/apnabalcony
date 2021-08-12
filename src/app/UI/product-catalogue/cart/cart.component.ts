@@ -4,8 +4,10 @@ import { MessengerService } from 'src/app/services/messenger.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ProductListService } from 'src/app/services/product-list.services';
 
 import { Router, Routes } from '@angular/router';
+import { timestamp } from 'rxjs/operators';
 
 
 @Component({
@@ -17,12 +19,15 @@ export class CartComponent implements OnInit {
 
    cartItems = [] as any;
    cartTotal = 0;
-  constructor(private msgService : MessengerService, private cookieService: CookieService ,   private router: Router,  private dialog: MatDialog,) { 
+   productList =[] as any;
+   product:any;
+   filteredProduct:any;
+  constructor(private msgService : MessengerService, private cookieService: CookieService ,   private router: Router,  private dialog: MatDialog,private productListSrvice : ProductListService) { 
     this.cartItems.length =0;
   }
 
   ngOnInit()  {
-   
+     
     if(this.cookieService.get('cart') != ""){
       this.cartItems = JSON.parse(this.cookieService.get('cart'))
     }
@@ -55,7 +60,7 @@ export class CartComponent implements OnInit {
       productName : product.productName,
       qty:1,
       price:product.productPrice,
-      productImg:product.productImg
+      //productImg:product.productImg
     })
   
     this.recalculateTotalPrice()
