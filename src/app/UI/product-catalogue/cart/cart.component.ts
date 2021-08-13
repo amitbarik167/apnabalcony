@@ -4,8 +4,10 @@ import { MessengerService } from 'src/app/services/messenger.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ProductListService } from 'src/app/services/product-list.services';
 
 import { Router, Routes } from '@angular/router';
+import { timestamp } from 'rxjs/operators';
 
 
 @Component({
@@ -17,17 +19,20 @@ export class CartComponent implements OnInit {
 
    cartItems = [] as any;
    cartTotal = 0;
-  constructor(private msgService : MessengerService, private cookieService: CookieService ,   private router: Router,  private dialog: MatDialog,) { 
+   productList =[] as any;
+   product:any;
+   filteredProduct:any;
+  constructor(private msgService : MessengerService, private cookieService: CookieService ,   private router: Router,  private dialog: MatDialog,private productListSrvice : ProductListService) { 
     this.cartItems.length =0;
   }
 
   ngOnInit()  {
-   
-    if(this.cookieService.get('cart') != ""){
-      this.cartItems = JSON.parse(this.cookieService.get('cart'))
+     
+    if(localStorage.getItem('cart') != ""){
+      this.cartItems = JSON.parse(localStorage.getItem('cart')||"[]")
     }
-    if(this.cookieService.get('cartTotal') != ""){
-      this.cartTotal = JSON.parse(this.cookieService.get('cartTotal'))
+    if(localStorage.getItem('cartTotal') != ""){
+      this.cartTotal = JSON.parse(localStorage.getItem('cartTotal')||"[]")
     }
     
     this.msgService.getCartDetails().subscribe((product: any) => {
@@ -54,11 +59,12 @@ export class CartComponent implements OnInit {
       discount: product.productDiscount,
       productName : product.productName,
       qty:1,
-      price:product.productPrice
+      price:product.productPrice,
+      productImg:product.productImg
     })
   
     this.recalculateTotalPrice()
-    this.cookieService.set('cart', JSON.stringify(this.cartItems))
+    localStorage.setItem('cart', JSON.stringify(this.cartItems))
   }
 
 
@@ -67,8 +73,8 @@ export class CartComponent implements OnInit {
  
  removeItem(id:string){
   this.cartItems = this.cartItems.filter((item:any) => item.id !== id);
-  this.cookieService.delete('cart');
-  this.cookieService.set('cart', JSON.stringify(this.cartItems))
+  localStorage.removeItem('cart');
+  localStorage.setItem('cart', JSON.stringify(this.cartItems))
   this.recalculateTotalPrice()
 
   this.msgService.sendRemoveItemFromCart(id)
@@ -79,20 +85,20 @@ recalculateTotalPrice(){
   this.cartTotal=0
   this.cartItems.forEach((item:any)=>{
   this.cartTotal  += (item.qty * (item.price*(100-(item.discount))/100))
-  this.cookieService.delete('cartTotal');
-  this.cookieService.set('cartTotal', JSON.stringify(this.cartTotal))
+  localStorage.removeItem('cartTotal');
+  localStorage.setItem('cartTotal', JSON.stringify(this.cartTotal))
 })
 }
 
 clearCart(){
   this.cartItems = []
-  this.cookieService.delete('cart');
+  localStorage.removeItem('cart');
   this.msgService.sendClearItemsFromCart();
 }
 
 
 openDialogIfNotLoggedIn(): void {
-  if(localStorage.getItem('token') != null){
+  if(this.cookieService.get('token') != null){
   }
   else{
     const dialogRef = this.dialog.open(ModalComponent, {

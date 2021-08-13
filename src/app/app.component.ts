@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
     );
 
        
-   localStorage.clear();
+   this.cookieService.deleteAll();
   this.socialAuthService.initState.subscribe(value=> {
 
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
@@ -118,8 +118,8 @@ export class AppComponent implements OnInit {
       this.isNotLoggedin=false;
       this.userAuthService.addUserAuthorization(this.socialUser.email,{userId : this.socialUser?.email, authorizationToken : this.socialUser?.authToken})
       .subscribe((response:any) =>
-      (localStorage.setItem('token',  response['token']),
-      localStorage.setItem('authorizationToken',this.socialUser?.authToken as string),localStorage.setItem('userId', this.socialUser?.email as string)),
+      (this.cookieService.set('token',  response['token']),
+      this.cookieService.set('authorizationToken',this.socialUser?.authToken as string),this.cookieService.set('userId', this.socialUser?.email as string)),
       (this.toastrService.success('User Signed in successfully!', 'Confirmation Msg!'), 
       error => (this.toastrService.error('User Sign in failed!', 'Confirmation Msg!'), console.log('error'))
       ))
@@ -155,7 +155,7 @@ private mat_filter(value: string): Product[] {
 
 ngOnDestroy(){
 
- localStorage.clear();
+ this.cookieService.deleteAll()
   
   }
   
@@ -179,7 +179,7 @@ ngOnDestroy(){
   logOut(): void {
     this.socialAuthService.signOut();
     this.isNotLoggedin=true;
-    localStorage.clear();
+    this.cookieService.deleteAll()
 
   }
   onEnter(evn:any){
@@ -196,7 +196,7 @@ ngOnDestroy(){
       this.router.navigate(['/productcatalogue',{searchedProductName:evn.option.value}]);
     }
     // And any other code that should run only after 5s
-  }, 3000);
+  }, 2000);
     
   }
 
@@ -209,7 +209,7 @@ ngOnDestroy(){
   }
 
   openDialogIfNotLoggedIn(): void {
-if(localStorage.getItem('token') != null){
+if(this.cookieService.get('token') != null){
   this.router.navigate(['/productsetup'])
 }
 else{

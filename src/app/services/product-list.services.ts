@@ -54,6 +54,10 @@ export class ProductListService {
     return  <Observable<Product[]>> this.httpClient.put<Product[]>(this.nodeServer + "/" + "products",postData)
   };
 
+  searchProductsDirectly(postData:string){
+  return this.httpClient.put<Product[]>(this.nodeServer + "/" + "products",postData)
+  }
+
    
   getProductBrands():Observable<ProductBrand[]> {
     return this.httpClient.get<ProductBrand[]>(this.nodeServer + "/" + "productsList/productBrands")
