@@ -64,8 +64,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
 
-    if(this.cookieService.get('cart') != ""){
-      this.cartItems = JSON.parse(this.cookieService.get('cart'))
+    if(localStorage.getItem('cart') != ""){
+      this.cartItems = JSON.parse(localStorage.getItem('cart')||"[]")
     }
 
         this.msgService.getCartItemsForQtyDisplay().subscribe((product: any) => {
