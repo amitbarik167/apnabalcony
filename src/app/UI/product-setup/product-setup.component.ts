@@ -16,6 +16,7 @@ import { ProductFit } from 'src/app/constants/product-setup-constants';
 import { ProductSetupService } from 'src/app/services/product-setup.services';
 import { UtilityService } from 'src/app/services/utility.services';
 import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -53,7 +54,7 @@ export class ProductSetupComponent  implements OnInit {
   selected:[];
 
   constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService,
-     private domSanitizer: DomSanitizer) {
+     private domSanitizer: DomSanitizer,  private cookieService: CookieService,) {
    this.productCategoryIdSelectedValue = 0;
    this.productSubCategoryIdSelectedValue = 0;
  };
@@ -73,7 +74,7 @@ export class ProductSetupComponent  implements OnInit {
     this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
     this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
     this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
-    this.socialUser = localStorage.getItem('userId')?.toString();
+    this.socialUser = this.cookieService.get('userId')?.toString();
   }
 
     @Pipe({ name: 'safeHtml' })
