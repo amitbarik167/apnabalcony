@@ -5,6 +5,7 @@ import { ProductSubCategory } from 'src/app/classes/productSubCategory';
 import { ProductBrand } from '../classes/productBrand';
 import {Product} from '../classes/product';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -21,19 +22,19 @@ export class ProductSetupService {
   returnData:any;
  
 
- public constructor(private httpClient: HttpClient) { 
+ public constructor(private httpClient: HttpClient,  private cookieService: CookieService,) { 
      // this.nodeServer = 'http://localhost:3000' //Use this when running locally
     this.nodeServer = 'https://apnabalconyapi.azurewebsites.net'; // use this when deploying to Azure App service
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
+        'Authorization' : 'Bearer ' + this.cookieService.get('token')  + ' ' + this.cookieService.get('authorizationToken')
       })
     };
 
     this.httpOptionsMultiFormData ={
       headers: new HttpHeaders({
-        'Authorization' : 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('authorizationToken')
+        'Authorization' : 'Bearer ' + this.cookieService.get('token') + ' ' + this.cookieService.get('authorizationToken')
       })
     }
 
@@ -70,7 +71,7 @@ export class ProductSetupService {
       this.returnData =  this.httpClient.get<ProductSubCategory[]>(this.nodeServer + "/" + "productSubCategories",{
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
+          'Authorization' : 'Bearer ' +this.cookieService.get('token')  + ' ' + this.cookieService.get('authorizationToken')
         })
       });
     } catch (error) {
@@ -131,7 +132,7 @@ export class ProductSetupService {
     return this.httpClient.get<ProductBrand[]>(this.nodeServer + "/" + "productBrands",{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
+        'Authorization' : 'Bearer ' +this.cookieService.get('token')  + ' ' + this.cookieService.get('authorizationToken')
       })
     });
      
@@ -156,7 +157,7 @@ export class ProductSetupService {
     return this.httpClient.get<Product[]>(this.nodeServer + "/" + "products",{
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' +localStorage.getItem('token')  + ' ' + localStorage.getItem('authorizationToken')
+        'Authorization' : 'Bearer ' +this.cookieService.get('token')  + ' ' + this.cookieService.get('authorizationToken')
       })
     });
      

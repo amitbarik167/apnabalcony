@@ -16,7 +16,6 @@ export class ProductListService {
 
   nodeServer:string;
   httpOptions:any;
-  httpOptionsMultiFormData:any;
   returnData:any;
  
 
@@ -28,12 +27,6 @@ export class ProductListService {
         'Content-Type': 'application/json',
       })
     };
-
-    this.httpOptionsMultiFormData ={
-      headers: new HttpHeaders({
-        'Authorization' : 'Bearer ' + localStorage.getItem('token') + ' ' + localStorage.getItem('authorizationToken')
-      })
-    }
 
   }
 
