@@ -12,3 +12,9 @@
     height: 100%; 
     box-sizing: border-box;/*new*/
   }
+
+  .horizontal {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap:wrap;
+}
