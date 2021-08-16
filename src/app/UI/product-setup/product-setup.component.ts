@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 // import { HttpParams } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, pipe } from 'rxjs';
+import { never, Observable, pipe } from 'rxjs';
 import { ImageFormatterComponent } from "src/app/image-formatter-component";
 import { map } from 'rxjs/operators';
 import { ProductSubCategory } from 'src/app/classes/productSubCategory';
-import { ProductBrand } from 'src/app/classes/productBrand';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Pipe } from '@angular/core';
 import { ProductSize } from 'src/app/constants/product-setup-constants';
@@ -16,6 +15,11 @@ import { ProductFit } from 'src/app/constants/product-setup-constants';
 import { ProductSetupService } from 'src/app/services/product-setup.services';
 import { UtilityService } from 'src/app/services/utility.services';
 import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
+import { CookieService } from 'ngx-cookie-service';
+import { Product } from 'src/app/classes/product';
+import { ProductCategory } from 'src/app/classes/productCategory';
+import { ProductColor } from 'src/app/classes/productColor';
+import { ProductBrand } from 'src/app/classes/productBrand';
 
 
 
@@ -28,7 +32,7 @@ import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
 
 export class ProductSetupComponent  implements OnInit {
 
-  formProductCategories:FormGroup; formProductSubCategories:FormGroup; formProductColors:FormGroup; formProductBrands:FormGroup; formProducts: FormGroup;
+  formProductCategories:FormGroup; formProductSubCategories:FormGroup; formProductColors:FormGroup; formProductBrands:FormGroup; formProducts: FormGroup; formProductImages:FormGroup
   socialUser: any;
   productCategoryList: any;
   productSubCategoryList: any;
@@ -50,10 +54,21 @@ export class ProductSetupComponent  implements OnInit {
   selectedProductBrandImage: File ;
   selectedProductColorImage: File ;
   selectedProductImage: File ;
+  fileSource:FileList;
   selected:[];
-
+  product:any;
+  productCategory : ProductCategory;
+  productSubCategory : ProductSubCategory;
+  productBrand : ProductBrand;
+  ProductColor : ProductColor;
+  productList : Product[] = [];
+  images :any = [];
+  imagesList :any = [];
+  formData: any = new FormData();
+  selectedColor : string;
+  
   constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService,
-     private domSanitizer: DomSanitizer) {
+     private domSanitizer: DomSanitizer,  private cookieService: CookieService,) {
    this.productCategoryIdSelectedValue = 0;
    this.productSubCategoryIdSelectedValue = 0;
  };
@@ -73,7 +88,13 @@ export class ProductSetupComponent  implements OnInit {
     this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
     this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
     this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
-    this.socialUser = localStorage.getItem('userId')?.toString();
+    this.socialUser = this.cookieService.get('userId')?.toString();
+    this.product = new Product();
+    this.productSubCategory = new ProductSubCategory();
+    this.productCategory = new ProductCategory();
+    this.productBrand = new ProductBrand();
+    this.ProductColor = new ProductColor();
+    this.selectedColor = "Choose Product Color";
   }
 
     @Pipe({ name: 'safeHtml' })
@@ -188,6 +209,11 @@ export class ProductSetupComponent  implements OnInit {
       ProductStockUnits:['']
     });
 
+    this.formProductImages = this.fb.group({
+      productImagesUploadControl: new FormControl('', [Validators.required])
+  
+    })
+
   }
 
   // transform(html:string) : SafeUrl{
@@ -252,6 +278,9 @@ export class ProductSetupComponent  implements OnInit {
   changeProductCategory(e:any) {
     this.productCategoryIdSelectedValue = e.target.value;
     this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
+    this.productCategory._id = this.productCategoryIdSelectedValue
+    this.product.productCategory = this.productCategory;
+ 
     return;
   }
 
@@ -279,15 +308,6 @@ export class ProductSetupComponent  implements OnInit {
   
   }
 
-  // onFirstDataRenderedProductSubCategories(params:any): void {
-  //   this.apiProductSubCategory = params.api;
-  //   this.columnApiProductSubCategory = params.columnApi;
-  //   this.apiProductSubCategory.sizeColumnsToFit();
-  //   // temp fix until AG-1181 is fixed
-  //   this.apiProductSubCategory.hideOverlay();
-  
-  
-  // }
 
   onSubmitProductSubCategories() {
 
@@ -342,6 +362,8 @@ export class ProductSetupComponent  implements OnInit {
   changeProductSubCategory(e:any) {
     this.productSubCategoryIdSelectedValue = e.target.value;
     this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
+    this.productSubCategory._id = this.productSubCategoryIdSelectedValue;
+    this.product.productSubCategory = this.productSubCategory;  
     return;
   }
 
@@ -420,6 +442,14 @@ export class ProductSetupComponent  implements OnInit {
 
   changeProductColor(e:any) {
     this.productColorIdSelectedValue = e.value;
+    this.ProductColor._id =  this.productColorIdSelectedValue;
+    this.product.productColor = this.ProductColor;
+    this.productCategory._id = this.productCategoryIdSelectedValue;
+    this.product.productCategory = this.productCategory;
+    this.productSubCategory._id = this.productSubCategoryIdSelectedValue;
+    this.product.productSubCategory = this.productSubCategory;
+
+    this.apiService.searchProducts(this.product).subscribe(res => { this.productList  = res;});;
     return;
   }
 
@@ -498,6 +528,10 @@ export class ProductSetupComponent  implements OnInit {
 
   changeProductBrand(e:any) {
     this.productBrandIdSelectedValue = e.value;
+    this.productBrand._id = this.productBrandIdSelectedValue;
+    this.product.productBrand = this.productBrand;
+    this.productColorList = this.apiService.getProductColors();
+    this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})
     return;
   }
   //#endregion Product Brands
@@ -506,7 +540,8 @@ export class ProductSetupComponent  implements OnInit {
   //#region  Products
 
   changeProduct(e:any) {
-    this.productIdSelectedValue = e.target.value;
+    this.productIdSelectedValue = e.value;
+    this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})
     return;
   }
 
@@ -527,28 +562,45 @@ export class ProductSetupComponent  implements OnInit {
     // temp fix until AG-1181 is fixed
     this.apiProduct.hideOverlay();
   }
+  get returnFormProductsImagesControls(){
+    return this.formProductImages.controls;
+  }
 
   onProductSelected(event:any) {
     this.selectedProductImage = event.target.files[0];
     this.formProducts.get('ProductImg')?.setValue(this.selectedProductImage);
+    
+
   }
 
-  onProductSizeChange(e:any): void {
-    this.productSizeIdsSelected = Array.prototype.map.call(e, function(item) { return item.name; }).join(",");
+
+  onProductImagesSelected(event:any) {
+    if(this.productIdSelectedValue === undefined || this.productSubCategoryIdSelectedValue ===undefined || this.productCategoryIdSelectedValue===undefined || this.productBrandIdSelectedValue=== undefined || this.productColorIdSelectedValue === undefined){
+      alert('Some Selectios(s) not done!')
+      return;
     }
-    
-  changeProductFor(e:any) {
-    this.productForIdSelectedValue = e.target.value;
-    return;
+    this.images =[]
+    this.fileSource = event.target.files
+   
+    if (this.fileSource && this.fileSource[0]) {
+     
+      var filesAmount = this.fileSource.length;
+      for (let i = 0; i < filesAmount; i++) {
+              var reader = new FileReader();
+ 
+              reader.onload = (e:any) => {
+                console.log(e.target.result);
+                 this.images.push(e.target.result); 
+ 
+              };
+
+              reader.readAsDataURL(this.fileSource[i]);
+      }
   }
-  changeProductOccasion(e:any) {
-    this.productOccasionIdSelectedValue= e.target.value;
-    return;
-   }
-  changeProductFit(e:any){
-    this.productFitIdSelectedValue= e.target.value;
-    return;
+
   }
+
+ 
 
   onSubmitProducts() {
     if (this.selectedProductImage == null) {
@@ -565,10 +617,6 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productName", this.formProducts.get('ProductName')?.value);
     formData.append("productDesc", this.formProducts.get('ProductDesc')?.value);
     formData.append("productImg", this.formProducts.get('ProductImg')?.value, this.selectedProductImage.name);
-    formData.append("productSize", this.productSizeIdsSelected);
-    formData.append("productFor", this.productForIdSelectedValue);
-    formData.append("productOccasion", this.productOccasionIdSelectedValue);
-    formData.append("productFit", this.productFitIdSelectedValue);
     formData.append("productPrice", this.formProducts.get('ProductPrice')?.value);
     formData.append("productDiscount", this.formProducts.get('ProductDiscount')?.value);
     formData.append("productStockUnits", this.formProducts.get('ProductStockUnits')?.value);
@@ -614,7 +662,7 @@ export class ProductSetupComponent  implements OnInit {
   }
   
   loadProductsSetup(params:any){
-
+   
     if(params.index == 0)
     {
       this.rowDataProductCategories = this.apiService.getProductCategories();
@@ -639,16 +687,73 @@ export class ProductSetupComponent  implements OnInit {
     {
       this.rowDataProducts = this.apiService.getProducts();
       this.apiProduct.sizeColumnsToFit();
+      this.ngOnInit()
+ 
+      this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
+      this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
+    }
+    else if (params.index == 5)
+    {
+      this.ngOnInit()
+
+      this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
+      this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
     }
 
-    this.productCategoryList = this.rowDataProductCategories;
-    this.productColorList = this.rowDataProductColors;
-    this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
-    this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
-    this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
-    this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
+    this.selectedColor = "Choose Product Color";
+   
 
 
+}
+
+onSubmitProductImages() {
+  if (this.fileSource) {
+    if(this.imagesList){
+
+    for(let y=0; y<this.imagesList.length; y++){
+      let counterDelete = y+1
+      this.apiService.deleteProductImages(this.imagesList[y]._id).subscribe((response)=>( (this.toastrService.success('Product Image '+ counterDelete +' deleted successfully!', 'Confirmation Msg!')),
+      this.formProductImages.reset(),(this.images=[]),this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})),
+      error => (this.toastrService.error('Product Image '+ counterDelete +' deletion failed!', 'Confirmation Msg!'), console.log('error'),(this.images=[]))
+      
+      )}
+  }
+    
+
+
+    for (let i = 0; i < this.fileSource.length; i++) {
+ 
+    
+      this.formData.append("productCategoryId", this.productCategoryIdSelectedValue);
+      this.formData.append("productSubCategoryId", this.productSubCategoryIdSelectedValue);
+      this.formData.append("productBrandId", this.productBrandIdSelectedValue);
+      this.formData.append("productColorId", this.productColorIdSelectedValue);
+      this.formData.append("productId", this.productIdSelectedValue);
+      this.formData.append("productImgCounter", i+1);
+      this.formData.append("productImg" , this.fileSource[i]);
+      this.formData.append("createdBy", this.socialUser);
+  let postData = this.utilityService.ConvertFormDataToJson(this.formData);
+
+let counter = i+1
+  if (postData.length > 0) {
+    this.apiService.addProductImages(this.formData, this.productIdSelectedValue).subscribe((response) =>
+      (this.toastrService.success('Product Image '+ counter +' saved successfully!', 'Confirmation Msg!'),
+        this.formProductImages.reset(),(this.images=[]),this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})),
+      error => (this.toastrService.error('Product Image '+ counter +' save failed!', 'Confirmation Msg!'), console.log('error'),(this.images=[]))
+    )
+    this.resetAllDropDowns();
+  }
+
+  else {
+    this.toastrService.error('Product Images save failed!', 'Confirmation Msg!');
+  }
+   }
+  }
+}
+
+removeImage(i:any) {
+  this.images.splice(i, 1);
+ 
 }
 
 

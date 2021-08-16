@@ -13,8 +13,6 @@ export class CartItemComponent implements OnInit {
     
   }
 
-  remove(){
-    
-  }
+ 
 
 }

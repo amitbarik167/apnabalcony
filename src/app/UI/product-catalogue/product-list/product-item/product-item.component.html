@@ -1,3 +1,4 @@
+
 <div class="card mb-4 shadow-sm">
     <img class="bd-placeholder-img card-img-top p-2" width="100%"
       src="data:image/png;base64,{{productItem.productImg}}" />
@@ -14,7 +15,7 @@
               src="data:image/png;base64,{{productItem.productBrand.productBrandImg}}" />
       <br/>  <br/>    
       <p class="card-text">
-        <medium>{{ productItem.productPrice | currency:'INR' }}</medium> 
+        <medium>Estimated Price : {{ productItem.productPrice | currency:'INR' }}</medium> 
       </p>
       
         <p class="card-text" style="color:green" *ngIf="productItem.productDiscount > 0">

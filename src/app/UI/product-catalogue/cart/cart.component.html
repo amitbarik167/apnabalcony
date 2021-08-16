@@ -5,13 +5,20 @@
     <strong>Cart</strong>
   </div>
     <li class="list-group-item" *ngFor="let item of cartItems">
-      <app-cart-item [cartItem] = "item"></app-cart-item>
+      <app-cart-item [cartItem] = "item">
+      </app-cart-item>
+      <button type="button" class="close" aria-label="Close" (click)=removeItem(item.id);>
+        <span aria-hidden="true">&times;</span>
+      </button>
+      
     </li>
   
     <li class="list-group-item active">
       <strong>Total</strong> {{ cartTotal| currency:'INR' }}
     </li>
     <br/>
-    <button type="button" class="btn btn-secondary">Submit and Design Template</button>
+    <button type="button" (click)="openDialogIfNotLoggedIn()" class="btn btn-secondary">Submit and Design Template</button>
+    <br/>
+    <button type="button" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
   </ul>
   

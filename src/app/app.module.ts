@@ -39,6 +39,10 @@ import {ProductCatalogueComponent} from './UI/product-catalogue/product-catalogu
 import { ProductItemComponent } from './UI/product-catalogue/product-list/product-item/product-item.component';
 import { CartItemComponent } from './UI/product-catalogue/cart/cart-item/cart-item.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { CookieService } from 'ngx-cookie-service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ModalComponent } from './UI/modal/modal.component';
 
 
 
@@ -52,7 +56,8 @@ import {MatSliderModule} from '@angular/material/slider';
     FiltersComponent,
     ProductCatalogueComponent,
     ProductItemComponent,
-    CartItemComponent
+    CartItemComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -84,7 +89,9 @@ import {MatSliderModule} from '@angular/material/slider';
     CarouselModule,
     MatCarouselModule.forRoot(),
     NgbModule,
-    MatSliderModule   
+    MatSliderModule  ,
+    MatAutocompleteModule,
+    MatProgressBarModule
     
     
   ],
@@ -104,7 +111,7 @@ import {MatSliderModule} from '@angular/material/slider';
           }
         ]
       } as SocialAuthServiceConfig,
-    } , ProductSetupService,UtilityService 
+    } , ProductSetupService,UtilityService , CookieService
   ],
   bootstrap: [AppComponent]
 })

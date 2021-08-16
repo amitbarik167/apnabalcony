@@ -1,10 +1,11 @@
 <div class="cart-item">
+     <img alt="Image" width="10%" height="10%" style="margin-right: 10px;"
+    src="data:image/png;base64,{{cartItem.productImg}}" />
+     
     <span>{{cartItem.productName}}</span> x
     <span>{{cartItem.qty }}</span>:
     <medium>{{(cartItem.qty * cartItem.price) | currency:'INR' }} </medium> 
-    <button type="button" class="close" aria-label="Close" (click)=remove();>
-      <span aria-hidden="true">&times;</span>
-    </button>
+
    <p style="text-align: center;" *ngIf="cartItem.discount > 0">
     <strong style="color:green; text-align: right;">- {{cartItem.discount}}%</strong>
    </p> 

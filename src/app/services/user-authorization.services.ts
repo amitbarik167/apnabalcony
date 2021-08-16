@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 
+   //const nodeServer = 'http://localhost:3000' //Use this when running locally
 
-const nodeServer = 'http://localhost:3000';
+   const nodeServer = 'https://apnabalconyapi.azurewebsites.net'; // use this when deploying to Azure App service
 
 const httpOptions = {
   headers: new HttpHeaders({

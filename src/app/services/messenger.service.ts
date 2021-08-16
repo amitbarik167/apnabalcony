@@ -7,17 +7,56 @@ import { Product } from '../classes/product';
 })
 export class MessengerService {
 
-  subject = new Subject();
+  subjectCartItems = new Subject();
+  subjectSearchItems = new Subject();
+  subjectCartQtyDisplay = new Subject();
+  subjectRemoveItemFromCart = new Subject();
+  subjectClearItemsFromCart = new Subject();
 
   constructor() { }
 
-  sendMsg(product:Product){
+  sendCartDetails(product:Product){
 
-    this.subject.next(product);
+    this.subjectCartItems.next(product);
   }
 
-  getMsg(){
-   return this.subject.asObservable();
+  sendSearchFilters(product:Product){
+
+    this.subjectSearchItems.next(product);
   }
 
+
+  getCartDetails(){
+   return this.subjectCartItems.asObservable();
+  }
+
+  getSearchFilters(){
+    return this.subjectSearchItems.asObservable();
+   }
+
+   sendCartItemsForQtyDisplay(product:Product){
+
+    this.subjectCartQtyDisplay.next(product);
+ }
+   getCartItemsForQtyDisplay(){
+    return this.subjectCartQtyDisplay.asObservable();
+   }
+
+   sendRemoveItemFromCart(id:string){
+
+    this.subjectRemoveItemFromCart.next(id)
+   }
+
+   getRemoveItemFromCart(){
+     return this.subjectRemoveItemFromCart.asObservable();
+   }
+
+   sendClearItemsFromCart(){
+
+    this.subjectClearItemsFromCart.next()
+   }
+
+   getClearItemFromCart(){
+     return this.subjectClearItemsFromCart.asObservable();
+   }
 }

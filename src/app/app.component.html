@@ -1,4 +1,18 @@
-<div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">  
+    <title>Document</title>
+  </head>
+<body class="bg-light">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+<link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+
+<div >
   <mat-toolbar >
     <mat-toolbar-row>
       <button mat-icon-button>
@@ -17,17 +31,28 @@
         <a mat-button [routerLink]="'/gallery'"> Gallery </a>
         <a mat-button [routerLink]="'/contactus'"> Contact us </a> -->
         <div class="divMainSearch">
-          <mat-form-field appearance="outline">
-            <mat-icon matPrefix>search</mat-icon>
-            <input type="search" matInput placeholder="Search Balcony Products" />
+        
+          <form class="example-form">
+          <mat-form-field>
+          
+              <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
+              <mat-option   *ngFor="let product of autoProductFilter | async" [value]="product.productName">
+                <img alt="Image" width="5%" height="5%" 
+                src="data:image/png;base64,{{product.productImg}}" />
+                {{product.productName}}
+              </mat-option>
+            </mat-autocomplete>
+          
           </mat-form-field>
+        </form>
         </div>
       <span class="flexspacer"></span>
 	    <span flex></span>
-      <div style="font-size: 15px" *ngIf="isLoggedin === false">
+      <div style="font-size: 15px" *ngIf="isNotLoggedin">
        
-       <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="40"></a>  
-       <mat-icon style="font-size: 15px">person</mat-icon>
+       <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()"  height="20"></a>  
+       <mat-icon style="font-size: 10px">person</mat-icon>
        
       </div>
       <div *ngIf="isLoggedin === true">
@@ -38,21 +63,35 @@
           &nbsp; <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
        </div>
       </div>
+    
+     
+      
       </mat-toolbar-row>
+      <!-- <mat-toolbar-row>
+        <span class="flexspacer"></span>
+        <span flex></span>
+        <div  *ngIf="cartItems?.length > 0" ><a routerLink="/productcatalogue"><medium>{{cartItems?.length}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a>
+        
+        </div>
+      </mat-toolbar-row> -->
+      
   </mat-toolbar>
-
+  
+  <div class="divAlightContentRight"  *ngIf="cartItems?.length > 0" ><a style="text-decoration: none;" routerLink="/productcatalogue"><medium>{{cartItems?.length}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a>
+        
+  </div>
   <mat-sidenav-container>
     <mat-sidenav #sidenav>
       <mat-nav-list>
-        <a mat-list-item [routerLink]="'/home'"> Home </a>
-        <a mat-list-item [routerLink]="'/aboutus'"> About Us </a>
-        <a mat-list-item [routerLink]="'/productsetup'"> Product Setup </a>
-        <a mat-list-item [routerLink]="'/productcatalogue'"> Product Catalogue </a>
-        <a mat-list-item [routerLink]="'/template'"> Template </a>
-        <a mat-list-item [routerLink]="'/policy'"> Policy </a>
-        <a mat-list-item [routerLink]="'/gallery'"> Gallery </a>
-        <a mat-list-item [routerLink]="'/contactus'"> Contact us </a>
-        <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/home'"> Home </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/aboutus'"> About Us </a>
+        <a mat-list-item  (click)="openDialogIfNotLoggedIn()"> Product Setup </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/productcatalogue'"> Product Catalogue </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/template'"> Template </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/policy'"> Policy </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/gallery'"> Gallery </a>
+        <a mat-list-item style="text-decoration: none;" [routerLink]="'/contactus'"> Contact us </a>
+        <a mat-list-item  style="text-decoration: none;" (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
 
       </mat-nav-list>
     </mat-sidenav>
@@ -63,4 +102,16 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 
-
+  <div class="icon-bar">
+    <a href="https://www.facebook.com/ApnaBalcony-105996071745123/" class="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+    <a href="#" class="google"><i class="fa fa-google"></i></a>
+    <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+    <a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
+  </div>
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="https://apnabalcony.com/"> apnabalcony.com</a>
+  </div>
+</div>
+</body>
+</html>
