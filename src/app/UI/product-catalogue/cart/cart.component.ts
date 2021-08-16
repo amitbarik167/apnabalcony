@@ -98,7 +98,7 @@ clearCart(){
 
 
 openDialogIfNotLoggedIn(): void {
-  if(this.cookieService.get('token') != null){
+  if(this.cookieService.get('token') != ""){
   }
   else{
     const dialogRef = this.dialog.open(ModalComponent, {
