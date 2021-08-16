@@ -209,7 +209,7 @@ ngOnDestroy(){
   }
 
   openDialogIfNotLoggedIn(): void {
-if(this.cookieService.get('token') != null){
+if(this.cookieService.get('token') != ""){
   this.router.navigate(['/productsetup'])
 }
 else{
