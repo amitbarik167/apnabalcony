@@ -302,7 +302,7 @@
 				</div>
 	
 				<div class="form-group">
-					<label for="product_brand_image" class="control-label">Product Color
+					<label for="product_brand_image" class="control-label">Product Brand
 						Image</label>
 					<input type="file" name="ProductBrandImg" accept="image/*" (change)="onProductBrandSelected($event)">
 				</div>
@@ -447,7 +447,7 @@
 						</div>
 						<div class="column">
 							<label for="product_image" class="control-label">Product
-								Image</label>
+								Primary Image</label>
 							<input type="file" name="ProductImg" accept="image/*" (change)="onProductSelected($event)">
 						</div>
 					</div>
@@ -593,6 +593,130 @@
 				(gridReady)="onGridReadyProducts($event)" (cellValueChanged)="onCellValueChangedProducts($event)">
 	
 			</ag-grid-angular>
+		</mat-tab>
+
+		<mat-tab label="Product Images Setup">
+			<form [formGroup]="formProductImages" novalidate (ngSubmit)="onSubmitProductImages()">
+				<div class="form-group">
+					<div class="row">
+						<div class="column">
+							<label for="product_category_code" class="control-label">Product Category</label>
+							<br>
+							<select class="form-control" (change)="changeProductCategory($event)">
+								<option [value]="0">Choose Product Category</option>
+								<option *ngFor="let productCategory of productCategoryList|async"
+									[value]="productCategory._id">{{productCategory.productCategoryName}}</option>
+							</select>
+	
+							<!-- error block -->
+							<div *ngIf="isSubmitted && productCategoryList.errors?.required">
+								<sup>*</sup>Please select product category
+							</div>
+						</div>
+						<div class="column">
+							<label for="product_subcategory_code" class="control-label">Product Sub-Category</label>
+							<br>
+							<select class="form-control" (change)="changeProductSubCategory($event)">
+								<option [value]="0">Choose Product Sub-Category</option>
+								<option *ngFor="let productSubCategory of productSubCategoryList|async"
+									[value]="productSubCategory._id">{{productSubCategory.productSubCategoryName}}</option>
+							</select>
+	
+							<!-- error block -->
+							<div *ngIf="isSubmitted && productSubCategoryList.errors?.required">
+								<sup>*</sup>Please select product sub category
+							</div>
+	
+						</div>
+						<div class="column">
+							<label for="product_brand" class="control-label">Product Brand</label>
+							<br>
+							<mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
+								(selectionChange)="changeProductBrand($event)">
+								<mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
+									<img alt="Image" width="10%" height="10%"
+										src="data:image/png;base64,{{productBrand.productBrandImg}}" />
+									{{productBrand.productBrandName}}
+								</mat-option>
+							</mat-select>
+	
+							<!-- error block -->
+							<div *ngIf="isSubmitted && productBrandList.errors?.required">
+								<sup>*</sup>Please select product brand
+							</div>
+						</div>
+						<div class="column">
+							<label for="product_color_code" class="control-label">Product Color</label>
+							<br>
+							<mat-select class="form-control" [value]="0" placeholder="Choose Product Color" [(ngModel)]="selectedColor"
+								(selectionChange)="changeProductColor($event)">
+								<mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
+									<img alt="Image" width="10%" height="10%"
+										src="data:image/png;base64,{{productColor.productColorImg}}" />
+									{{productColor.productColorName}}
+								</mat-option>
+							</mat-select>
+	
+							<!-- error block -->
+							<div *ngIf="isSubmitted && productColorList.errors?.required">
+								<sup>*</sup>Please select product Color
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="column">
+							<label for="product_code" class="control-label">Product</label>
+							<br>
+							
+							<mat-select class="form-control" [value]="0" placeholder="Choose Product"
+								(selectionChange)="changeProduct($event)">
+								<mat-option *ngFor="let product of productList" [value]="product._id">
+									<img alt="Image" width="10%" height="10%"
+										src="data:image/png;base64,{{product.productImg}}" />
+									{{product.productName}}
+								</mat-option>
+							</mat-select>
+								<!-- error block -->
+								<div *ngIf="isSubmitted && productCategoryList.errors?.required">
+									<sup>*</sup>Please select product category
+								</div>
+	
+
+						</div>
+						<div class="column">
+							<label for="product_image" class="control-label">Product
+								Image (Browse multiple images at a time)</label>
+							<input type="file"   formControlName="productImagesUploadControl"  accept="image/*"  multiple="" (change)="onProductImagesSelected($event)">
+							<div *ngIf="returnFormProductsImagesControls.productImagesUploadControl?.touched && returnFormProductsImagesControls.productImagesUploadControl?.invalid" class="alert alert-danger">
+								<div *ngIf="returnFormProductsImagesControls.productImagesUploadControl.errors?.required">File is required.</div>
+							</div>
+						</div>
+					</div>
+					<div class="horizontal">
+						<div *ngFor='let url of images; let i = index'>
+							<img   [src]="url" height="250px" width="250px" style="margin: 3px;"> <br/>
+							<!-- <a (click)="removeImage(i)" class="btn btn-xs btn-danger">Remove</a> -->
+							</div>
+					</div>
+					<div class="row">
+						<label class="label text-success" >Total Images selected/uploaded: {{images?.length}}</label>
+					</div>
+					<div class="form-group">
+						<!-- Submit Button -->
+						<button type="submit" class="btn btn-primary" [disabled]="!formProductImages.valid">Submit</button>
+					</div>
+
+					<div class="row">
+						<label class="label text-success"> Images uploaded (Below)</label>
+					</div>
+					<div class="horizontal">
+						<div  *ngFor='let img of imagesList; let i = index'  >
+								<img src="data:image/png;base64,{{img.productImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
+						</div>
+					</div>
+				</div>
+			</form>
 		</mat-tab>
 	</mat-tab-group>
 
