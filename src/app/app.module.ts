@@ -43,6 +43,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalComponent } from './UI/modal/modal.component';
+import { ProductItemDetailsComponent } from './UI/product-item-details/product-item-details.component';
+import { ContactUsComponent } from './UI/contact-us/contact-us.component';
 
 
 
@@ -57,7 +59,9 @@ import { ModalComponent } from './UI/modal/modal.component';
     ProductCatalogueComponent,
     ProductItemComponent,
     CartItemComponent,
-    ModalComponent
+    ModalComponent,
+    ProductItemDetailsComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -1,0 +1,55 @@
+<a style="text-decoration: none;" routerLink="/productcatalogue" >Go to Product Catalogue</a>
+<div class="row">
+      <div class="col-md-4" *ngFor="let productItem of productList">
+        <div class="card mb-4 shadow-sm">
+            <img class="bd-placeholder-img card-img-top p-2" width="100%"
+              src="data:image/png;base64,{{productItem.productImg}}" />
+          
+            <div class="card-body">
+              <p class="card-text">
+                <medium>{{ productItem.productName }}</medium> 
+              </p>
+        
+                      <img alt="Image" width="10%" height="10%" style="margin-right: 10px;"
+                      src="data:image/png;base64,{{productItem.productColor.productColorImg}}" />
+                   
+                      <img alt="Image" width="10%" height="10%"
+                      src="data:image/png;base64,{{productItem.productBrand.productBrandImg}}" />
+              <br/>  <br/>    
+              <p class="card-text">
+                <medium>Estimated Price : {{ productItem.productPrice | currency:'INR' }}</medium> 
+              </p>
+              
+                <p class="card-text" style="color:green" *ngIf="productItem.productDiscount > 0">
+                  <medium>Discount : {{  productItem.productDiscount }}% </medium>
+                </p>
+             
+              <p class="card-text"> {{productItem.productDesc}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" (click) = "handleAddToCart(productItem)" class="btn btn-sm btn-primary product-btn">Add to Cart</button>
+               
+                </div>
+              </div>
+            </div>
+            
+          </div>
+      </div>
+ 
+    </div>
+    <div class="row">
+     <p  class="font-weight-bold" >Product Images</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4"   *ngFor='let img of imagesList; let i = index' >
+            <div class="card mb-4 shadow-sm">
+                <div >
+               
+                    <img class="bd-placeholder-img card-img-top p-2" src="data:image/png;base64,{{img.productImg}}" width="100%" style="margin: 3px;"> <br/>
+              
+              </div>
+            </div>
+        </div>
+    </div>
+   
+    

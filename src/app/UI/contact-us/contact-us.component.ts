@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup,FormBuilder,Validators  } from '@angular/forms';
+import { UtilityService } from 'src/app/services/utility.services';
+import { MiscService } from 'src/app/services/misc-service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-contact-us',
@@ -6,10 +11,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contact-us.component.scss']
 })
 export class ContactUsComponent implements OnInit {
-
-  constructor() { }
+  formContactus:FormGroup;
+  constructor(private fb: FormBuilder, private utilityService: UtilityService,private miscService: MiscService,private toastrService: ToastrService) { }
 
   ngOnInit(): void {
+    this.createForm();
+  }
+  
+  createForm() {
+    this.formContactus = this.fb.group({
+      Email: ['', Validators.required],
+      PhoneNo: ['', Validators.required],
+      Customername: ['', Validators.required],
+      Msgus: ['', Validators.required]
+    });
   }
 
+
+
+    onSubmitContactus() {
+    let formData: any = new FormData();
+    formData.append("fromEmail",this.formContactus.get('Email')?.value);
+    formData.append("toEmail", "barikamitster@gmail.com");
+    formData.append("subject", "Enquiry: " + " " + this.formContactus.get('Customername')?.value + " " + "Email:" + this.formContactus.get('Email')?.value + " " + "Contact:" +this.formContactus.get('PhoneNo')?.value );
+    formData.append("text", this.formContactus.get('Msgus')?.value);
+    let postData = this.utilityService.ConvertFormDataToJson(formData);
+  
+
+    if (postData.length > 0) {
+      this.miscService.sendEmail(postData).subscribe((response) =>
+        (this.toastrService.success('Enquiry sent successfully!', 'Confirmation Msg!'),
+          this.formContactus.reset()),
+        error => (this.toastrService.error('Enquiry sending failed!', 'Confirmation Msg!'), console.log('error'))
+      )
+    }
+    else {
+      this.toastrService.error('Enquiry sending failed!', 'Confirmation Msg!');
+    }
+  }
 }

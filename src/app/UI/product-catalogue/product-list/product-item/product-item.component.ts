@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Product } from 'src/app/classes/product';
 import { MessengerService } from 'src/app/services/messenger.service';
+import { Router, Routes } from '@angular/router';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { MessengerService } from 'src/app/services/messenger.service';
 export class ProductItemComponent implements OnInit {
  @Input() productItem : Product
    
-  constructor(private msgService :MessengerService) { }
+  constructor(private msgService :MessengerService,   private router: Router,) { }
 
   ngOnInit(): void {
   
@@ -20,6 +21,10 @@ export class ProductItemComponent implements OnInit {
   handleAddToCart(){
     this.msgService.sendCartDetails(this.productItem)
     this.msgService.sendCartItemsForQtyDisplay(this.productItem)
+  }
+
+  itemDetails(_id:string){
+    this.router.navigate(['/productitemdetails',{productId:_id}]);
   }
 
 }
