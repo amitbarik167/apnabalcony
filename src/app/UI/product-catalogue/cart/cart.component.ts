@@ -49,7 +49,8 @@ export class CartComponent implements OnInit {
       this.cartItems[i].qty++
       productExists=true
       this.recalculateTotalPrice()
-      break;
+      localStorage.setItem('cart', JSON.stringify(this.cartItems))
+      return;
     }
   }
 
