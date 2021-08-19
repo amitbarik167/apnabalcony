@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
   product:Product;
   isEventFired:boolean=false;
   cartItems = [] as any;
+  cartQty: any=0;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -63,9 +64,13 @@ export class AppComponent implements OnInit {
  
 
   ngOnInit(){
-
+  this.cartQty=0
     if(localStorage.getItem('cart') != ""){
       this.cartItems = JSON.parse(localStorage.getItem('cart')||"[]")
+    }
+
+    if(localStorage.getItem('cartQty') != ""){
+      this.cartQty = JSON.parse(localStorage.getItem('cartQty')||"[]")
     }
 
         this.msgService.getCartItemsForQtyDisplay().subscribe((product: any) => {
@@ -74,11 +79,18 @@ export class AppComponent implements OnInit {
 
       this.msgServicice.getRemoveItemFromCart().subscribe((id:any) => {
         this.cartItems = this.cartItems.filter((item:any) => item.id !== id);
+        this.cartQty =0
+        for (let i in this.cartItems){
+          this.cartQty = this.cartQty+ this.cartItems[i].qty
+        }
+        localStorage.setItem('cartQty',this.cartQty)
       })
 
       this.msgService.getClearItemFromCart().subscribe(() =>{
         this.cartItems = []
       })
+
+     
    
     if(this.location.path().indexOf('/productsetup') >-1){
       this.router.navigate(['/home'])
@@ -130,11 +142,13 @@ export class AppComponent implements OnInit {
 
  addCartQty(product:any){
   let productExists = false
+  this.cartQty =0
   for (let i in this.cartItems){
     if(this.cartItems[i].id === product._id){
      this.cartItems[i].qty++
+     productExists = true
    console.log("Length", this.cartItems.length)
-   break;
+   
      }
    }
 
@@ -147,6 +161,12 @@ export class AppComponent implements OnInit {
       price:product.productPrice
     })
 }
+
+for (let i in this.cartItems){
+  this.cartQty = this.cartQty+ this.cartItems[i].qty
+}
+
+localStorage.setItem('cartQty',this.cartQty)
  }
   
 private mat_filter(value: string): Product[] {
