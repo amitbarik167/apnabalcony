@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {Product} from '../classes/product';
 import { ProductSubCategory } from 'src/app/classes/productSubCategory';
 import { ProductBrand } from '../classes/productBrand';
+import { environment } from 'src/environments/environment'
 
 
 
@@ -13,15 +14,14 @@ import { ProductBrand } from '../classes/productBrand';
 
 
 export class ProductListService {
-
   nodeServer:string;
   httpOptions:any;
   returnData:any;
+  private API_URL= environment.API_URL
  
 
  public constructor(private httpClient: HttpClient) { 
- // this.nodeServer = 'http://localhost:3000' //Use this when running locally
- this.nodeServer = 'https://apnabalconyapi.azurewebsites.net'; // use this when deploying to Azure App service
+ this.nodeServer = this.API_URL; 
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

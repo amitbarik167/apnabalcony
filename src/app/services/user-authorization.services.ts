@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
 
-
-
-   //const nodeServer = 'http://localhost:3000' //Use this when running locally
-
-   const nodeServer = 'https://apnabalconyapi.azurewebsites.net'; // use this when deploying to Azure App service
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,12 +18,16 @@ const httpOptions = {
 
 
 export class UserAuthService {
-  constructor(private httpClient: HttpClient ) { }
+  private API_URL= environment.API_URL
+  nodeServer:string;
+  constructor(private httpClient: HttpClient ) {
+    this.nodeServer = this.API_URL; 
+   }
   getUserAuthoriation(userId:string) {
-    return this.httpClient.get(nodeServer + "/" + "userAuthorization/" + userId);
+    return this.httpClient.get(this.API_URL + "/" + "userAuthorization/" + userId);
   }
   addUserAuthorization(userId:string,postData:any) {
-    return this.httpClient.post((nodeServer + "/" + "userAuthorization/"+ userId), JSON.stringify(postData), httpOptions);
+    return this.httpClient.post((this.API_URL + "/" + "userAuthorization/"+ userId), JSON.stringify(postData), httpOptions);
   }
 }
 
