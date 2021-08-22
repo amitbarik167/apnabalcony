@@ -8,7 +8,7 @@ import { Product } from 'src/app/classes/product';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { ProductCategory } from 'src/app/classes/productCategory';
 import { ProductColor } from 'src/app/classes/productColor';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
@@ -35,9 +35,12 @@ export class FiltersComponent implements OnInit {
   ProductColor : ProductColor;
   selectedColor : string;
  
-  constructor(private apiService: ProductListService, private msgServicice :MessengerService) { }
+  constructor(private apiService: ProductListService, private msgServicice :MessengerService,private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.formFilters = this.fb.group({
+      
+    });
 
    this.productCategoryList = this.apiService.getProductCategories();
    this.productColorList =  this.apiService.getProductColors()

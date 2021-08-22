@@ -20,7 +20,7 @@ import { Product } from 'src/app/classes/product';
 import { ProductCategory } from 'src/app/classes/productCategory';
 import { ProductColor } from 'src/app/classes/productColor';
 import { ProductBrand } from 'src/app/classes/productBrand';
-
+import { MessengerService } from 'src/app/services/messenger.service';
 
 
 @Component({
@@ -68,14 +68,14 @@ export class ProductSetupComponent  implements OnInit {
   selectedColor : string;
   
   constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService,
-     private domSanitizer: DomSanitizer,  private cookieService: CookieService,) {
+     private domSanitizer: DomSanitizer,  private cookieService: CookieService, private msgService : MessengerService) {
    this.productCategoryIdSelectedValue = 0;
    this.productSubCategoryIdSelectedValue = 0;
  };
 
 
   ngOnInit():void{
-
+    this.msgService.sendClearProductSearch();
     this.createForm();
     this.rowDataProductCategories = this.apiService.getProductCategories();
     this.rowDataProductSubCategories = this.apiService.getProductSubCategories();

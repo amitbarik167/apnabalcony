@@ -4,7 +4,7 @@ import { UtilityService } from 'src/app/services/utility.services';
 import { MiscService } from 'src/app/services/misc-service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment'
-
+import { MessengerService } from 'src/app/services/messenger.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -14,13 +14,14 @@ import { environment } from 'src/environments/environment'
 export class ContactUsComponent implements OnInit {
   formContactus:FormGroup;
   private toEmail= environment.TO_EMAIL
-  constructor(private fb: FormBuilder, private utilityService: UtilityService,private miscService: MiscService,private toastrService: ToastrService) { }
+  constructor(private fb: FormBuilder, private utilityService: UtilityService,private miscService: MiscService,private toastrService: ToastrService,private msgService :MessengerService) { }
 
   ngOnInit(): void {
     this.createForm();
   }
   
   createForm() {
+    this.msgService.sendClearProductSearch();
     this.formContactus = this.fb.group({
       Email: ['', Validators.required],
       PhoneNo: ['', Validators.required],

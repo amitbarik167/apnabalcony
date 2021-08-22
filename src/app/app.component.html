@@ -32,10 +32,10 @@
         <a mat-button [routerLink]="'/contactus'"> Contact us </a> -->
         <div class="divMainSearch">
         
-          <form class="example-form">
+          <form class="example-form" [formGroup]="searchForm">
           <mat-form-field>
           
-              <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
+              <input #productInput  type="text" placeholder="Search Balcony Products"  matInput [formControl]="productSearchControl" [(ngModel)]="productSearch" [ngModelOptions]="{standalone: true}" (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
               <mat-option   *ngFor="let product of autoProductFilter | async" [value]="product.productName">
                 <img alt="Image" width="5%" height="5%" 
@@ -67,19 +67,19 @@
      
       
       </mat-toolbar-row>
-      <!-- <mat-toolbar-row>
-        <span class="flexspacer"></span>
-        <span flex></span>
-        <div  *ngIf="cartItems?.length > 0" ><a routerLink="/productcatalogue"><medium>{{cartItems?.length}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a>
-        
-        </div>
-      </mat-toolbar-row> -->
+      
+
       
   </mat-toolbar>
   
-   <div class="divAlightContentRight"  *ngIf="cartItems?.length > 0" ><a style="text-decoration: none;" routerLink="/productcatalogue"><medium>{{cartQty}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a><button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
+   <div class="divAlightContentRight"  *ngIf="cartItems?.length > 0" ><a style="text-decoration: none;" routerLink="/productcatalogue"><medium>{{cartQty}}    Item(s) added</medium> <mat-icon>shopping_cart</mat-icon></a>
+  
         
   </div>
+  <div class="divAlightContentRight" *ngIf="isLoggedin === true">
+    <button  type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
+  </div>
+  
   <mat-sidenav-container>
     <mat-sidenav #sidenav>
       <mat-nav-list>

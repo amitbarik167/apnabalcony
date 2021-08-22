@@ -23,7 +23,7 @@
       <div class="card-header">
       <strong>Product Category</strong>
      </div>
-      <form>
+     
         <div class="form-group">
           <br>
   
@@ -35,7 +35,7 @@
           </select>
 
         </div>
-      </form>
+     
     </div>
 
 
@@ -43,7 +43,7 @@
       <div class="card-header">
       <strong>Product Sub-Category</strong>
      </div>
-      <form>
+     
         <div class="form-group">
           <br>
           <select class="form-control" (change)="changeProductSubCategory($event)">
@@ -53,14 +53,14 @@
           </select>
 
         </div>
-      </form>
+
     </div>
 
     <div class="card-body">
       <div class="card-header">
       <strong>Brand</strong>
      </div>
-      <form>
+     
         <div class="form-group">
           <br>
           <mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
@@ -73,14 +73,14 @@
         </mat-select>
 
         </div>
-      </form>
+   
     </div>
 
     <div class="card-body">
       <div class="card-header">
       <strong>Color</strong>
      </div>
-      <form>
+    
         <div class="form-group">
           <br>
           <mat-select class="form-control" [value]="0" [(ngModel)]="selectedColor"  [ngModelOptions]="{standalone: true}" placeholder="Choose Product Color"
@@ -99,7 +99,7 @@
           <button type="button" class="btn btn-secondary"  (click)="reset();">Reset Search</button>
         </div>
       
-      </form>
+  
     </div>
 
 
