@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {UserAuthService} from 'src/app/services/user-authorization.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
@@ -21,7 +21,8 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 
 export class AppComponent implements OnInit {

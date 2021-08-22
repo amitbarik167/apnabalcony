@@ -3,6 +3,7 @@ import { FormGroup,FormBuilder,Validators  } from '@angular/forms';
 import { UtilityService } from 'src/app/services/utility.services';
 import { MiscService } from 'src/app/services/misc-service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment'
 
 
 @Component({
@@ -12,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ContactUsComponent implements OnInit {
   formContactus:FormGroup;
+  private toEmail= environment.TO_EMAIL
   constructor(private fb: FormBuilder, private utilityService: UtilityService,private miscService: MiscService,private toastrService: ToastrService) { }
 
   ngOnInit(): void {
@@ -32,7 +34,7 @@ export class ContactUsComponent implements OnInit {
     onSubmitContactus() {
     let formData: any = new FormData();
     formData.append("fromEmail",this.formContactus.get('Email')?.value);
-    formData.append("toEmail", "barikamitster@gmail.com");
+    formData.append("toEmail", this.toEmail);
     formData.append("subject", "Enquiry: " + " " + this.formContactus.get('Customername')?.value + " " + "Email:" + this.formContactus.get('Email')?.value + " " + "Contact:" +this.formContactus.get('PhoneNo')?.value );
     formData.append("text", this.formContactus.get('Msgus')?.value);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
