@@ -28,7 +28,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProductSetupService } from './services/product-setup.services';
 import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
-import { CarouselModule } from 'ngx-acuw';
 import { HomeComponent } from './UI/home/home.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -90,7 +89,6 @@ import { ContactUsComponent } from './UI/contact-us/contact-us.component';
     MatDialogModule,
     ToastrModule.forRoot(), // ToastrModule added
     AgGridModule.withComponents([ImageFormatterComponent]),
-    CarouselModule,
     MatCarouselModule.forRoot(),
     NgbModule,
     MatSliderModule  ,
