@@ -3,8 +3,7 @@ import {UserAuthService} from 'src/app/services/user-authorization.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router, Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import { ProductListService } from 'src/app/services/product-list.services';
@@ -14,8 +13,6 @@ import { MessengerService } from 'src/app/services/messenger.service';
 import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
-import { ThrowStmt } from '@angular/compiler';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -49,7 +46,6 @@ export class AppComponent implements OnInit {
     private socialAuthService: SocialAuthService,
     private userAuthService : UserAuthService,
     private toastrService: ToastrService,
-    private httpClient: HttpClient,
     private router: Router,
     private productService : ProductListService,
     private dialog: MatDialog,

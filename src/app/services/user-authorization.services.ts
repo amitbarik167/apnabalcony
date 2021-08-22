@@ -18,16 +18,16 @@ const httpOptions = {
 
 
 export class UserAuthService {
-  private API_URL= environment.API_URL
-  nodeServer:string;
-  constructor(private httpClient: HttpClient ) {
-    this.nodeServer = this.API_URL; 
-   }
-  getUserAuthoriation(userId:string) {
+  private API_URL = environment.API_URL
+  nodeServer: string;
+  constructor(private httpClient: HttpClient) {
+    this.nodeServer = this.API_URL;
+  }
+  getUserAuthoriation(userId: string) {
     return this.httpClient.get(this.API_URL + "/" + "userAuthorization/" + userId);
   }
-  addUserAuthorization(userId:string,postData:any) {
-    return this.httpClient.post((this.API_URL + "/" + "userAuthorization/"+ userId), JSON.stringify(postData), httpOptions);
+  addUserAuthorization(userId: string, postData: any) {
+    return this.httpClient.post((this.API_URL + "/" + "userAuthorization/" + userId), JSON.stringify(postData), httpOptions);
   }
 }
 

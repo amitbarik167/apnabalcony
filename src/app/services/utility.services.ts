@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, observable } from 'rxjs';
-import {forkJoin} from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -8,8 +8,8 @@ import {forkJoin} from 'rxjs';
 
 
 export class UtilityService {
-    ConvertFormDataToJson(formData:any) {
-     return JSON.stringify(Object.fromEntries(formData));
+    ConvertFormDataToJson(formData: any) {
+        return JSON.stringify(Object.fromEntries(formData));
     }
 
     ConfirmDeleteDialog() {
@@ -22,18 +22,18 @@ export class UtilityService {
 
     }
 
-    ConvertEnumToObject(productSizeEnum:any) {
+    ConvertEnumToObject(productSizeEnum: any) {
         const arrayObjects = [];
         for (const [propertyKey, propertyValue] of Object.entries(productSizeEnum)) {
-          if (!Number.isNaN(Number(propertyKey))) {
-            continue;
-          }
-           arrayObjects.push({ id: propertyValue, name: propertyKey });
-        } 
-        return  arrayObjects;
-      }
-    
-    
+            if (!Number.isNaN(Number(propertyKey))) {
+                continue;
+            }
+            arrayObjects.push({ id: propertyValue, name: propertyKey });
+        }
+        return arrayObjects;
+    }
+
+
 
 
 }
