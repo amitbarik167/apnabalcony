@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessengerService } from 'src/app/services/messenger.service';
 
 @Component({
   selector: 'app-about-us',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutUsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private msgService :MessengerService) { }
 
   ngOnInit(): void {
+    this.msgService.sendClearProductSearch();
   }
 
 }

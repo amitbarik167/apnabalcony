@@ -12,6 +12,7 @@ export class MessengerService {
   subjectCartQtyDisplay = new Subject();
   subjectRemoveItemFromCart = new Subject();
   subjectClearItemsFromCart = new Subject();
+  subjectClearSearchTextBox = new Subject();
 
   constructor() { }
 
@@ -58,5 +59,14 @@ export class MessengerService {
 
    getClearItemFromCart(){
      return this.subjectClearItemsFromCart.asObservable();
+   }
+
+   sendClearProductSearch(){
+
+    this.subjectClearSearchTextBox.next()
+   }
+
+   getClearProductSearch(){
+     return this.subjectClearSearchTextBox.asObservable();
    }
 }

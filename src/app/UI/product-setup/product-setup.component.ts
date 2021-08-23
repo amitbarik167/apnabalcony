@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
-// import { HttpParams } from '@angular/common/http';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { never, Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ImageFormatterComponent } from "src/app/image-formatter-component";
 import { map } from 'rxjs/operators';
 import { ProductSubCategory } from 'src/app/classes/productSubCategory';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Pipe } from '@angular/core';
 import { ProductSize } from 'src/app/constants/product-setup-constants';
 import { ProductFor } from 'src/app/constants/product-setup-constants';
@@ -14,13 +12,13 @@ import { ProductOccasion } from 'src/app/constants/product-setup-constants';
 import { ProductFit } from 'src/app/constants/product-setup-constants';
 import { ProductSetupService } from 'src/app/services/product-setup.services';
 import { UtilityService } from 'src/app/services/utility.services';
-import { ColDef, GridApi, ColumnApi } from 'ag-grid-community';
+import { GridApi, ColumnApi } from 'ag-grid-community';
 import { CookieService } from 'ngx-cookie-service';
 import { Product } from 'src/app/classes/product';
 import { ProductCategory } from 'src/app/classes/productCategory';
 import { ProductColor } from 'src/app/classes/productColor';
 import { ProductBrand } from 'src/app/classes/productBrand';
-
+import { MessengerService } from 'src/app/services/messenger.service';
 
 
 @Component({
@@ -30,9 +28,9 @@ import { ProductBrand } from 'src/app/classes/productBrand';
   providers: [ProductSetupService, UtilityService]
 })
 
-export class ProductSetupComponent  implements OnInit {
+export class ProductSetupComponent implements OnInit {
 
-  formProductCategories:FormGroup; formProductSubCategories:FormGroup; formProductColors:FormGroup; formProductBrands:FormGroup; formProducts: FormGroup; formProductImages:FormGroup
+  formProductCategories: FormGroup; formProductSubCategories: FormGroup; formProductColors: FormGroup; formProductBrands: FormGroup; formProducts: FormGroup; formProductImages: FormGroup
   socialUser: any;
   productCategoryList: any;
   productSubCategoryList: any;
@@ -47,35 +45,35 @@ export class ProductSetupComponent  implements OnInit {
   productBrandIdSelectedValue: any;
   productColorIdSelectedValue: any;
   productIdSelectedValue: any;
-  productSizeIdsSelected:any;
-  productForIdSelectedValue:any;
-  productOccasionIdSelectedValue:any;
-  productFitIdSelectedValue:any;
-  selectedProductBrandImage: File ;
-  selectedProductColorImage: File ;
-  selectedProductImage: File ;
-  fileSource:FileList;
-  selected:[];
-  product:any;
-  productCategory : ProductCategory;
-  productSubCategory : ProductSubCategory;
-  productBrand : ProductBrand;
-  ProductColor : ProductColor;
-  productList : Product[] = [];
-  images :any = [];
-  imagesList :any = [];
+  productSizeIdsSelected: any;
+  productForIdSelectedValue: any;
+  productOccasionIdSelectedValue: any;
+  productFitIdSelectedValue: any;
+  selectedProductBrandImage: File;
+  selectedProductColorImage: File;
+  selectedProductImage: File;
+  fileSource: FileList;
+  selected: [];
+  product: any;
+  productCategory: ProductCategory;
+  productSubCategory: ProductSubCategory;
+  productBrand: ProductBrand;
+  ProductColor: ProductColor;
+  productList: Product[] = [];
+  images: any = [];
+  imagesList: any = [];
   formData: any = new FormData();
-  selectedColor : string;
-  
+  selectedColor: string;
+
   constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService,
-     private domSanitizer: DomSanitizer,  private cookieService: CookieService,) {
-   this.productCategoryIdSelectedValue = 0;
-   this.productSubCategoryIdSelectedValue = 0;
- };
+    private cookieService: CookieService, private msgService: MessengerService) {
+    this.productCategoryIdSelectedValue = 0;
+    this.productSubCategoryIdSelectedValue = 0;
+  };
 
 
-  ngOnInit():void{
-
+  ngOnInit(): void {
+    this.msgService.sendClearProductSearch();
     this.createForm();
     this.rowDataProductCategories = this.apiService.getProductCategories();
     this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
@@ -84,10 +82,10 @@ export class ProductSetupComponent  implements OnInit {
     this.rowDataProducts = this.apiService.getProducts();
     this.productCategoryList = this.rowDataProductCategories;
     this.productColorList = this.rowDataProductColors;
-    this.productSizeList= this.utilityService.ConvertEnumToObject(ProductSize);
-    this.productForList= this.utilityService.ConvertEnumToObject(ProductFor);
-    this.productOccasionList= this.utilityService.ConvertEnumToObject(ProductOccasion);
-    this.productFitList= this.utilityService.ConvertEnumToObject(ProductFit);
+    this.productSizeList = this.utilityService.ConvertEnumToObject(ProductSize);
+    this.productForList = this.utilityService.ConvertEnumToObject(ProductFor);
+    this.productOccasionList = this.utilityService.ConvertEnumToObject(ProductOccasion);
+    this.productFitList = this.utilityService.ConvertEnumToObject(ProductFit);
     this.socialUser = this.cookieService.get('userId')?.toString();
     this.product = new Product();
     this.productSubCategory = new ProductSubCategory();
@@ -97,7 +95,7 @@ export class ProductSetupComponent  implements OnInit {
     this.selectedColor = "Choose Product Color";
   }
 
-    @Pipe({ name: 'safeHtml' })
+  @Pipe({ name: 'safeHtml' })
 
   columnDefsProductCategories = [
     { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false },
@@ -108,7 +106,7 @@ export class ProductSetupComponent  implements OnInit {
     { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
     { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false },
     { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true}];
+    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true }];
 
   columnDefsProductColors = [
     { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false },
@@ -138,20 +136,20 @@ export class ProductSetupComponent  implements OnInit {
     { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true },
   ];
 
- 
 
- 
+
+
   rowDataProductCategories: any;
   rowDataProductSubCategories: any;
   rowDataProductColors: any;
   rowDataProductBrands: any;
   rowDataProducts: any;
   isSubmitted = false;
-  
+
 
   // gridApi and columnApi
-  private apiProductCategory:GridApi; apiProductSubCategory:GridApi; apiProductColor:GridApi; apiProductBrand:GridApi; apiProduct: GridApi;
-  private columnApiProductCategory:ColumnApi; columnApiProductSubCategory:ColumnApi; columnApiProductColor:ColumnApi; columnApiProductBrand:ColumnApi; columnApiProduct: ColumnApi;
+  private apiProductCategory: GridApi; apiProductSubCategory: GridApi; apiProductColor: GridApi; apiProductBrand: GridApi; apiProduct: GridApi;
+  private columnApiProductCategory: ColumnApi; columnApiProductSubCategory: ColumnApi; columnApiProductColor: ColumnApi; columnApiProductBrand: ColumnApi; columnApiProduct: ColumnApi;
 
 
   private itemsProductSubCategory: Observable<ProductSubCategory[]>;
@@ -173,7 +171,7 @@ export class ProductSetupComponent  implements OnInit {
     });
 
 
-    
+
     this.formProductColors = this.fb.group({
       ProductColorCode: ['', Validators.required],
       ProductColorName: ['', Validators.required],
@@ -201,24 +199,20 @@ export class ProductSetupComponent  implements OnInit {
       ProductDesc: ['', Validators.required],
       ProductImg: [''],
       ProductSize: [''],
-      selectProductFor:['0'],
+      selectProductFor: ['0'],
       ProductOccasion: [''],
       ProductFit: [''],
-      ProductPrice:['',Validators.required],
-      ProductDiscount:[''],
-      ProductStockUnits:['']
+      ProductPrice: ['', Validators.required],
+      ProductDiscount: [''],
+      ProductStockUnits: ['']
     });
 
     this.formProductImages = this.fb.group({
       productImagesUploadControl: new FormControl('', [Validators.required])
-  
+
     })
 
   }
-
-  // transform(html:string) : SafeUrl{
-  //   return this.domSanitizer.bypassSecurityTrustUrl(html);
-  // }
 
   //#region  ProductCategories Actions
   onSubmitProductCategories() {
@@ -232,8 +226,8 @@ export class ProductSetupComponent  implements OnInit {
 
     if (postData.length > 0) {
       this.apiService.addProductCategory(postData, productCategoryCode).subscribe((response) =>
-        (this.toastrService.success('Product Category saved successfully!', 'Confirmation Msg!'),
-          this.formProductCategories.reset(), this.rowDataProductCategories = this.apiService.getProductCategories()),
+      (this.toastrService.success('Product Category saved successfully!', 'Confirmation Msg!'),
+        this.formProductCategories.reset(), this.rowDataProductCategories = this.apiService.getProductCategories()),
         error => (this.toastrService.error('Product Category save failed!', 'Confirmation Msg!'), console.log('error'))
       )
 
@@ -253,7 +247,7 @@ export class ProductSetupComponent  implements OnInit {
     )
 
   }
-  onGridReadyProductCategories(params:any): void {
+  onGridReadyProductCategories(params: any): void {
     this.apiProductCategory = params.api;
     this.columnApiProductCategory = params.columnApi;
     this.apiProductCategory.sizeColumnsToFit();
@@ -265,8 +259,8 @@ export class ProductSetupComponent  implements OnInit {
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
         this.apiService.deleteProductCategory(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
-          (this.toastrService.success('Product Category deleted successfully!',
-            'Confirmation Msg!'), this.rowDataProductCategories = this.apiService.getProductCategories()),
+        (this.toastrService.success('Product Category deleted successfully!',
+          'Confirmation Msg!'), this.rowDataProductCategories = this.apiService.getProductCategories()),
           error => (this.toastrService.error('Product Category delete failed!', 'Confirmation Msg!'), console.log('error'))
         )
       }
@@ -275,12 +269,12 @@ export class ProductSetupComponent  implements OnInit {
       alert('Please select a row!');
     }
   }
-  changeProductCategory(e:any) {
+  changeProductCategory(e: any) {
     this.productCategoryIdSelectedValue = e.target.value;
     this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
     this.productCategory._id = this.productCategoryIdSelectedValue
     this.product.productCategory = this.productCategory;
- 
+
     return;
   }
 
@@ -298,14 +292,14 @@ export class ProductSetupComponent  implements OnInit {
     )
 
   }
-  onGridReadyProductSubCategories(params:any): void {
+  onGridReadyProductSubCategories(params: any): void {
     this.apiProductSubCategory = params.api;
     this.columnApiProductSubCategory = params.columnApi;
-   // this.apiProductSubCategory.sizeColumnsToFit();
+    // this.apiProductSubCategory.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductSubCategory.hideOverlay();
-  
-  
+
+
   }
 
 
@@ -328,8 +322,8 @@ export class ProductSetupComponent  implements OnInit {
 
       if (postData.length > 0) {
         this.apiService.addProductSubCategory(postData, productSubCategoryCode).subscribe((response) =>
-          (this.toastrService.success('Product Sub Category saved successfully!', 'Confirmation Msg!'),
-            this.formProductSubCategories.reset(), this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
+        (this.toastrService.success('Product Sub Category saved successfully!', 'Confirmation Msg!'),
+          this.formProductSubCategories.reset(), this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
           error => (this.toastrService.error('Product Sub SubCategory save failed!', 'Confirmation Msg!'), console.log('error'))
         )
 
@@ -347,8 +341,8 @@ export class ProductSetupComponent  implements OnInit {
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
         this.apiService.deleteProductSubCategory(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
-          (this.toastrService.success('Product SubCategory deleted successfully!',
-            'Confirmation Msg!'), this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
+        (this.toastrService.success('Product SubCategory deleted successfully!',
+          'Confirmation Msg!'), this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
           error => (this.toastrService.error('Product SubCategory delete failed!', 'Confirmation Msg!'), console.log('error'))
         )
       }
@@ -359,11 +353,11 @@ export class ProductSetupComponent  implements OnInit {
   }
 
 
-  changeProductSubCategory(e:any) {
+  changeProductSubCategory(e: any) {
     this.productSubCategoryIdSelectedValue = e.target.value;
     this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
     this.productSubCategory._id = this.productSubCategoryIdSelectedValue;
-    this.product.productSubCategory = this.productSubCategory;  
+    this.product.productSubCategory = this.productSubCategory;
     return;
   }
 
@@ -374,17 +368,17 @@ export class ProductSetupComponent  implements OnInit {
 
   onCellValueChangedProductColors(params: any) {
     if (params.oldValue === params.newValue) return;
-    params.data.modifiedBy =this.socialUser;
+    params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductColor(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product Color updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product Color update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
   }
-  onGridReadyProductColors(params:any): void {
+  onGridReadyProductColors(params: any): void {
     this.apiProductColor = params.api;
     this.columnApiProductColor = params.columnApi;
-  //  this.apiProductColor.sizeColumnsToFit();
+    //  this.apiProductColor.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductColor.hideOverlay();
 
@@ -409,8 +403,8 @@ export class ProductSetupComponent  implements OnInit {
 
     if (postData.length > 0) {
       this.apiService.addProductColor(formData, productColorCode).subscribe((response) =>
-        (this.toastrService.success('Product Color saved successfully!', 'Confirmation Msg!'),
-          this.formProductColors.reset(), this.rowDataProductColors = this.apiService.getProductColors()),
+      (this.toastrService.success('Product Color saved successfully!', 'Confirmation Msg!'),
+        this.formProductColors.reset(), this.rowDataProductColors = this.apiService.getProductColors()),
         error => (this.toastrService.error('Product Color save failed!', 'Confirmation Msg!'), console.log('error'))
       )
     }
@@ -424,8 +418,8 @@ export class ProductSetupComponent  implements OnInit {
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
         this.apiService.deleteProductColor(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
-          (this.toastrService.success('Product Color deleted successfully!',
-            'Confirmation Msg!'), this.rowDataProductColors = this.apiService.getProductColors()),
+        (this.toastrService.success('Product Color deleted successfully!',
+          'Confirmation Msg!'), this.rowDataProductColors = this.apiService.getProductColors()),
           error => (this.toastrService.error('Product Color delete failed!', 'Confirmation Msg!'), console.log('error'))
         )
       }
@@ -435,21 +429,21 @@ export class ProductSetupComponent  implements OnInit {
     }
   }
 
-  onProductColorSelected(event:any) {
+  onProductColorSelected(event: any) {
     this.selectedProductColorImage = event.target.files[0];
     this.formProductColors.get('ProductColorImg')?.setValue(this.selectedProductColorImage);
   }
 
-  changeProductColor(e:any) {
+  changeProductColor(e: any) {
     this.productColorIdSelectedValue = e.value;
-    this.ProductColor._id =  this.productColorIdSelectedValue;
+    this.ProductColor._id = this.productColorIdSelectedValue;
     this.product.productColor = this.ProductColor;
     this.productCategory._id = this.productCategoryIdSelectedValue;
     this.product.productCategory = this.productCategory;
     this.productSubCategory._id = this.productSubCategoryIdSelectedValue;
     this.product.productSubCategory = this.productSubCategory;
 
-    this.apiService.searchProducts(this.product).subscribe(res => { this.productList  = res;});;
+    this.apiService.searchProducts(this.product).subscribe(res => { this.productList = res; });;
     return;
   }
 
@@ -471,14 +465,14 @@ export class ProductSetupComponent  implements OnInit {
     formData.append("productBrandName", this.formProductBrands.get('ProductBrandName')?.value);
     formData.append("productBrandDesc", this.formProductBrands.get('ProductBrandDesc')?.value);
     formData.append("productBrandImg", this.formProductBrands.get('ProductBrandImg')?.value, this.selectedProductBrandImage.name);
-    formData.append("createdBy",this.socialUser);
+    formData.append("createdBy", this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productBrandCode = this.formProductBrands.get('ProductBrandCode')?.value;
 
     if (postData.length > 0) {
       this.apiService.addProductBrand(formData, productBrandCode).subscribe((response) =>
-        (this.toastrService.success('Product Brand saved successfully!', 'Confirmation Msg!'),
-          this.formProductBrands.reset(), this.rowDataProductBrands = this.apiService.getProductBrands()),
+      (this.toastrService.success('Product Brand saved successfully!', 'Confirmation Msg!'),
+        this.formProductBrands.reset(), this.rowDataProductBrands = this.apiService.getProductBrands()),
         error => (this.toastrService.error('Product Brand save failed!', 'Confirmation Msg!'), console.log('error'))
       )
     }
@@ -492,8 +486,8 @@ export class ProductSetupComponent  implements OnInit {
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
         this.apiService.deleteProductBrand(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
-          (this.toastrService.success('Product Brand deleted successfully!',
-            'Confirmation Msg!'), this.rowDataProductBrands = this.apiService.getProductBrands()),
+        (this.toastrService.success('Product Brand deleted successfully!',
+          'Confirmation Msg!'), this.rowDataProductBrands = this.apiService.getProductBrands()),
           error => (this.toastrService.error('Product Brand delete failed!', 'Confirmation Msg!'), console.log('error'))
         )
       }
@@ -503,10 +497,10 @@ export class ProductSetupComponent  implements OnInit {
     }
   }
 
-  onGridReadyProductBrands(params:any): void {
+  onGridReadyProductBrands(params: any): void {
     this.apiProductBrand = params.api;
     this.columnApiProductBrand = params.columnApi;
-  //  this.apiProductBrand.sizeColumnsToFit();
+    //  this.apiProductBrand.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProductBrand.hideOverlay();
 
@@ -514,24 +508,24 @@ export class ProductSetupComponent  implements OnInit {
 
   onCellValueChangedProductBrands(params: any) {
     if (params.oldValue === params.newValue) return;
-     params.data.modifiedBy = this.socialUser;
+    params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductBrand(JSON.stringify(params.data), params.data._id).subscribe((response) =>
       (this.toastrService.success('Product Brand updated successfully!', 'Confirmation Msg!')),
       error => (this.toastrService.error('Product Brand update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
   }
-  onProductBrandSelected(event:any) {
+  onProductBrandSelected(event: any) {
     this.selectedProductBrandImage = event.target.files[0];
     this.formProductBrands.get('ProductBrandImg')?.setValue(this.selectedProductBrandImage);
   }
 
-  changeProductBrand(e:any) {
+  changeProductBrand(e: any) {
     this.productBrandIdSelectedValue = e.value;
     this.productBrand._id = this.productBrandIdSelectedValue;
     this.product.productBrand = this.productBrand;
     this.productColorList = this.apiService.getProductColors();
-    this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})
+    this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res => { this.imagesList = res })
     return;
   }
   //#endregion Product Brands
@@ -539,9 +533,9 @@ export class ProductSetupComponent  implements OnInit {
 
   //#region  Products
 
-  changeProduct(e:any) {
+  changeProduct(e: any) {
     this.productIdSelectedValue = e.value;
-    this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})
+    this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res => { this.imagesList = res })
     return;
   }
 
@@ -555,52 +549,52 @@ export class ProductSetupComponent  implements OnInit {
 
   }
 
-  onGridReadyProducts(params:any): void {
+  onGridReadyProducts(params: any): void {
     this.apiProduct = params.api;
     this.columnApiProduct = params.columnApi;
-   // this.apiProduct.sizeColumnsToFit();
+    // this.apiProduct.sizeColumnsToFit();
     // temp fix until AG-1181 is fixed
     this.apiProduct.hideOverlay();
   }
-  get returnFormProductsImagesControls(){
+  get returnFormProductsImagesControls() {
     return this.formProductImages.controls;
   }
 
-  onProductSelected(event:any) {
+  onProductSelected(event: any) {
     this.selectedProductImage = event.target.files[0];
     this.formProducts.get('ProductImg')?.setValue(this.selectedProductImage);
-    
+
 
   }
 
 
-  onProductImagesSelected(event:any) {
-    if(this.productIdSelectedValue === undefined || this.productSubCategoryIdSelectedValue ===undefined || this.productCategoryIdSelectedValue===undefined || this.productBrandIdSelectedValue=== undefined || this.productColorIdSelectedValue === undefined){
+  onProductImagesSelected(event: any) {
+    if (this.productIdSelectedValue === undefined || this.productSubCategoryIdSelectedValue === undefined || this.productCategoryIdSelectedValue === undefined || this.productBrandIdSelectedValue === undefined || this.productColorIdSelectedValue === undefined) {
       alert('Some Selectios(s) not done!')
       return;
     }
-    this.images =[]
+    this.images = []
     this.fileSource = event.target.files
-   
+
     if (this.fileSource && this.fileSource[0]) {
-     
+
       var filesAmount = this.fileSource.length;
       for (let i = 0; i < filesAmount; i++) {
-              var reader = new FileReader();
- 
-              reader.onload = (e:any) => {
-                console.log(e.target.result);
-                 this.images.push(e.target.result); 
- 
-              };
+        var reader = new FileReader();
 
-              reader.readAsDataURL(this.fileSource[i]);
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.images.push(e.target.result);
+
+        };
+
+        reader.readAsDataURL(this.fileSource[i]);
       }
-  }
+    }
 
   }
 
- 
+
 
   onSubmitProducts() {
     if (this.selectedProductImage == null) {
@@ -626,8 +620,8 @@ export class ProductSetupComponent  implements OnInit {
 
     if (postData.length > 0) {
       this.apiService.addProduct(formData, productCode).subscribe((response) =>
-        (this.toastrService.success('Product saved successfully!', 'Confirmation Msg!'),
-          this.formProducts.reset(), this.rowDataProducts = this.apiService.getProducts()),
+      (this.toastrService.success('Product saved successfully!', 'Confirmation Msg!'),
+        this.formProducts.reset(), this.rowDataProducts = this.apiService.getProducts()),
         error => (this.toastrService.error('Product save failed!', 'Confirmation Msg!'), console.log('error'))
       )
       this.resetAllDropDowns();
@@ -642,8 +636,8 @@ export class ProductSetupComponent  implements OnInit {
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
         this.apiService.deleteProduct(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
-          (this.toastrService.success('Product  deleted successfully!',
-            'Confirmation Msg!'), this.rowDataProducts = this.apiService.getProducts()),
+        (this.toastrService.success('Product  deleted successfully!',
+          'Confirmation Msg!'), this.rowDataProducts = this.apiService.getProducts()),
           error => (this.toastrService.error('Product delete failed!', 'Confirmation Msg!'), console.log('error'))
         )
       }
@@ -652,48 +646,42 @@ export class ProductSetupComponent  implements OnInit {
       alert('Please select a row!');
     }
   }
-  
 
-  resetAllDropDowns(){
+
+  resetAllDropDowns() {
     this.formProducts.patchValue({
-      selectProductFor: 'Choose Product For', 
+      selectProductFor: 'Choose Product For',
     });
-    
+
   }
-  
-  loadProductsSetup(params:any){
-   
-    if(params.index == 0)
-    {
+
+  loadProductsSetup(params: any) {
+
+    if (params.index == 0) {
       this.rowDataProductCategories = this.apiService.getProductCategories();
       this.apiProductCategory.sizeColumnsToFit();
     }
-    else if (params.index == 1)
-    {
+    else if (params.index == 1) {
       this.rowDataProductSubCategories = this.apiService.getProductSubCategories();
       this.apiProductSubCategory.sizeColumnsToFit();
     }
-    else if (params.index == 2)
-    {
+    else if (params.index == 2) {
       this.rowDataProductColors = this.apiService.getProductColors();
       this.apiProductColor.sizeColumnsToFit();
     }
-    else if (params.index == 3)
-    {
+    else if (params.index == 3) {
       this.rowDataProductBrands = this.apiService.getProductBrands();
       this.apiProductBrand.sizeColumnsToFit();
     }
-    else if (params.index == 4)
-    {
+    else if (params.index == 4) {
       this.rowDataProducts = this.apiService.getProducts();
       this.apiProduct.sizeColumnsToFit();
       this.ngOnInit()
- 
+
       this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
       this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
     }
-    else if (params.index == 5)
-    {
+    else if (params.index == 5) {
       this.ngOnInit()
 
       this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
@@ -701,60 +689,61 @@ export class ProductSetupComponent  implements OnInit {
     }
 
     this.selectedColor = "Choose Product Color";
-   
 
 
-}
 
-onSubmitProductImages() {
-  if (this.fileSource) {
-    if(this.imagesList){
-
-    for(let y=0; y<this.imagesList.length; y++){
-      let counterDelete = y+1
-      this.apiService.deleteProductImages(this.imagesList[y]._id).subscribe((response)=>( (this.toastrService.success('Product Image '+ counterDelete +' deleted successfully!', 'Confirmation Msg!')),
-      this.formProductImages.reset(),(this.images=[]),this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})),
-      error => (this.toastrService.error('Product Image '+ counterDelete +' deletion failed!', 'Confirmation Msg!'), console.log('error'),(this.images=[]))
-      
-      )}
-  }
-    
-
-
-    for (let i = 0; i < this.fileSource.length; i++) {
- 
-    
-      this.formData.append("productCategoryId", this.productCategoryIdSelectedValue);
-      this.formData.append("productSubCategoryId", this.productSubCategoryIdSelectedValue);
-      this.formData.append("productBrandId", this.productBrandIdSelectedValue);
-      this.formData.append("productColorId", this.productColorIdSelectedValue);
-      this.formData.append("productId", this.productIdSelectedValue);
-      this.formData.append("productImgCounter", i+1);
-      this.formData.append("productImg" , this.fileSource[i]);
-      this.formData.append("createdBy", this.socialUser);
-  let postData = this.utilityService.ConvertFormDataToJson(this.formData);
-
-let counter = i+1
-  if (postData.length > 0) {
-    this.apiService.addProductImages(this.formData, this.productIdSelectedValue).subscribe((response) =>
-      (this.toastrService.success('Product Image '+ counter +' saved successfully!', 'Confirmation Msg!'),
-        this.formProductImages.reset(),(this.images=[]),this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res=>{this.imagesList=res})),
-      error => (this.toastrService.error('Product Image '+ counter +' save failed!', 'Confirmation Msg!'), console.log('error'),(this.images=[]))
-    )
-    this.resetAllDropDowns();
   }
 
-  else {
-    this.toastrService.error('Product Images save failed!', 'Confirmation Msg!');
-  }
-   }
-  }
-}
+  onSubmitProductImages() {
+    if (this.fileSource) {
+      if (this.imagesList) {
 
-removeImage(i:any) {
-  this.images.splice(i, 1);
- 
-}
+        for (let y = 0; y < this.imagesList.length; y++) {
+          let counterDelete = y + 1
+          this.apiService.deleteProductImages(this.imagesList[y]._id).subscribe((response) => ((this.toastrService.success('Product Image ' + counterDelete + ' deleted successfully!', 'Confirmation Msg!')),
+            this.formProductImages.reset(), (this.images = []), this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res => { this.imagesList = res })),
+            error => (this.toastrService.error('Product Image ' + counterDelete + ' deletion failed!', 'Confirmation Msg!'), console.log('error'), (this.images = []))
+
+          )
+        }
+      }
+
+
+
+      for (let i = 0; i < this.fileSource.length; i++) {
+
+
+        this.formData.append("productCategoryId", this.productCategoryIdSelectedValue);
+        this.formData.append("productSubCategoryId", this.productSubCategoryIdSelectedValue);
+        this.formData.append("productBrandId", this.productBrandIdSelectedValue);
+        this.formData.append("productColorId", this.productColorIdSelectedValue);
+        this.formData.append("productId", this.productIdSelectedValue);
+        this.formData.append("productImgCounter", i + 1);
+        this.formData.append("productImg", this.fileSource[i]);
+        this.formData.append("createdBy", this.socialUser);
+        let postData = this.utilityService.ConvertFormDataToJson(this.formData);
+
+        let counter = i + 1
+        if (postData.length > 0) {
+          this.apiService.addProductImages(this.formData, this.productIdSelectedValue).subscribe((response) =>
+          (this.toastrService.success('Product Image ' + counter + ' saved successfully!', 'Confirmation Msg!'),
+            this.formProductImages.reset(), (this.images = []), this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res => { this.imagesList = res })),
+            error => (this.toastrService.error('Product Image ' + counter + ' save failed!', 'Confirmation Msg!'), console.log('error'), (this.images = []))
+          )
+          this.resetAllDropDowns();
+        }
+
+        else {
+          this.toastrService.error('Product Images save failed!', 'Confirmation Msg!');
+        }
+      }
+    }
+  }
+
+  removeImage(i: any) {
+    this.images.splice(i, 1);
+
+  }
 
 
 }

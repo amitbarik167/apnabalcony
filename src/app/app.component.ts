@@ -3,8 +3,7 @@ import {UserAuthService} from 'src/app/services/user-authorization.services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 import { ToastrService } from 'ngx-toastr';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router, Routes } from '@angular/router';
+import { Router } from '@angular/router';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import { ProductListService } from 'src/app/services/product-list.services';
@@ -14,8 +13,6 @@ import { MessengerService } from 'src/app/services/messenger.service';
 import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
-import { ThrowStmt } from '@angular/compiler';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -41,21 +38,22 @@ export class AppComponent implements OnInit {
   isEventFired:boolean=false;
   cartItems = [] as any;
   cartQty: any=0;
+  searchForm:FormGroup;
+  productSearch:string
 
   constructor(
     private formBuilder: FormBuilder, 
     private socialAuthService: SocialAuthService,
     private userAuthService : UserAuthService,
     private toastrService: ToastrService,
-    private httpClient: HttpClient,
     private router: Router,
     private productService : ProductListService,
-    private msgServicice :MessengerService,
     private dialog: MatDialog,
     private location: Location,
     private cookieService: CookieService,
     private msgService : MessengerService
-  ) { 
+  )
+   { 
     this.productSearchControl = new FormControl();
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
     this.cartItems.length =0;
@@ -65,7 +63,8 @@ export class AppComponent implements OnInit {
  
 
   ngOnInit(){
-  this.cartQty=0
+  
+    this.cartQty=0
     if(localStorage.getItem('cart') != ""){
       this.cartItems = JSON.parse(localStorage.getItem('cart')||"[]")
     }
@@ -78,7 +77,7 @@ export class AppComponent implements OnInit {
          this.addCartQty(product)
       })
 
-      this.msgServicice.getRemoveItemFromCart().subscribe((id:any) => {
+      this.msgService.getRemoveItemFromCart().subscribe((id:any) => {
         this.cartItems = this.cartItems.filter((item:any) => item.id !== id);
         this.cartQty =0
         for (let i in this.cartItems){
@@ -120,8 +119,19 @@ export class AppComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
-    });    
+    }); 
     
+    this.searchForm = this.formBuilder.group({
+      productSearchControl:['']
+    })
+
+    this.msgService.getClearProductSearch().subscribe(() =>{
+   this.productSearch=''
+     
+    })
+   
+    
+
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
@@ -210,7 +220,7 @@ ngOnDestroy(){
     if(this.router.url.indexOf('/productcatalogue')>-1){
       this.product = new Product();
       this.product.productName = evn.option.value
-      this.msgServicice.sendSearchFilters(this.product );
+      this.msgService.sendSearchFilters(this.product );
    
     }
     else{
@@ -224,7 +234,7 @@ ngOnDestroy(){
   getAllProducts(searchParams:string){
     if(searchParams==''){
       this.product = new Product();
-      this.msgServicice.sendSearchFilters(this.product );
+      this.msgService.sendSearchFilters(this.product );
     }
  
   }
