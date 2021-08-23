@@ -40,3 +40,11 @@ mat-form-field {
   display: flex; 
   justify-content: flex-end
 }
+
+.blue-icon {
+  color: rgb(39, 62, 151);
+}
+/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+.blue-icon svg {
+  fill:  rgb(39, 62, 151);
+}

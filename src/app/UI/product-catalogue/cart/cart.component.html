@@ -4,21 +4,109 @@
   <div class="card-header">
     <strong>Cart</strong>
   </div>
-    <li class="list-group-item" *ngFor="let item of cartItems">
-      <app-cart-item [cartItem] = "item">
-      </app-cart-item>
-      <button type="button" class="close" aria-label="Close" (click)=removeItem(item.id);>
-        <span aria-hidden="true">&times;</span>
-      </button>
-      
-    </li>
-  
-    <li class="list-group-item active">
-      <strong>Total</strong> {{ cartTotal| currency:'INR' }}
-    </li>
-    <br/>
-    <button type="button" (click)="openDialogIfNotLoggedIn()" class="btn btn-secondary">Submit and Design Template</button>
-    <br/>
-    <button type="button" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
-  </ul>
-  
+  <li class="list-group-item" *ngFor="let item of cartItems">
+    <app-cart-item [cartItem]="item">
+    </app-cart-item>
+    <button type="button" class="close" aria-label="Close" (click)=removeItem(item.id);>
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </li>
+
+  <li class="list-group-item active">
+    <strong>Total</strong> {{ cartTotal| currency:'INR' }}
+  </li>
+
+</ul>
+<div>
+  <form [formGroup]="formCustomerAddress" novalidate (ngSubmit)="onSubmitCustomerAddress()">
+    <div class="form-group"> <label for="name" class="h6">Your Name</label>
+      <div class="input-group border rounded">
+        <div class="input-group-addon px-2 pt-1">
+          <p class="fa fa-user-o text-primary"></p>
+        </div> <input type="text" class="form-control border-0" id="customer_name" maxlength="100"
+          formControlName="Customername">
+      </div>
+      <div
+        *ngIf="formCustomerAddress.controls['Customername']?.invalid && (formCustomerAddress.controls['Customername'].dirty || formCustomerAddress.controls['Customername'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="formCustomerAddress.controls['Customername']?.errors?.required">
+          Full Name is required.
+        </div>
+      </div>
+      <div *ngIf="formCustomerAddress.controls['Customername'].errors?.maxlength">
+
+      </div>
+    </div>
+    <div class="form-group"> <label for="email" class="h6">Email</label>
+      <div class="input-group border rounded">
+        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-envelope text-primary"></i> </div>
+        <input type="text" class="form-control border-0" id="email" maxlength="100" formControlName="Email">
+      </div>
+      <div
+        *ngIf="formCustomerAddress.controls['Email']?.invalid && (formCustomerAddress.controls['Email'].dirty || formCustomerAddress.controls['Email'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="formCustomerAddress.controls['Email']?.errors?.required">
+          Email is required.
+        </div>
+      </div>
+      <div *ngIf="formCustomerAddress.controls['Email']?.errors?.maxlength">
+
+      </div>
+    </div>
+
+    <div class="form-group"> <label for="phoneNo" class="h6">Phone No</label>
+      <div class="input-group border rounded">
+        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-phone icon text-primary pr-3"></i> </div>
+        <input type="text" class="form-control border-0" id="phoneNo" maxlength="20" formControlName="PhoneNo">
+      </div>
+      <div
+        *ngIf="formCustomerAddress.controls['PhoneNo'].invalid && (formCustomerAddress.controls['PhoneNo'].dirty || formCustomerAddress.controls['PhoneNo'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="formCustomerAddress.controls['PhoneNo'].errors?.required">
+          Phone No. is required.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group"> <label for="customerAddress" class="h6">Address(Please note we only serve in
+        Bangalore)</label>
+      <div class="input-group border rounded">
+        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-phone icon text-primary pr-3"></i> </div>
+        <input type="text" class="form-control border-0" id="customerAddress" maxlength="20"
+          formControlName="CustomerAddress">
+      </div>
+      <div
+        *ngIf="formCustomerAddress.controls['CustomerAddress'].invalid && (formCustomerAddress.controls['CustomerAddress'].dirty || formCustomerAddress.controls['CustomerAddress'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="formCustomerAddress.controls['CustomerAddress'].errors?.required">
+          Address No. is required.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group"> <label for="requirement" class="h6">Requirement</label> <textarea name="requirement"
+        maxlength="5000" id="msgus" formControlName="Requirement" cols="10" rows="5" class="form-control bg-light"
+        placeholder="Requirement"></textarea> </div>
+    <div
+      *ngIf="formCustomerAddress.controls['Requirement']?.invalid && (formCustomerAddress.controls['Requirement'].dirty || formCustomerAddress.controls['Requirement'].touched)"
+      class="alert alert-danger">
+      <div *ngIf="formCustomerAddress.controls['Requirement']?.errors?.required">
+        Your requirement is required
+      </div>
+    </div>
+    <div *ngIf="formCustomerAddress.controls['Requirement']?.errors?.maxlength">
+
+    </div>
+
+    <div class="form-group d-flex justify-content-end">
+      <button type="button" [disabled]="!formCustomerAddress.valid" (click)="openDialogIfNotLoggedIn()"
+        class="btn btn-secondary">Place Order</button> &nbsp;
+      <button type="button" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
+    </div>
+  </form>
+
+
+</div>

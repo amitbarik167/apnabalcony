@@ -1,5 +1,6 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import { MessengerService } from 'src/app/services/messenger.service';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,10 @@ import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 export class HomeComponent implements OnInit {
   @ViewChild('carousel', { static: true }) carousel: NgbCarousel;
-  constructor() { }
+  constructor(private msgService :MessengerService) { }
 
   ngOnInit(): void {
+   this.msgService.sendClearProductSearch();
   }
   prevSlide() {
     this.carousel.prev();
