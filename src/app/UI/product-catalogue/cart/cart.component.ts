@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/classes/product';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductListService } from 'src/app/services/product-list.services';
+import { Router } from '@angular/router';
+import { FormGroup,FormBuilder, Validators } from '@angular/forms';
 
-import { Router, Routes } from '@angular/router';
-import { timestamp } from 'rxjs/operators';
 
 
 @Component({
@@ -22,12 +21,13 @@ export class CartComponent implements OnInit {
   productList = [] as any;
   product: any;
   filteredProduct: any;
-  constructor(private msgService: MessengerService, private cookieService: CookieService, private router: Router, private dialog: MatDialog, private productListSrvice: ProductListService) {
+  formCustomerAddress:FormGroup
+  constructor(private msgService: MessengerService, private cookieService: CookieService, private router: Router, private dialog: MatDialog, private productListSrvice: ProductListService,private fb: FormBuilder) {
     this.cartItems.length = 0;
   }
 
   ngOnInit() {
-
+    this.createForm();
     if (localStorage.getItem('cart') != "") {
       this.cartItems = JSON.parse(localStorage.getItem('cart') || "[]")
     }
@@ -39,6 +39,18 @@ export class CartComponent implements OnInit {
       this.addProductToCart(product)
     })
   }
+
+  createForm() {
+    this.formCustomerAddress = this.fb.group({
+      Email: ['', Validators.required],
+      PhoneNo: ['', Validators.required],
+      Customername: ['', Validators.required],
+      CustomerAddress: ['', Validators.required],
+      Requirement: ['', Validators.required]
+    });
+  }
+
+ 
 
   addProductToCart(product: any) {
 
@@ -67,8 +79,6 @@ export class CartComponent implements OnInit {
       this.recalculateTotalPrice()
       localStorage.setItem('cart', JSON.stringify(this.cartItems))
     }
-
-
   }
 
 
@@ -111,5 +121,9 @@ export class CartComponent implements OnInit {
 
       });
     }
+  }
+
+  onSubmitCustomerAddress(){
+
   }
 }
