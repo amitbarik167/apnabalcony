@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
+  page = 1;
+  pageSize =6;
   productList: Product[] = [];
   flag: boolean = false;
   progressbarValue = 100;

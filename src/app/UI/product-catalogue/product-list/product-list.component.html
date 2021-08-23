@@ -2,8 +2,9 @@
 
 <div class="row">
   <mat-progress-bar mode="determinate"  [value]="progressbarValue" ></mat-progress-bar>
-    <div class="col-md-4" *ngFor="let product of productList">
+    <div class="col-md-4" *ngFor="let product of productList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
       <app-product-item [productItem]= "product"> </app-product-item>
     </div>
+    <ngb-pagination [collectionSize]="productList.length" [(page)]="page" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
   </div>
   
