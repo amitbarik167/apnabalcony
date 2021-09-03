@@ -57,8 +57,6 @@ export class AppComponent implements OnInit {
     this.productSearchControl = new FormControl();
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
     this.cartItems.length =0;
-
-
   }
  
 
@@ -107,15 +105,26 @@ export class AppComponent implements OnInit {
     );
 
        
-   this.cookieService.deleteAll();
-  this.socialAuthService.initState.subscribe(value=> {
+  // this.cookieService.deleteAll();
+  // this.socialAuthService.initState.subscribe(value=> {
+
+  //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
+    
+  //     console.log('GoogleContainerComponent.ngOnInit user:', user)
+  //     });
+  //     });
+
+      this.socialAuthService.initState.subscribe(() => {}, console.error, () => {console.log('all providers are ready')});
+
+      if(this.cookieService.get('token') != ""){
+          this.socialAuthService.initState.subscribe(value=> {
 
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
     
       console.log('GoogleContainerComponent.ngOnInit user:', user)
       });
       });
-
+      }
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -189,6 +198,8 @@ ngOnDestroy(){
  this.cookieService.deleteAll()
   
   }
+
+  
   
  
   loginWithGoogle(): void {

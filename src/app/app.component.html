@@ -72,19 +72,23 @@
       <button ><mat-icon class="blue-icon" (click)="logOut()">power_settings_new</mat-icon></button>
     
     </div>
+    <p>Thank you visiting our website. We will go live on 01 Oct 2021.</p>
 
     <mat-sidenav-container>
       <mat-sidenav #sidenav>
         <mat-nav-list>
-          <a mat-list-item style="text-decoration: none;" [routerLink]="'/home'"> Home </a>
-          <a mat-list-item style="text-decoration: none;" [routerLink]="'/aboutus'"> About Us </a>
-          <a mat-list-item (click)="openDialogIfNotLoggedIn()"> Product Setup </a>
-          <a mat-list-item style="text-decoration: none;" [routerLink]="'/productcatalogue'"> Product Catalogue </a>
+          <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" [routerLink]="'/home'"> Home </a>
+          <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()"  [routerLink]="'/aboutus'"> About Us </a>
+          <div *ngIf="isLoggedin === true && (socialUser?.email == 'barikamitster@gmail.com' || socialUser?.email == 'rupraj26@gmail.com' || socialUser?.email == 'apnabalcony@gmail.com' || socialUser?.email == 'soumyak.priyadarshee@gmail.com')" >
+            <a mat-list-item  (click)="openDialogIfNotLoggedIn(); sidenav.toggle();"> Product Setup </a>
+          </div>
+       
+          <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" [routerLink]="'/productcatalogue'"> Product Catalogue </a>
           <!-- <a mat-list-item style="text-decoration: none;" [routerLink]="'/template'"> Template </a>
         <a mat-list-item style="text-decoration: none;" [routerLink]="'/policy'"> Policy </a>
         <a mat-list-item style="text-decoration: none;" [routerLink]="'/gallery'"> Gallery </a> -->
-          <a mat-list-item style="text-decoration: none;" [routerLink]="'/contactus'"> Contact us </a>
-          <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+          <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" [routerLink]="'/contactus'"> Contact us </a>
+          <!-- <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" href="" mat-list-item>Close</a> -->
 
         </mat-nav-list>
       </mat-sidenav>
