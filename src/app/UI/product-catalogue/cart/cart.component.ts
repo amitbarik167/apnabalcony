@@ -29,6 +29,7 @@ export class CartComponent implements OnInit {
   formCustomerAddress:FormGroup;
   orderRes: any;
   private fromEmail = environment.FROM_EMAIL
+  private toEmail = environment.TO_EMAIL
   constructor(private msgService: MessengerService, private cookieService: CookieService, private router: Router, private dialog: MatDialog, private productListSrvice: ProductListService,private fb: FormBuilder, private orderService: OrderService,private utilityService: UtilityService,private toastrService: ToastrService,private miscService: MiscService) {
     this.cartItems.length = 0;
   }
@@ -151,7 +152,7 @@ export class CartComponent implements OnInit {
           console.log(resOrderCustomerAddress)
         }),
 
-       ( this.toastrService.success('Order created successfully. We have sent an email to '+  this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderId,'Confirmation Msg!')),(this.sendEmailToCustomer(res.orderId)),(this.formCustomerAddress.reset()),(this.clearCart())
+       ( this.toastrService.success('Order created successfully. We have sent an email to '+  this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderId,'Confirmation Msg!')),(this.sendEmailToCustomer(res.orderId)),(this.sendEmailToApnaBalcony(res.orderId)),(this.formCustomerAddress.reset()),(this.clearCart())
 
       },error=> (this.toastrService.error('Order creation failed!', 'Confirmation Msg!'))
 
@@ -177,7 +178,7 @@ export class CartComponent implements OnInit {
 
   private  sendEmailToCustomer(orderNo:string){
     let formDataSendEmail: any = new FormData();
-    formDataSendEmail.append("fromEmail", this.fromEmail);
+    formDataSendEmail.append("fromEmail", "noreply@apnabalcony.com");
     formDataSendEmail.append("toEmail", this.formCustomerAddress.get('Email')?.value);
     formDataSendEmail.append("subject", "Thanks for your order. Your order tracking number : " + " " + orderNo );
     formDataSendEmail.append("text", "Dear " + this.formCustomerAddress.get('CustomerName')?.value + ",<br/> Thanks for the booking. We will reach out to you shortly.<br/> Regards,<br/> Apna Balcony Sales Team" );
@@ -193,7 +194,26 @@ export class CartComponent implements OnInit {
     else {
       this.toastrService.error('Error in sending email to customer!', 'Confirmation Msg!');
     }
+  }
 
+    private  sendEmailToApnaBalcony(orderNo:string){
+      let formDataSendEmail: any = new FormData();
+      formDataSendEmail.append("fromEmail", "noreply@apnabalcony.com");
+      formDataSendEmail.append("toEmail", this.toEmail);
+      formDataSendEmail.append("subject", "Order received. Order No. : " + " " + orderNo );
+      formDataSendEmail.append("text", "Dear ApnaBalcony Sales Team" + ",<br/> A new order recieved with Order No. : " + orderNo +". Please check the details in https://apnabalcony.com/Order. <br/> Regards,<br/> Apna Balcony Sales Team" );
+      let postData = this.utilityService.ConvertFormDataToJson(formDataSendEmail);
+  
+  
+      if (postData.length > 0) {
+        this.miscService.sendEmail(postData).subscribe((response) =>(console.log('Email to customer sent successfully!')),
+     
+          error => (console.log('Error in sending email to customer'))
+        )
+      }
+      else {
+        this.toastrService.error('Error in sending email to customer!', 'Confirmation Msg!');
+      }
     
 
 

@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   API_URL:'http://localhost:3000',
   TO_EMAIL:'barikamitster@gmail.com;apnabalcony@gmail.com',
-  FROM_EMAIL:'apnabalcony@gmail.com'
+  FROM_EMAIL:'apnabalcony@gmail.com',
+  ADMIN_EMAIL : 'barikamitster@gmail.com,rupraj26@gmail.com,apnabalcony@gmail.com,soumyak.priyadarshee@gmail.com'
 };
 
 /*

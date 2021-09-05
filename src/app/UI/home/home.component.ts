@@ -27,5 +27,6 @@ export class HomeComponent implements OnInit {
   stopSlider() {
     this.carousel.pause();
   }
+  
 
 }

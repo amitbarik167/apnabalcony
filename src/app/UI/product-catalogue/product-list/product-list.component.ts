@@ -19,25 +19,44 @@ export class ProductListComponent implements OnInit {
   progressbarValue = 100;
   curSec: number = 0;
   product: any;
+  productCategory:any;
+  productCategoryDisplay:string='';
   constructor(private productService: ProductListService, private msgService: MessengerService, private route: ActivatedRoute) {
     this.progressbarValue = 100;
 
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.paramMap.get('searchedProductName') != null) {
-      this.product = new Product();
-      const searchedProduct = this.route.snapshot.paramMap.get('searchedProductName');
-      this.product.productName = searchedProduct;
-      this.productService.searchProducts(this.product).subscribe(res => { this.productList = res; });;
-    }
-    else {
-      this.productService.getProducts().subscribe(res => { this.productList = res; });
-    }
-    this.progressBar(5);
+    this.route.params.subscribe(
+      params => {
+        this.progressBar(2);
+
+        if (this.route.snapshot.paramMap.get('searchedProductName') != null) {
+          this.product = new Product();
+          const searchedProduct = this.route.snapshot.paramMap.get('searchedProductName');
+          this.product.productName = searchedProduct;
+          this.productService.searchProducts(this.product).subscribe(res => { this.productList = res; });;
+          this.productCategoryDisplay=""
+        }
+        else if (this.route.snapshot.paramMap.get('productCategoryId') != null) {
+          this.product = new Product();
+          const productCategoryId = this.route.snapshot.paramMap.get('productCategoryId');
+          const productCategoryName= this.route.snapshot.paramMap.get('productCategoryName');
+          this.product.productCategory = productCategoryId;
+          this.productService.searchProducts(this.product).subscribe(res => { this.productList = res; });;
+          this.productCategoryDisplay = productCategoryName || ''
+        }
+        else {
+          this.productService.getProducts().subscribe(res => { this.productList = res; });
+        }
+      }
+  );
+  
+
 
 
     this.msgService.getSearchFilters().subscribe((product: any) => {
+      this.productCategoryDisplay=""
       this.productList = [];
       this.progressBar(2);
       if (Object.keys(product).length > 0) {

@@ -49,3 +49,13 @@ mat-form-field {
   fill:  rgb(39, 62, 151);
 }
 
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  padding-left: 10px;
+}
+.submenu.expanded {
+  transform: scaleY(1);
+}
