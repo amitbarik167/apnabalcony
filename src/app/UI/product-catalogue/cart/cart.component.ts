@@ -133,7 +133,7 @@ export class CartComponent implements OnInit {
          
           formDataOrderItems.append("orderId", res._id )
           formDataOrderItems.append("productId", this.cartItems[i].id )
-
+          formDataOrderItems.append("qty", this.cartItems[i].qty )
           let postDataOrderItems = this.utilityService.ConvertFormDataToJson(formDataOrderItems)
           this.orderService.addOrderItems(postDataOrderItems).subscribe(resOrderItems=>{
             console.log(resOrderItems)
@@ -152,7 +152,7 @@ export class CartComponent implements OnInit {
           console.log(resOrderCustomerAddress)
         }),
 
-       ( this.toastrService.success('Order created successfully. We have sent an email to '+  this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderId,'Confirmation Msg!')),(this.sendEmailToCustomer(res.orderId)),(this.sendEmailToApnaBalcony(res.orderId)),(this.formCustomerAddress.reset()),(this.clearCart())
+       ( this.toastrService.success('Order created successfully. We have sent an email to '+  this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderNo,'Confirmation Msg!')),(this.sendEmailToCustomer(res.orderNo)),(this.sendEmailToApnaBalcony(res.orderNo)),(this.formCustomerAddress.reset()),(this.clearCart())
 
       },error=> (this.toastrService.error('Order creation failed!', 'Confirmation Msg!'))
 
@@ -201,7 +201,7 @@ export class CartComponent implements OnInit {
       formDataSendEmail.append("fromEmail", "noreply@apnabalcony.com");
       formDataSendEmail.append("toEmail", this.toEmail);
       formDataSendEmail.append("subject", "Order received. Order No. : " + " " + orderNo );
-      formDataSendEmail.append("text", "Dear ApnaBalcony Sales Team" + ",<br/> A new order recieved with Order No. : " + orderNo +". Please check the details in https://apnabalcony.com/Order. <br/> Regards,<br/> Apna Balcony Sales Team" );
+      formDataSendEmail.append("text", "Dear ApnaBalcony Sales Team" + ",<br/> A new order recieved with Order No. : " + orderNo +". Please check the details in https://apnabalcony.com/order. <br/> Regards,<br/> Apna Balcony Sales Team" );
       let postData = this.utilityService.ConvertFormDataToJson(formDataSendEmail);
   
   

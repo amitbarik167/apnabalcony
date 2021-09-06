@@ -83,7 +83,10 @@
           
           <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" [routerLink]="'/contactus'"><mat-icon> contact_phone</mat-icon> Contact us </a>
           <div *ngIf="isLoggedin === true && (adminEmail?.includes(socialUser?.email??''))" >
-            <a mat-list-item  (click)="openDialogIfNotLoggedIn(); sidenav.toggle();"><mat-icon>cloud_upload</mat-icon> Product Setup </a>
+            <a mat-list-item  (click)="openDialogIfNotLoggedIn('productSetup'); sidenav.toggle();"><mat-icon>cloud_upload</mat-icon> Product Setup </a>
+          </div>
+          <div *ngIf="isLoggedin === true && (adminEmail?.includes(socialUser?.email??''))" >
+            <a mat-list-item  (click)="openDialogIfNotLoggedIn('orders'); sidenav.toggle();"><mat-icon>money</mat-icon> Orders </a>
           </div>
           <mat-list-item (click)="showSubSubMenu = !showSubSubMenu"   class="parent">
             <span class="full-width" *ngIf="isExpanded || isShowing"><mat-icon>shopping_cart</mat-icon>Product Catalogue</span>

@@ -9,11 +9,12 @@ import { ProductCatalogueComponent } from './UI/product-catalogue/product-catalo
 import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
 import { TemplateComponent } from './UI/template/template.component';
 import { ProductItemDetailsComponent } from './UI/product-item-details/product-item-details.component';
+import { OrderComponent } from './UI/order/order.component';
 
 
 const routes: Routes = [{path:'', component:HomeComponent},{path:'home', component:HomeComponent}, {path:'aboutus', component:AboutUsComponent}, {path:'contactus',component:ContactUsComponent},
 {path:'gallery', component:GalleryComponent}, {path:'policy', component:PolicyComponent}, {path:'productcatalogue', component: ProductCatalogueComponent},{path:'productcatalogue/{productCategoryId:id,productCategoryName:name}', component: ProductCatalogueComponent},
-{path:'productsetup', component: ProductSetupComponent}, {path:'template', component:TemplateComponent},{path:'productitemdetails', component:ProductItemDetailsComponent}];
+{path:'productsetup', component: ProductSetupComponent}, {path:'template', component:TemplateComponent},{path:'productitemdetails', component:ProductItemDetailsComponent},{path:'order', component:OrderComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

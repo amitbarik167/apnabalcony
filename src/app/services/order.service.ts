@@ -43,6 +43,27 @@ export class OrderService {
     return this.httpClient.post((this.nodeServer + "/" + "orderCustomerAddressCreate/" ), postData, this.httpOptions);
   }
 
+  getAllOrders(){
+    return this.httpClient.get((this.nodeServer + "/" + "orderAll"),this.httpOptions)
+  }
+
+  getOrderByOrderNo(orderNo:string){
+    return this.httpClient.get((this.nodeServer + "/" + "orderFind/"+ orderNo))
+
+  }
+
+  updateOrder(postData: string, id: string) {
+
+    return this.httpClient.put((this.nodeServer + "/" + "orderUpdate/" + id), postData, this.httpOptions);
+  }
+
+  getOrderItemsByOrderId(orderId:string){
+    return this.httpClient.get((this.nodeServer + "/" + "orderItems/" + orderId),this.httpOptions)
+  }
+  getCustomerDetailsByOrderId(orderId:string){
+    return this.httpClient.get((this.nodeServer + "/" + "orderCustomerAddress/" + orderId),this.httpOptions)
+  }
+
 }
 
 

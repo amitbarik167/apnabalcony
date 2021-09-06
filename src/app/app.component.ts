@@ -262,9 +262,12 @@ ngOnDestroy(){
  
   }
 
-  openDialogIfNotLoggedIn(): void {
+  openDialogIfNotLoggedIn(identifier:string): void {
 if(this.cookieService.get('token') != ""){
+  if(identifier=="productSetup")
   this.router.navigate(['/productsetup'])
+ else if(identifier=="orders")
+  this.router.navigate(['/order'])
 }
 else{
   const dialogRef = this.dialog.open(ModalComponent, {
