@@ -14,48 +14,48 @@
   </li>
 
   <li class="list-group-item active">
-    <strong>Total</strong> {{ cartTotal| currency:'INR' }}
+    <strong>Expected Total</strong> {{ cartTotal| currency:'INR' }}
   </li>
 
 </ul>
 <div>
-  <form [formGroup]="formCustomerAddress" novalidate (ngSubmit)="onSubmitCustomerAddress()">
-    <div class="form-group"> <label for="name" class="h6">Your Name</label>
+  <form [formGroup]="formCustomerAddress" novalidate (ngSubmit)="onSubmitOrder()">
+    <div class="form-group"> <label for="name" class="h4">Full Name</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1">
           <p class="fa fa-user-o text-primary"></p>
         </div> <input type="text" class="form-control border-0" id="customer_name" maxlength="100"
-          formControlName="Customername">
+          formControlName="CustomerName">
       </div>
       <div
-        *ngIf="formCustomerAddress.controls['Customername']?.invalid && (formCustomerAddress.controls['Customername'].dirty || formCustomerAddress.controls['Customername'].touched)"
+        *ngIf="formCustomerAddress.controls['CustomerName'].invalid && (formCustomerAddress.controls['CustomerName'].dirty || formCustomerAddress.controls['CustomerName'].touched)"
         class="alert alert-danger">
-        <div *ngIf="formCustomerAddress.controls['Customername']?.errors?.required">
+        <div *ngIf="formCustomerAddress.controls['CustomerName'].errors?.required">
           Full Name is required.
         </div>
       </div>
-      <div *ngIf="formCustomerAddress.controls['Customername'].errors?.maxlength">
+      <div *ngIf="formCustomerAddress.controls['CustomerName'].errors?.maxlength">
 
       </div>
     </div>
-    <div class="form-group"> <label for="email" class="h6">Email</label>
+    <div class="form-group"> <label for="email" class="h4">Email</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1"> <i class="fa fa-envelope text-primary"></i> </div>
         <input type="text" class="form-control border-0" id="email" maxlength="100" formControlName="Email">
       </div>
       <div
-        *ngIf="formCustomerAddress.controls['Email']?.invalid && (formCustomerAddress.controls['Email'].dirty || formCustomerAddress.controls['Email'].touched)"
+        *ngIf="formCustomerAddress.controls['Email'].invalid && (formCustomerAddress.controls['Email'].dirty || formCustomerAddress.controls['Email'].touched)"
         class="alert alert-danger">
-        <div *ngIf="formCustomerAddress.controls['Email']?.errors?.required">
+        <div *ngIf="formCustomerAddress.controls['Email'].errors?.required">
           Email is required.
         </div>
       </div>
-      <div *ngIf="formCustomerAddress.controls['Email']?.errors?.maxlength">
+      <div *ngIf="formCustomerAddress.controls['Email'].errors?.maxlength">
 
       </div>
     </div>
 
-    <div class="form-group"> <label for="phoneNo" class="h6">Phone No</label>
+    <div class="form-group"> <label for="phoneNo" class="h4">Phone No</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1"> <i class="fa fa-phone icon text-primary pr-3"></i> </div>
         <input type="text" class="form-control border-0" id="phoneNo" maxlength="20" formControlName="PhoneNo">
@@ -70,41 +70,41 @@
 
     </div>
 
-    <div class="form-group"> <label for="customerAddress" class="h6">Address(Please note we only serve in
+    <div class="form-group"> <label for="customerAddress" class="h4">Address(Please provide complete address. Note- We only serve in
         Bangalore)</label>
       <div class="input-group border rounded">
-        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-phone icon text-primary pr-3"></i> </div>
-        <input type="text" class="form-control border-0" id="customerAddress" maxlength="20"
+        <div class="input-group-addon px-2 pt-1"> <i class="fa fa-address-card-o icon text-primary pr-3"></i> </div>
+        <input type="text" class="form-control border-0" id="customerAddress" maxlength="200"
           formControlName="CustomerAddress">
       </div>
       <div
         *ngIf="formCustomerAddress.controls['CustomerAddress'].invalid && (formCustomerAddress.controls['CustomerAddress'].dirty || formCustomerAddress.controls['CustomerAddress'].touched)"
         class="alert alert-danger">
         <div *ngIf="formCustomerAddress.controls['CustomerAddress'].errors?.required">
-          Address No. is required.
+          Address  is required.
         </div>
       </div>
 
     </div>
 
-    <div class="form-group"> <label for="requirement" class="h6">Requirement</label> <textarea name="requirement"
+    <div class="form-group"> <label for="requirement" class="h4">Requirement</label> <textarea name="requirement"
         maxlength="5000" id="msgus" formControlName="Requirement" cols="10" rows="5" class="form-control bg-light"
         placeholder="Requirement"></textarea> </div>
     <div
-      *ngIf="formCustomerAddress.controls['Requirement']?.invalid && (formCustomerAddress.controls['Requirement'].dirty || formCustomerAddress.controls['Requirement'].touched)"
+      *ngIf="formCustomerAddress.controls['Requirement'].invalid && (formCustomerAddress.controls['Requirement'].dirty || formCustomerAddress.controls['Requirement'].touched)"
       class="alert alert-danger">
-      <div *ngIf="formCustomerAddress.controls['Requirement']?.errors?.required">
+      <div *ngIf="formCustomerAddress.controls['Requirement'].errors?.required">
         Your requirement is required
       </div>
     </div>
-    <div *ngIf="formCustomerAddress.controls['Requirement']?.errors?.maxlength">
+    <div *ngIf="formCustomerAddress.controls['Requirement'].errors?.maxlength">
 
     </div>
 
     <div class="form-group d-flex justify-content-end">
-      <button type="button" [disabled]="!formCustomerAddress.valid" (click)="openDialogIfNotLoggedIn()"
+      <button type="submit" [disabled]="!formCustomerAddress.valid"
         class="btn btn-secondary">Place Order</button> &nbsp;
-      <button type="button" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
+      <button type="submit" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
     </div>
   </form>
 

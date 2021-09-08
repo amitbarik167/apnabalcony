@@ -76,14 +76,9 @@
 					<br>
 					<select class="form-control" (change)="changeProductCategory($event)">
 						<option [value]="0">Choose Product Category</option>
-						<option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory?._id">
-							{{productCategory?.productCategoryName}}</option>
+						<option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory._id">
+							{{productCategory.productCategoryName}}</option>
 					</select>
-	
-					<!-- error block -->
-					<!-- <div *ngIf="isSubmitted && productCategoryList.errors?.required">
-						<sup>*</sup>Please select product category
-					</div> -->
 				</div>
 	
 				<div class="form-group">
@@ -93,11 +88,11 @@
 				</div>
 				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode'].invalid && (formProductSubCategories.controls['ProductSubCategoryCode'].dirty || formProductSubCategories.controls['ProductSubCategoryCode'].touched)"
 					class="alert alert-danger">
-					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode']?.errors?.required">
+					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode'].errors?.required">
 						Product SubCategory Code is required.
 					</div>
 				</div>
-				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode']?.errors?.maxlength">
+				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryCode'].errors?.maxlength">
 	
 				</div>
 				<div class="form-group">
@@ -107,11 +102,11 @@
 				</div>
 				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName'].invalid && (formProductSubCategories.controls['ProductSubCategoryName'].dirty || formProductSubCategories.controls['ProductSubCategoryName'].touched)"
 					class="alert alert-danger">
-					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName']?.errors?.required">
+					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName'].errors?.required">
 						Product SubCategory Name is required.
 					</div>
 				</div>
-				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName']?.errors?.maxlength">
+				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryName'].errors?.maxlength">
 	
 				</div>
 				<div class="form-group">
@@ -122,11 +117,11 @@
 				</div>
 				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc'].invalid && (formProductSubCategories.controls['ProductSubCategoryDesc'].dirty || formProductSubCategories.controls['ProductSubCategoryDesc'].touched)"
 					class="alert alert-danger">
-					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc']?.errors?.required">
+					<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc'].errors?.required">
 						Product SubCategory Description is required.
 					</div>
 				</div>
-				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc']?.errors?.maxlength">
+				<div *ngIf="formProductSubCategories.controls['ProductSubCategoryDesc'].errors?.maxlength">
 	
 				</div>
 	
@@ -369,16 +364,16 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
 								(selectionChange)="changeProductBrand($event)">
 								<mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productBrand.productBrandImg}}" />
 									{{productBrand.productBrandName}}
 								</mat-option>
 							</mat-select>
 	
 							<!-- error block -->
-							<div *ngIf="isSubmitted && productBrandList.errors?.required">
+							<!-- <div *ngIf="isSubmitted && productBrandList.errors?.required">
 								<sup>*</sup>Please select product brand
-							</div>
+							</div> -->
 						</div>
 						<div class="column">
 							<label for="product_color_code" class="control-label">Product Color</label>
@@ -386,7 +381,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Color"
 								(selectionChange)="changeProductColor($event)">
 								<mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productColor.productColorImg}}" />
 									{{productColor.productColorName}}
 								</mat-option>
@@ -453,74 +448,6 @@
 					</div>
 	
 					<div class="row">
-						<!-- <div class="column">
-							<label for="product_size" class="control-label">Product Size</label>
-							<br>
-							<ng-select [items]="productSizeList"  (change)="onProductSizeChange($event)" bindLabel="name" placeholder="Select Product Size"
-								appendTo="body" >
-							</ng-select>
-							<div *ngIf="formProducts.controls['ProductSize'].invalid && (formProducts.controls['ProductSize'].dirty || formProducts.controls['ProductSize'].touched)"
-								class="alert alert-danger">
-								<div *ngIf="formProducts.controls['ProductSize'].errors?.required">
-									Product Size is required.
-								</div>
-							</div>
-							<div *ngIf="formProducts.controls['ProductSize'].errors?.maxlength">
-							</div>
-						</div> -->
-						<!-- <div class="column">
-							<label for="product_for" class="control-label">Product For</label>
-							<br>
-							<select class="form-control"  formControlName="selectProductFor" (change)="changeProductFor($event)">
-								<option [value]="0">Choose Product For</option>
-								<option *ngFor="let productFor of productForList" [value]="productFor.name">
-									{{productFor.name}}</option>
-							</select>
-							<div *ngIf="formProducts.controls['selectProductFor'].invalid && (formProducts.controls['selectProductFor'].dirty || formProducts.controls['selectProductFor'].touched)"
-								class="alert alert-danger">
-								<div *ngIf="formProducts.controls['selectProductFor'].errors?.required">
-									Product Size is required.
-								</div>
-							</div>
-							<div *ngIf="formProducts.controls['selectProductFor'].errors?.maxlength">
-							</div>
-						</div> -->
-						<!-- <div class="column">
-							<label for="product_occasion" class="control-label">Product Occasion</label>
-							<br>
-							<select class="form-control" (change)="changeProductOccasion($event)">
-								<option [value]="0">Choose Product Occasion</option>
-								<option *ngFor="let productOccasion of productOccasionList" [value]="productOccasion.name">
-									{{productOccasion.name}}</option>
-							</select>
-							<div *ngIf="formProducts.controls['ProductOccasion'].invalid && (formProducts.controls['ProductOccasion'].dirty || formProducts.controls['ProductOccasion'].touched)"
-								class="alert alert-danger">
-								<div *ngIf="formProducts.controls['ProductOccasion'].errors?.required">
-									Product Occasion is required.
-								</div>
-							</div>
-							<div *ngIf="formProducts.controls['ProductOccasion'].errors?.maxlength">
-							</div>
-						</div> -->
-						<!-- <div class="column">
-							<label for="product_fit" class="control-label">Product Fit</label>
-							<br>
-							<select class="form-control" (change)="changeProductFit($event)">
-								<option [value]="0">Choose Product Fit</option>
-								<option *ngFor="let productFit of productFitList" [value]="productFit.name">
-									{{productFit.name}}</option>
-							</select>
-	
-	
-							<div *ngIf="formProducts.controls['ProductFit'].invalid && (formProducts.controls['ProductFit'].dirty || formProducts.controls['ProductFit'].touched)"
-								class="alert alert-danger">
-								<div *ngIf="formProducts.controls['ProductFit'].errors?.required">
-									Product Fit is required.
-								</div>
-							</div>
-							<div *ngIf="formProducts.controls['ProductFit'].errors?.maxlength">
-							</div>
-						</div> -->
 						<div class="column">
 							<label for="product_price" class="control-label">Product Price</label>
 							<input type="text" class="form-control" id="product_price" maxlength="50"
@@ -634,7 +561,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
 								(selectionChange)="changeProductBrand($event)">
 								<mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productBrand.productBrandImg}}" />
 									{{productBrand.productBrandName}}
 								</mat-option>
@@ -648,10 +575,10 @@
 						<div class="column">
 							<label for="product_color_code" class="control-label">Product Color</label>
 							<br>
-							<mat-select class="form-control" [value]="0" placeholder="Choose Product Color" [(ngModel)]="selectedColor"
+							<mat-select class="form-control" [value]="0" placeholder="Choose Product Color" [(ngModel)]="selectedColor" [ngModelOptions]="{standalone: true}"
 								(selectionChange)="changeProductColor($event)">
 								<mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productColor.productColorImg}}" />
 									{{productColor.productColorName}}
 								</mat-option>
@@ -672,7 +599,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product"
 								(selectionChange)="changeProduct($event)">
 								<mat-option *ngFor="let product of productList" [value]="product._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{product.productImg}}" />
 									{{product.productName}}
 								</mat-option>

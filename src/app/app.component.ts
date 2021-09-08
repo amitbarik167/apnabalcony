@@ -14,6 +14,8 @@ import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-root',
@@ -39,7 +41,14 @@ export class AppComponent implements OnInit {
   cartItems = [] as any;
   cartQty: any=0;
   searchForm:FormGroup;
-  productSearch:string
+  productSearch:string;
+  isExpanded = true;
+  showSubmenu: boolean = false;
+  isShowing = false;
+  showSubSubMenu: boolean = false;
+  productCategoryList: any;
+  adminEmail:string = "";
+
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -57,13 +66,14 @@ export class AppComponent implements OnInit {
     this.productSearchControl = new FormControl();
     this.productService.getProducts().subscribe(res=> {this.productList=res;});
     this.cartItems.length =0;
-
-
+    this.adminEmail= environment.ADMIN_EMAIL;
+    
   }
  
 
   ngOnInit(){
-  
+    this.productCategoryList = this.productService.getProductCategories();
+
     this.cartQty=0
     if(localStorage.getItem('cart') != ""){
       this.cartItems = JSON.parse(localStorage.getItem('cart')||"[]")
@@ -107,15 +117,26 @@ export class AppComponent implements OnInit {
     );
 
        
-   this.cookieService.deleteAll();
-  this.socialAuthService.initState.subscribe(value=> {
+  // this.cookieService.deleteAll();
+  // this.socialAuthService.initState.subscribe(value=> {
+
+  //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
+    
+  //     console.log('GoogleContainerComponent.ngOnInit user:', user)
+  //     });
+  //     });
+
+      this.socialAuthService.initState.subscribe(() => {}, console.error, () => {console.log('all providers are ready')});
+
+      if(this.cookieService.get('token') != ""){
+          this.socialAuthService.initState.subscribe(value=> {
 
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
     
       console.log('GoogleContainerComponent.ngOnInit user:', user)
       });
       });
-
+      }
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -189,6 +210,8 @@ ngOnDestroy(){
  this.cookieService.deleteAll()
   
   }
+
+  
   
  
   loginWithGoogle(): void {
@@ -239,9 +262,12 @@ ngOnDestroy(){
  
   }
 
-  openDialogIfNotLoggedIn(): void {
+  openDialogIfNotLoggedIn(identifier:string): void {
 if(this.cookieService.get('token') != ""){
+  if(identifier=="productSetup")
   this.router.navigate(['/productsetup'])
+ else if(identifier=="orders")
+  this.router.navigate(['/order'])
 }
 else{
   const dialogRef = this.dialog.open(ModalComponent, {

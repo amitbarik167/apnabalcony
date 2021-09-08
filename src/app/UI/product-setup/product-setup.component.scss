@@ -15,6 +15,7 @@
 
   .horizontal {
     display: flex;
-    justify-content: space-between;
+    justify-content: between;
     flex-wrap:wrap;
+    padding-left: 20px;
 }
