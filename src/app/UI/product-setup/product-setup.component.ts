@@ -100,19 +100,31 @@ export class ProductSetupComponent implements OnInit {
   columnDefsProductCategories = [
     { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false },
     { headerName: 'Product Category Name', field: 'productCategoryName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true }];
+    { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }];
 
   columnDefsProductSubCategories = [
     { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
     { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false },
     { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true }];
+    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }];
 
   columnDefsProductColors = [
     { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false },
     { headerName: 'Product Color Name', field: 'productColorName', sortable: true, filter: true, editable: false },
     { headerName: 'Product Color Desc', field: 'productColorDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Color Image', field: 'productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent }];
+    { headerName: 'Product Color Image', field: 'productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }];
 
   columnDefsProductBrands = [
     { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
@@ -120,7 +132,12 @@ export class ProductSetupComponent implements OnInit {
     { headerName: 'Product Brand Code', field: 'productBrandCode', sortable: true, filter: true, editable: false },
     { headerName: 'Product Brand Name', field: 'productBrandName', sortable: true, filter: true, editable: true },
     { headerName: 'Product Brand Desc', field: 'productBrandDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Brand Image', field: 'productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent }];
+    { headerName: 'Product Brand Image', field: 'productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }
+  ];
 
   columnDefsProducts = [
     { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
@@ -134,6 +151,10 @@ export class ProductSetupComponent implements OnInit {
     { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true },
     { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true },
     { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }
   ];
 
 
@@ -164,6 +185,7 @@ export class ProductSetupComponent implements OnInit {
     });
 
     this.formProductSubCategories = this.fb.group({
+
       ProductCategoryCode: [''],
       ProductSubCategoryCode: ['', Validators.required],
       ProductSubCategoryName: ['', Validators.required],
@@ -200,8 +222,6 @@ export class ProductSetupComponent implements OnInit {
       ProductImg: [''],
       ProductSize: [''],
       selectProductFor: ['0'],
-      ProductOccasion: [''],
-      ProductFit: [''],
       ProductPrice: ['', Validators.required],
       ProductDiscount: [''],
       ProductStockUnits: ['']
@@ -242,7 +262,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product Category updated successfully!', 'Confirmation Msg!')),
+      (this.toastrService.success('Product Category updated successfully!', 'Confirmation Msg!'), this.rowDataProductCategories = this.apiService.getProductCategories()),
       error => (this.toastrService.error('Product Category update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
@@ -287,7 +307,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductSubCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product SubCategory updated successfully!', 'Confirmation Msg!')),
+      (this.toastrService.success('Product SubCategory updated successfully!', 'Confirmation Msg!'),  this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
       error => (this.toastrService.error('Product SubCategory update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
@@ -323,10 +343,10 @@ export class ProductSetupComponent implements OnInit {
       if (postData.length > 0) {
         this.apiService.addProductSubCategory(postData, productSubCategoryCode).subscribe((response) =>
         (this.toastrService.success('Product Sub Category saved successfully!', 'Confirmation Msg!'),
-          this.formProductSubCategories.reset(), this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
-          error => (this.toastrService.error('Product Sub SubCategory save failed!', 'Confirmation Msg!'), console.log('error'))
+           this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
+          error => (this.toastrService.error('Product  SubCategory save failed!', 'Confirmation Msg!'), console.log('error'))
         )
-
+       
       }
 
       else {
@@ -370,7 +390,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductColor(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product Color updated successfully!', 'Confirmation Msg!')),
+      (this.toastrService.success('Product Color updated successfully!', 'Confirmation Msg!'), this.rowDataProductColors = this.apiService.getProductColors()),
       error => (this.toastrService.error('Product Color update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
@@ -510,7 +530,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductBrand(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product Brand updated successfully!', 'Confirmation Msg!')),
+      (this.toastrService.success('Product Brand updated successfully!', 'Confirmation Msg!'), this.rowDataProductBrands = this.apiService.getProductBrands()),
       error => (this.toastrService.error('Product Brand update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
@@ -543,7 +563,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProduct(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product  updated successfully!', 'Confirmation Msg!')),
+      (this.toastrService.success('Product  updated successfully!', 'Confirmation Msg!'),  this.rowDataProducts = this.apiService.getProducts()),
       error => (this.toastrService.error('Product  update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 

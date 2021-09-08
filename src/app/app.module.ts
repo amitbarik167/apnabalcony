@@ -44,6 +44,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalComponent } from './UI/modal/modal.component';
 import { ProductItemDetailsComponent } from './UI/product-item-details/product-item-details.component';
 import { ContactUsComponent } from './UI/contact-us/contact-us.component';
+import { OrderComponent } from './UI/order/order.component';
 
 
 
@@ -60,7 +61,8 @@ import { ContactUsComponent } from './UI/contact-us/contact-us.component';
     CartItemComponent,
     ModalComponent,
     ProductItemDetailsComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
