@@ -364,7 +364,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
 								(selectionChange)="changeProductBrand($event)">
 								<mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productBrand.productBrandImg}}" />
 									{{productBrand.productBrandName}}
 								</mat-option>
@@ -381,7 +381,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Color"
 								(selectionChange)="changeProductColor($event)">
 								<mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productColor.productColorImg}}" />
 									{{productColor.productColorName}}
 								</mat-option>
@@ -561,7 +561,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
 								(selectionChange)="changeProductBrand($event)">
 								<mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productBrand.productBrandImg}}" />
 									{{productBrand.productBrandName}}
 								</mat-option>
@@ -578,7 +578,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product Color" [(ngModel)]="selectedColor" [ngModelOptions]="{standalone: true}"
 								(selectionChange)="changeProductColor($event)">
 								<mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{productColor.productColorImg}}" />
 									{{productColor.productColorName}}
 								</mat-option>
@@ -599,7 +599,7 @@
 							<mat-select class="form-control" [value]="0" placeholder="Choose Product"
 								(selectionChange)="changeProduct($event)">
 								<mat-option *ngFor="let product of productList" [value]="product._id">
-									<img alt="Image" width="10%" height="10%"
+									<img alt="Image" width="5%" height="5%"
 										src="data:image/png;base64,{{product.productImg}}" />
 									{{product.productName}}
 								</mat-option>

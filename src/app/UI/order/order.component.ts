@@ -3,6 +3,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { GridApi, ColumnApi } from 'ag-grid-community';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
+import { MessengerService } from 'src/app/services/messenger.service';
 
 @Component({
   selector: 'app-order',
@@ -18,11 +19,12 @@ export class OrderComponent implements OnInit {
   customerDetails=[] as any;
   requirement:string =''
 
-  constructor(private apiOrderService: OrderService, private cookieService:CookieService, private toastrService: ToastrService) { }
+  constructor(private apiOrderService: OrderService, private cookieService:CookieService, private toastrService: ToastrService,private msgService :MessengerService) { }
 
   ngOnInit(): void {
     this.rowDataOrders = this.apiOrderService.getAllOrders();
     this.socialUser = this.cookieService.get('userId')?.toString();
+    this.msgService.sendClearProductSearch();
   }
 
   columnDefsOrders = [
