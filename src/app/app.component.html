@@ -48,29 +48,29 @@
         <div style="font-size: 15px" *ngIf="isNotLoggedin">
 
           <a href="#"><img src="/assets/googleOAuth.PNG" (click)="loginWithGoogle()" height="20"></a>
-          <mat-icon style="font-size: 10px">person</mat-icon>
 
         </div>
         <div *ngIf="isLoggedin === true">
           <div>
             <img src="{{socialUser?.photoUrl}}" height="50px">
-            <label style="font-size: 15px">Hello,{{socialUser?.firstName}}</label>
+            <label style="font-size: 15px">Hi, {{socialUser?.firstName}}</label>
           </div>
+        </div>
+       &nbsp; <div class="divAlightContentRight" *ngIf="isLoggedin === true">
+      <a href="#">  <mat-icon   class="white-icon"  (click)="logOut()">power_settings_new</mat-icon></a> 
+        
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
 
-    <div class="divAlightContentRight" *ngIf="cartItems?.length > 0"><a style="text-decoration: none;"
-        routerLink="/productcatalogue">
-        <medium>{{cartQty}} Item(s) added</medium>
-        <mat-icon>shopping_cart</mat-icon>
-      </a>
-      <div class="divAlightContentRight" *ngIf="isLoggedin === true">
-        <button  ><mat-icon class="blue-icon" (click)="logOut()">power_settings_new</mat-icon></button>
-      
-      </div>
+  <div class="divAlightContentRight" *ngIf="cartItems?.length > 0"><a style="text-decoration: none;"
+    routerLink="/productcatalogue">
+    <medium>{{cartQty}} Item(s) added</medium>
+    <mat-icon>shopping_cart</mat-icon>
+  </a>
+</div>
 
-    </div>
+    
    
     <!-- <p>Thank you visiting our website. We will go live on 01 Oct 2021.</p> -->
 
@@ -82,10 +82,13 @@
           <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()"  [routerLink]="'/aboutus'"><mat-icon class="blue-icon">group_work</mat-icon> About Us </a>
           
           <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" [routerLink]="'/contactus'"><mat-icon class="blue-icon"> contact_phone</mat-icon> Contact us </a>
-          <div *ngIf="isLoggedin === true && (adminEmail?.includes(socialUser?.email??''))" >
+          <div *ngIf="isLoggedin === true && userAuth.isAdmin === true" >
             <a mat-list-item  (click)="openDialogIfNotLoggedIn('productSetup'); sidenav.toggle();"><mat-icon class="blue-icon">cloud_upload</mat-icon> Product Setup </a>
           </div>
-          <div *ngIf="isLoggedin === true && (adminEmail?.includes(socialUser?.email??''))" >
+          <div *ngIf="isLoggedin === true &&  userAuth.isAdmin === true" >
+            <a mat-list-item style="text-decoration: none;" [routerLink]="'/configuration'"  (click)="sidenav.toggle();"><mat-icon class="blue-icon">settings_applications</mat-icon> Configuration </a>
+          </div>
+          <div *ngIf="isLoggedin === true &&  userAuth.isAdmin === true" >
             <a mat-list-item  (click)="openDialogIfNotLoggedIn('orders'); sidenav.toggle();"><mat-icon class="blue-icon">money</mat-icon> Orders </a>
           </div>
           <mat-list-item (click)="showSubSubMenu = !showSubSubMenu"   class="parent">

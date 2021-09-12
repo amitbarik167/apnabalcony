@@ -33,7 +33,15 @@ export class UtilityService {
         return arrayObjects;
     }
 
+    ConfirmUserAuthDialog() {
+        if (confirm("Are you sure you want to change the authorization?")) {
+            return true;
+        }
+        else {
+            return false;
+        }
 
+    }
 
 
 }

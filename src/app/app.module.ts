@@ -45,6 +45,7 @@ import { ModalComponent } from './UI/modal/modal.component';
 import { ProductItemDetailsComponent } from './UI/product-item-details/product-item-details.component';
 import { ContactUsComponent } from './UI/contact-us/contact-us.component';
 import { OrderComponent } from './UI/order/order.component';
+import { ConfigurationComponent } from './UI/configuration/configuration.component';
 
 
 
@@ -62,7 +63,8 @@ import { OrderComponent } from './UI/order/order.component';
     ModalComponent,
     ProductItemDetailsComponent,
     ContactUsComponent,
-    OrderComponent
+    OrderComponent,
+    ConfigurationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
