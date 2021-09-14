@@ -46,6 +46,9 @@ import { ProductItemDetailsComponent } from './UI/product-item-details/product-i
 import { ContactUsComponent } from './UI/contact-us/contact-us.component';
 import { OrderComponent } from './UI/order/order.component';
 import { ConfigurationComponent } from './UI/configuration/configuration.component';
+import { MyordersComponent } from './UI/myorders/myorders.component';
+
+
 
 
 
@@ -64,7 +67,9 @@ import { ConfigurationComponent } from './UI/configuration/configuration.compone
     ProductItemDetailsComponent,
     ContactUsComponent,
     OrderComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    MyordersComponent
+   
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -98,6 +103,7 @@ import { ConfigurationComponent } from './UI/configuration/configuration.compone
     MatSliderModule  ,
     MatAutocompleteModule,
     MatProgressBarModule
+  
     
     
   ],

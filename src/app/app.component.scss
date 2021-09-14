@@ -65,3 +65,14 @@ mat-form-field {
 .white-icon {
   color: white;
 }
+
+.horizontal {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap:wrap;
+  padding-left: 20px;
+  padding-top: 5px;  
+  text-align: center;
+  align-content: center;
+  
+}

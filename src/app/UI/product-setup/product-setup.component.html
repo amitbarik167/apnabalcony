@@ -46,6 +46,13 @@
 				<div *ngIf="formProductCategories.controls['ProductCategoryDesc'].errors?.maxlength">
 	
 				</div>
+
+				<div class="form-group">
+					<label for="product_category_image" class="control-label">Product Category
+						Image</label>
+					<input type="file" name="ProductCategoryImg" accept="image/*" (change)="onProductCategorySelected($event)">
+				</div>
+	
 	
 				<div class="form-group">
 					<!-- Submit Button -->

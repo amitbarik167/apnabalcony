@@ -21,6 +21,7 @@ export class ProductListComponent implements OnInit {
   product: any;
   productCategory:any;
   productCategoryDisplay:string='';
+  productSearched:any;
   constructor(private productService: ProductListService, private msgService: MessengerService, private route: ActivatedRoute) {
     this.progressbarValue = 100;
 

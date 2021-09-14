@@ -269,6 +269,8 @@ if(this.cookieService.get('token') != ""){
   this.router.navigate(['/productsetup'])
  else if(identifier=="orders")
   this.router.navigate(['/order'])
+  else if(identifier=="myorders")
+  this.router.navigate(['/myorders'])
 }
 else{
   const dialogRef = this.dialog.open(ModalComponent, {
