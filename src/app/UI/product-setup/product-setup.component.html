@@ -2,7 +2,7 @@
 	<mat-tab-group (selectedTabChange)="loadProductsSetup($event)" id="tab-group" >
 		<mat-tab label="Product Categories">
 	
-			<form [formGroup]="formProductCategories" novalidate (ngSubmit)="onSubmitProductCategories()">
+			<form [formGroup]="formProductCategories" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitProductCategories()">
 	
 				<div class="form-group">
 					<label for="product_category_code" class="control-label">Product Category Code</label>
@@ -46,6 +46,13 @@
 				<div *ngIf="formProductCategories.controls['ProductCategoryDesc'].errors?.maxlength">
 	
 				</div>
+
+				<div class="form-group">
+					<label for="product_category_image" class="control-label">Product Category
+						Image</label>
+					<input type="file" name="ProductCategoryImg" accept="image/*" (change)="onProductCategorySelected($event)">
+				</div>
+	
 	
 				<div class="form-group">
 					<!-- Submit Button -->
@@ -70,7 +77,7 @@
 		</mat-tab>
 		<mat-tab label="Product Sub-Categories">
 	
-			<form [formGroup]="formProductSubCategories" novalidate (ngSubmit)="onSubmitProductSubCategories()">
+			<form [formGroup]="formProductSubCategories" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitProductSubCategories()">
 				<div class="form-group">
 					<label for="product_category_code" class="control-label">Product Category</label>
 					<br>
@@ -148,7 +155,7 @@
 			</ag-grid-angular>
 		</mat-tab>
 		<mat-tab label="Product Color">
-			<form [formGroup]="formProductColors" novalidate (ngSubmit)="onSubmitProductColors()">
+			<form [formGroup]="formProductColors" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitProductColors()">
 				<div class="form-group">
 					<label for="product_color_code" class="control-label">Product Color Code</label>
 					<input type="text" class="form-control" id="product_color_code" maxlength="10"
@@ -220,7 +227,7 @@
 	
 	
 		<mat-tab label="Product Brand">
-			<form [formGroup]="formProductBrands" novalidate (ngSubmit)="onSubmitProductBrands()">
+			<form [formGroup]="formProductBrands" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitProductBrands()">
 	
 				<div class="form-group">
 					<label for="product_category_code" class="control-label">Product Category</label>
@@ -326,7 +333,7 @@
 		</mat-tab>
 	
 		<mat-tab label="Products Setup">
-			<form [formGroup]="formProducts" novalidate (ngSubmit)="onSubmitProducts()">
+			<form [formGroup]="formProducts" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitProducts()">
 				<div class="form-group">
 					<div class="row">
 						<div class="column">
@@ -523,7 +530,7 @@
 		</mat-tab>
 
 		<mat-tab label="Product Images Setup">
-			<form [formGroup]="formProductImages" novalidate (ngSubmit)="onSubmitProductImages()">
+			<form [formGroup]="formProductImages" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitProductImages()">
 				<div class="form-group">
 					<div class="row">
 						<div class="column">
@@ -612,7 +619,7 @@
 
 						</div>
 						<div class="column">
-							<label for="product_image" class="control-label">Product
+							<label for="product_image" class="control-label"> &nbsp; Product
 								Image (Browse multiple images at a time)</label>
 							<input type="file"   formControlName="productImagesUploadControl"  accept="image/*"  multiple="" (change)="onProductImagesSelected($event)">
 							<div *ngIf="returnFormProductsImagesControls.productImagesUploadControl?.touched && returnFormProductsImagesControls.productImagesUploadControl?.invalid" class="alert alert-danger">

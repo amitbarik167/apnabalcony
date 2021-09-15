@@ -50,6 +50,7 @@ export class ProductSetupComponent implements OnInit {
   productOccasionIdSelectedValue: any;
   productFitIdSelectedValue: any;
   selectedProductBrandImage: File;
+  selectedProductCategoryImage: File;
   selectedProductColorImage: File;
   selectedProductImage: File;
   fileSource: FileList;
@@ -101,6 +102,7 @@ export class ProductSetupComponent implements OnInit {
     { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false },
     { headerName: 'Product Category Name', field: 'productCategoryName', sortable: true, filter: true, editable: true },
     { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true },
+    { headerName: 'Product Category Image', field: 'productCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
     { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
     { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
     { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
@@ -181,7 +183,8 @@ export class ProductSetupComponent implements OnInit {
     this.formProductCategories = this.fb.group({
       ProductCategoryCode: ['', Validators.required],
       ProductCategoryName: ['', Validators.required],
-      ProductCategoryDesc: ['', Validators.required]
+      ProductCategoryDesc: ['', Validators.required],
+      ProductCategoryImg: ['']
     });
 
     this.formProductSubCategories = this.fb.group({
@@ -236,16 +239,21 @@ export class ProductSetupComponent implements OnInit {
 
   //#region  ProductCategories Actions
   onSubmitProductCategories() {
+    if (this.selectedProductCategoryImage == null) {
+      alert('Please upload Product Category Image!');
+      return;
+    }
     let formData: any = new FormData();
     formData.append("productCategoryCode", this.formProductCategories.get('ProductCategoryCode')?.value);
     formData.append("productCategoryName", this.formProductCategories.get('ProductCategoryName')?.value);
     formData.append("productCategoryDesc", this.formProductCategories.get('ProductCategoryDesc')?.value);
+    formData.append("productCategoryImg", this.formProductCategories.get('ProductCategoryImg')?.value, this.selectedProductCategoryImage.name);
     formData.append("createdBy", this.socialUser);
     let postData = this.utilityService.ConvertFormDataToJson(formData);
     let productCategoryCode = this.formProductCategories.get('ProductCategoryCode')?.value;
 
     if (postData.length > 0) {
-      this.apiService.addProductCategory(postData, productCategoryCode).subscribe((response) =>
+      this.apiService.addProductCategory(formData, productCategoryCode).subscribe((response) =>
       (this.toastrService.success('Product Category saved successfully!', 'Confirmation Msg!'),
         this.formProductCategories.reset(), this.rowDataProductCategories = this.apiService.getProductCategories()),
         error => (this.toastrService.error('Product Category save failed!', 'Confirmation Msg!'), console.log('error'))
@@ -298,6 +306,10 @@ export class ProductSetupComponent implements OnInit {
     return;
   }
 
+  onProductCategorySelected(event: any) {
+    this.selectedProductCategoryImage = event.target.files[0];
+    this.formProductCategories.get('ProductCategoryImg')?.setValue(this.selectedProductCategoryImage);
+  }
 
   //#endregion
 

@@ -43,12 +43,12 @@ export class ProductSetupService {
   //#region Product Category
   getProductCategories() {
 
-    return this.httpClient.get(this.nodeServer + "/" + "productCategories", this.httpOptions);
+    return this.httpClient.get(this.nodeServer + "/" + "productCategories",this.httpOptionsMultiFormData);
   }
 
   addProductCategory(postData: string, productCategoryCode: string) {
 
-    return this.httpClient.post((this.nodeServer + "/" + "productCategory/" + productCategoryCode), postData, this.httpOptions);
+    return this.httpClient.post((this.nodeServer + "/" + "productCategory/" + productCategoryCode), postData, this.httpOptionsMultiFormData);
   }
 
   updateProductCategory(postData: string, id: string) {
@@ -57,7 +57,7 @@ export class ProductSetupService {
   }
   deleteProductCategory(id: string) {
 
-    return this.httpClient.delete((this.nodeServer + "/" + "productCategory/" + id), this.httpOptions);
+    return this.httpClient.delete((this.nodeServer + "/" + "productCategory/" + id), this.httpOptionsMultiFormData);
   }
 
   //#endregion

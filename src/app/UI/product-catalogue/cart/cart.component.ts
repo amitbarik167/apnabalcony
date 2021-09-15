@@ -218,4 +218,18 @@ export class CartComponent implements OnInit {
 
 
   }
+
+    checkIfSignedIn(){
+    if (this.cookieService.get('token') == ""){
+      const dialogRef = this.dialog.open(ModalComponent, {
+        width: '250px',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+
+      });
+
+    }
+  }
 }

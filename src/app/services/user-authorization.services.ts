@@ -29,6 +29,15 @@ export class UserAuthService {
   addUserAuthorization(userId: string, postData: any) {
     return this.httpClient.post((this.API_URL + "/" + "userAuthorization/" + userId), JSON.stringify(postData), httpOptions);
   }
+
+  getAllUserAuthoriation() {
+    return this.httpClient.get(this.API_URL + "/" + "userAuthorizationsAll");
+  }
+
+  updateUserAuthorization(postData: string, id: string) {
+
+    return this.httpClient.put((this.nodeServer + "/" + "userAuthorization/" + id), postData, httpOptions);
+  }
 }
 
 
