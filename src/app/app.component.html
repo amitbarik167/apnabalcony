@@ -80,13 +80,6 @@
       <span class="flexspacer"></span>
       <span flex></span>
 
-
-      <div *ngIf="isLoggedin === true" >
-        <a routerLink="/myorders" style="text-decoration: none; padding-right: 5px;">
-          <small style="font-weight: 500;">My Orders</small> 
-        </a>
-      </div>
-
     </div>
     <div class="divAlightContentRight" *ngIf="cartItems?.length > 0">
       <a style="text-decoration: none;"
@@ -145,7 +138,8 @@
           <div class="submenu" [ngClass]="{'expanded' : showSubSubMenu}" *ngIf="isShowing || isExpanded">
             <mat-list-item (click)="sidenav.toggle()" *ngFor="let productCategory of productCategoryList|async"
               [routerLink]="['/productcatalogue',{productCategoryId:productCategory._id,productCategoryName:productCategory.productCategoryName}]">
-              <mat-icon>arrow_forward_ios</mat-icon>{{productCategory?.productCategoryName}}
+              <img src="data:image/png;base64,{{productCategory.productCategoryImg}}" height="40px" width="40px"
+              style="margin: 3px;">{{productCategory?.productCategoryName}}
             </mat-list-item>
           </div>
 
