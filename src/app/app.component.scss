@@ -70,9 +70,17 @@ mat-form-field {
   display: flex;
   justify-content: space-between;
   flex-wrap:wrap;
-  padding-left: 15px;
-  padding-top: 5px;  
+  padding-left: 20px;
   text-align: center;
   align-content: center;
-  
+ 
+}
+
+.horizontalChild {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap:wrap;
+  text-align: center;
+  align-content: center;
+  flex: 1 1 auto; 
 }
