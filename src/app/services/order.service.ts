@@ -48,7 +48,7 @@ export class OrderService {
   }
 
   getOrderByOrderNo(orderNo:string){
-    return this.httpClient.get((this.nodeServer + "/" + "orderFind/"+ orderNo))
+    return this.httpClient.get((this.nodeServer + "/" + "orderFind/"+ orderNo), this.httpOptions)
 
   }
 
@@ -62,6 +62,11 @@ export class OrderService {
   }
   getCustomerDetailsByOrderId(orderId:string){
     return this.httpClient.get((this.nodeServer + "/" + "orderCustomerAddress/" + orderId),this.httpOptions)
+  }
+
+  getOrderByUserId(userId:string){
+    return this.httpClient.get((this.nodeServer + "/" + "ordersFindByUserId/"+ userId), this.httpOptions)
+
   }
 
 }

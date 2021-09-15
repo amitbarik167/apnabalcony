@@ -59,3 +59,20 @@ mat-form-field {
 .submenu.expanded {
   transform: scaleY(1);
 }
+
+
+
+.white-icon {
+  color: white;
+}
+
+.horizontal {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap:wrap;
+  padding-left: 15px;
+  padding-top: 5px;  
+  text-align: center;
+  align-content: center;
+  
+}

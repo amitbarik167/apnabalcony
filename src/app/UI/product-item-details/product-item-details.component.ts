@@ -29,7 +29,7 @@ export class ProductItemDetailsComponent implements OnInit {
     this.product._id = this.productId;
     this.productService.searchProducts(this.product).subscribe(res => { this.productList = res; });;
     this.productService.getProductImagesByProductId(this.productId).subscribe(res => { this.imagesList = res })
-    this.progressBar(5);
+    this.progressBar(2);
   }
 
   handleAddToCart(productItem: any) {

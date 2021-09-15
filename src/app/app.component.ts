@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
   showSubSubMenu: boolean = false;
   productCategoryList: any;
   adminEmail:string = "";
+  userAuth = []  as any;
 
 
   constructor(
@@ -163,7 +164,7 @@ export class AppComponent implements OnInit {
       this.userAuthService.addUserAuthorization(this.socialUser.email,{userId : this.socialUser?.email, authorizationToken : this.socialUser?.authToken})
       .subscribe((response:any) =>
       (this.cookieService.set('token',  response['token']),
-      this.cookieService.set('authorizationToken',this.socialUser?.authToken as string),this.cookieService.set('userId', this.socialUser?.email as string)),
+      this.cookieService.set('authorizationToken',this.socialUser?.authToken as string),this.cookieService.set('userId', this.socialUser?.email as string),(this.getUserAuth(this.socialUser?.email as string))),
       (this.toastrService.success('User Signed in successfully!', 'Confirmation Msg!'), 
       error => (this.toastrService.error('User Sign in failed!', 'Confirmation Msg!'), console.log('error'))
       ))
@@ -268,6 +269,8 @@ if(this.cookieService.get('token') != ""){
   this.router.navigate(['/productsetup'])
  else if(identifier=="orders")
   this.router.navigate(['/order'])
+  else if(identifier=="myorders")
+  this.router.navigate(['/myorders'])
 }
 else{
   const dialogRef = this.dialog.open(ModalComponent, {
@@ -285,7 +288,7 @@ openCart(){
   this.router.navigate(['/productcatalogue'])
 }
 
-
-
-
+getUserAuth(userId:string){
+  this.userAuthService.getUserAuthoriation(userId).subscribe((response:any) => this.userAuth = response );
+}
 }

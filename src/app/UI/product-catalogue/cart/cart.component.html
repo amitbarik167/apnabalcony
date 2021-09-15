@@ -24,7 +24,7 @@
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1">
           <p class="fa fa-user-o text-primary"></p>
-        </div> <input type="text" class="form-control border-0" id="customer_name" maxlength="100"
+        </div> <input type="text" (keyup) = "checkIfSignedIn()" class="form-control border-0"  id="customer_name" maxlength="100"
           formControlName="CustomerName">
       </div>
       <div
@@ -41,7 +41,7 @@
     <div class="form-group"> <label for="email" class="h4">Email</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1"> <i class="fa fa-envelope text-primary"></i> </div>
-        <input type="text" class="form-control border-0" id="email" maxlength="100" formControlName="Email">
+        <input type="text" (keyup) = "checkIfSignedIn()" class="form-control border-0" id="email" maxlength="100" formControlName="Email">
       </div>
       <div
         *ngIf="formCustomerAddress.controls['Email'].invalid && (formCustomerAddress.controls['Email'].dirty || formCustomerAddress.controls['Email'].touched)"
@@ -58,7 +58,7 @@
     <div class="form-group"> <label for="phoneNo" class="h4">Phone No</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1"> <i class="fa fa-phone icon text-primary pr-3"></i> </div>
-        <input type="text" class="form-control border-0" id="phoneNo" maxlength="20" formControlName="PhoneNo">
+        <input type="text" (keyup) = "checkIfSignedIn()" class="form-control border-0" id="phoneNo" maxlength="20" formControlName="PhoneNo">
       </div>
       <div
         *ngIf="formCustomerAddress.controls['PhoneNo'].invalid && (formCustomerAddress.controls['PhoneNo'].dirty || formCustomerAddress.controls['PhoneNo'].touched)"
@@ -74,7 +74,7 @@
         Bangalore)</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1"> <i class="fa fa-address-card-o icon text-primary pr-3"></i> </div>
-        <input type="text" class="form-control border-0" id="customerAddress" maxlength="200"
+        <input type="text" (keyup) = "checkIfSignedIn()" class="form-control border-0" id="customerAddress" maxlength="200"
           formControlName="CustomerAddress">
       </div>
       <div
@@ -88,7 +88,7 @@
     </div>
 
     <div class="form-group"> <label for="requirement" class="h4">Requirement</label> <textarea name="requirement"
-        maxlength="5000" id="msgus" formControlName="Requirement" cols="10" rows="5" class="form-control bg-light"
+        maxlength="5000" id="msgus" (keyup) = "checkIfSignedIn()" formControlName="Requirement" cols="10" rows="5" class="form-control bg-light"
         placeholder="Requirement"></textarea> </div>
     <div
       *ngIf="formCustomerAddress.controls['Requirement'].invalid && (formCustomerAddress.controls['Requirement'].dirty || formCustomerAddress.controls['Requirement'].touched)"
