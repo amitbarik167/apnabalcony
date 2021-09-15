@@ -56,7 +56,7 @@ export class ConfigurationComponent implements OnInit {
          
       }
       else{
-        alert('Order status can only be true or false')
+        alert('Is User Admin can only be true or false')
         this.rowDataConfiguration = this.apiUserAuthService.getAllUserAuthoriation()
         return;
       }
