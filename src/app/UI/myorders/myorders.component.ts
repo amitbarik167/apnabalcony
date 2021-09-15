@@ -47,15 +47,7 @@ export class MyordersComponent implements OnInit {
     onCellValueChangedOrder(params: any) {
       if (params.oldValue === params.newValue) return;
 
-      if(params.newValue === 'Cancelled' || params.newValue === 'WIP' || params.newValue === 'Completed'  )
-      {
       
-      }
-      else{
-        alert('Order status can only be Cancelled or WIP or Completed')
-        this.rowDataOrders = this.apiOrderService.getAllOrders()
-        return;
-      }
       params.data.modifiedBy = this.socialUser;
 
       this.apiOrderService.updateOrder(JSON.stringify(params.data), params.data._id).subscribe((response) =>

@@ -70,7 +70,7 @@
 
     </mat-toolbar>
     <div class="horizontal">
-      <div class="horizontal" *ngFor="let productCategory of productCategoryList|async">
+      <div class="horizontalChild" *ngFor="let productCategory of productCategoryList|async">
 
         <a style="text-decoration: none;font-size: 15px; font-size: small; color: black; font-weight: 500;"
           [routerLink]="['/productcatalogue',{productCategoryId:productCategory._id,productCategoryName:productCategory.productCategoryName}]">
