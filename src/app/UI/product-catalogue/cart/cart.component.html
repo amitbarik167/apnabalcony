@@ -18,6 +18,10 @@
   </li>
 
 </ul>
+<br>
+<div class="d-flex justify-content-end">
+  <button  class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
+</div>
 <div>
   <form [formGroup]="formCustomerAddress" novalidate (ngSubmit)="onSubmitOrder()">
     <div class="form-group"> <label for="name" class="h4">Full Name</label>
@@ -104,8 +108,9 @@
     <div class="form-group d-flex justify-content-end">
       <button type="submit" [disabled]="!formCustomerAddress.valid"
         class="btn btn-secondary">Place Order</button> &nbsp;
-      <button type="submit" class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
+      
     </div>
+   
   </form>
 
 
