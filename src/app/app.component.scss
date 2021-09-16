@@ -70,7 +70,8 @@ mat-form-field {
   display: flex;
   justify-content: space-between;
   flex-wrap:wrap;
-  padding-left: 20px;
+  padding-left: 100px;
+  padding-right: 100px;
   text-align: center;
   align-content: center;
  
@@ -83,4 +84,19 @@ mat-form-field {
   text-align: center;
   align-content: center;
   flex: 1 1 auto; 
+}
+
+@media (max-width: 978px) {
+  .horizontal {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap:wrap;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    align-content: center;
+   
+  }
+  
+  
 }
