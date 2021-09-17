@@ -23,7 +23,7 @@
   <button  class="btn btn-secondary" (click)=clearCart();>Clear Cart</button>
 </div>
 <div>
-  <form [formGroup]="formCustomerAddress" novalidate (ngSubmit)="onSubmitOrder()">
+  <form style="padding-left: 5px;" [formGroup]="formCustomerAddress" novalidate (ngSubmit)="onSubmitOrder()">
     <div class="form-group"> <label for="name" class="h4">Full Name</label>
       <div class="input-group border rounded">
         <div class="input-group-addon px-2 pt-1">
