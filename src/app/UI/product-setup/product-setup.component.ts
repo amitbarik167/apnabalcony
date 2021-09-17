@@ -99,64 +99,64 @@ export class ProductSetupComponent implements OnInit {
   @Pipe({ name: 'safeHtml' })
 
   columnDefsProductCategories = [
-    { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Category Name', field: 'productCategoryName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Category Image', field: 'productCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }];
+    { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Product Category Name', field: 'productCategoryName', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true ,  resizable: true },
+    { headerName: 'Product Category Image', field: 'productCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }];
 
   columnDefsProductSubCategories = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }];
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true ,  resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false ,  resizable: true }];
 
   columnDefsProductColors = [
-    { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Color Name', field: 'productColorName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Color Desc', field: 'productColorDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Color Image', field: 'productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }];
+    { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Product Color Name', field: 'productColorName', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Product Color Desc', field: 'productColorDesc', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product Color Image', field: 'productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }];
 
   columnDefsProductBrands = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Brand Code', field: 'productBrandCode', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Brand Name', field: 'productBrandName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Brand Desc', field: 'productBrandDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Brand Image', field: 'productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Product Brand Code', field: 'productBrandCode', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Product Brand Name', field: 'productBrandName', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product Brand Desc', field: 'productBrandDesc', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product Brand Image', field: 'productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }
   ];
 
   columnDefsProducts = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Brand', field: 'productBrand.productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Product Color', field: 'productColor.productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Product Code', field: 'productCode', sortable: true, filter: true, editable: false },
-    { headerName: 'Product Name', field: 'productName', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Desc', field: 'productDesc', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Image', field: 'productImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent },
-    { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true },
-    { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, tooltipField: 'productCategory.productCategoryName',  resizable: true },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false, tooltipField: 'productSubCategory.productSubCategoryName',  resizable: true},
+    { headerName: 'Product Brand', field: 'productBrand.productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
+    { headerName: 'Product Color', field: 'productColor.productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
+    { headerName: 'Product Code', field: 'productCode', sortable: true, filter: true, editable: false,tooltipField: 'productCode',  resizable: true },
+    { headerName: 'Product Name', field: 'productName', sortable: true, filter: true, editable: true,tooltipField: 'productName',  resizable: true  },
+    { headerName: 'Product Desc', field: 'productDesc', sortable: true, filter: true, editable: true,tooltipField: 'productDesc',  resizable: true  },
+    { headerName: 'Product Image', field: 'productImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
+    { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true,  resizable: true  },
+    { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true ,  resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }
   ];
 
 

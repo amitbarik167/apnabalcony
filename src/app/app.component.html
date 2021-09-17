@@ -29,7 +29,7 @@
           <form class="example-form" [formGroup]="searchForm">
             <mat-form-field>
 
-              <input #productInput type="text" size="1" placeholder="Search" matInput
+              <input #productInput type="text" size="1" placeholder="Search Balcony Products" matInput
                 [formControl]="productSearchControl" [(ngModel)]="productSearch" [ngModelOptions]="{standalone: true}"
                 (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
@@ -157,7 +157,7 @@
       </mat-sidenav-content>
     </mat-sidenav-container>
     <div>
-      <mat-toolbar color="primary" style="font-weight:lighter; font-size: small;">
+      <mat-toolbar color="primary" style="font-weight:lighter; font-size: medium;">
         <div class="icon-bar">
           <a style="color: white;" href="https://www.facebook.com/ApnaBalcony-105996071745123/" target="_blank" class="facebook"><i
               class="fa fa-facebook"></i></a>

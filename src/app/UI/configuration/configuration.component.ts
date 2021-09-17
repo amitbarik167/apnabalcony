@@ -31,7 +31,7 @@ export class ConfigurationComponent implements OnInit {
     { headerName: 'Is User Admin', field: 'isAdmin', sortable: true, filter: true, editable: true },
     { headerName: 'Updated By', field: 'modifiedBy', sortable: true, filter: true, editable: false },
     { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false }]
+    { headerName: 'Last Login At', field: 'updatedAt', sortable: true, filter: true, editable: false }]
 
     onGridReadyConfiguration(params: any): void {
       this.apiConiguration = params.api;
