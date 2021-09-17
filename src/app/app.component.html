@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 
   <div>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" style="font-weight:lighter; font-size: small;">
       <mat-toolbar-row>
         <button mat-icon-button>
           <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
@@ -156,18 +156,27 @@
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
-
-    <div class="icon-bar">
-      <a href="https://www.facebook.com/ApnaBalcony-105996071745123/" target="_blank" class="facebook"><i
-          class="fa fa-facebook"></i></a>
-      <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-      <a href="#" class="google"><i class="fa fa-google"></i></a>
-      <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-      <a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
+    <div>
+      <mat-toolbar color="primary" style="font-weight:lighter; font-size: small;">
+        <div class="icon-bar">
+          <a style="color: white;" href="https://www.facebook.com/ApnaBalcony-105996071745123/" target="_blank" class="facebook"><i
+              class="fa fa-facebook"></i></a>
+          <a style="color: white;" href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+          <a style="color: white;" href="#" class="google"><i class="fa fa-google"></i></a>
+          <a style="color: white;" href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+          <a style="color: white;" href="#" class="youtube"><i class="fa fa-youtube"></i></a>
+         <br>
+          Powered by RAT'z Solution
+        </div>
+        <span class="flexspacer"></span>
+        <span flex></span>
+        <div class="footer-copyright text-center py-3">© 2021 Copyright:
+          <a style="color: white;" href="https://www.apnabalcony.com/"> apnabalcony.com - All Rights Reserved.</a>
+         
+        </div>
+      </mat-toolbar>
     </div>
-    <div class="footer-copyright text-center py-3">© 2021 Copyright:
-      <a href="https://www.apnabalcony.com/"> apnabalcony.com</a>
-    </div>
+   
   </div>
 </body>
 
