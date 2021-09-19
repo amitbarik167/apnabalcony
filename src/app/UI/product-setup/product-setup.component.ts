@@ -51,6 +51,7 @@ export class ProductSetupComponent implements OnInit {
   productFitIdSelectedValue: any;
   selectedProductBrandImage: File;
   selectedProductCategoryImage: File;
+  selectedProductSubCategoryImage: File;
   selectedProductColorImage: File;
   selectedProductImage: File;
   fileSource: FileList;
@@ -113,6 +114,7 @@ export class ProductSetupComponent implements OnInit {
     { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false,  resizable: true  },
     { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true,  resizable: true  },
     { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true ,  resizable: true },
+    { headerName: 'Product SubCategory Image', field: 'productSubCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
     { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false ,  resizable: true },
     { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
     { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false ,  resizable: true },
@@ -192,7 +194,9 @@ export class ProductSetupComponent implements OnInit {
       ProductCategoryCode: [''],
       ProductSubCategoryCode: ['', Validators.required],
       ProductSubCategoryName: ['', Validators.required],
-      ProductSubCategoryDesc: ['', Validators.required]
+      ProductSubCategoryDesc: ['', Validators.required],
+      ProductSubCategoryImg: ['']
+
     });
 
 
@@ -298,7 +302,7 @@ export class ProductSetupComponent implements OnInit {
     }
   }
   changeProductCategory(e: any) {
-    this.productCategoryIdSelectedValue = e.target.value;
+    this.productCategoryIdSelectedValue = e.value;
     this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
     this.productCategory._id = this.productCategoryIdSelectedValue
     this.product.productCategory = this.productCategory;
@@ -336,9 +340,13 @@ export class ProductSetupComponent implements OnInit {
 
 
   onSubmitProductSubCategories() {
-
+   
     if (this.productCategoryIdSelectedValue == '0') {
       alert('Please select Product Category!');
+      return;
+    }
+    else if  (this.selectedProductSubCategoryImage == null) {
+      alert('Please upload Product SubCategory Image!');
       return;
     }
     else {
@@ -348,12 +356,13 @@ export class ProductSetupComponent implements OnInit {
       formData.append("productSubCategoryCode", this.formProductSubCategories.get('ProductSubCategoryCode')?.value);
       formData.append("productSubCategoryName", this.formProductSubCategories.get('ProductSubCategoryName')?.value);
       formData.append("productSubCategoryDesc", this.formProductSubCategories.get('ProductSubCategoryDesc')?.value);
+      formData.append("productSubCategoryImg", this.formProductSubCategories.get('ProductSubCategoryImg')?.value, this.selectedProductSubCategoryImage.name);
       formData.append("createdBy", this.socialUser);
       let postData = this.utilityService.ConvertFormDataToJson(formData);
       let productSubCategoryCode = this.formProductSubCategories.get('ProductSubCategoryCode')?.value;
 
       if (postData.length > 0) {
-        this.apiService.addProductSubCategory(postData, productSubCategoryCode).subscribe((response) =>
+        this.apiService.addProductSubCategory(formData, productSubCategoryCode).subscribe((response) =>
         (this.toastrService.success('Product Sub Category saved successfully!', 'Confirmation Msg!'),
            this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
           error => (this.toastrService.error('Product  SubCategory save failed!', 'Confirmation Msg!'), console.log('error'))
@@ -386,11 +395,15 @@ export class ProductSetupComponent implements OnInit {
 
 
   changeProductSubCategory(e: any) {
-    this.productSubCategoryIdSelectedValue = e.target.value;
+    this.productSubCategoryIdSelectedValue = e.value;
     this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
     this.productSubCategory._id = this.productSubCategoryIdSelectedValue;
     this.product.productSubCategory = this.productSubCategory;
     return;
+  }
+  onProductSubCategorySelected(event: any) {
+    this.selectedProductSubCategoryImage = event.target.files[0];
+    this.formProductSubCategories.get('ProductSubCategoryImg')?.setValue(this.selectedProductSubCategoryImage);
   }
 
   //#endregion
@@ -422,6 +435,7 @@ export class ProductSetupComponent implements OnInit {
       alert('Please upload Product color Image!');
       return;
     }
+    
 
     let formData: any = new FormData();
 
@@ -487,6 +501,16 @@ export class ProductSetupComponent implements OnInit {
 
     if (this.selectedProductBrandImage == null) {
       alert('Please upload Product brand Image!');
+      return;
+    }
+
+    if (this.productCategoryIdSelectedValue == '0') {
+      alert('Please select Product Category!');
+      return;
+    }
+
+    if (this.productSubCategoryIdSelectedValue == '0') {
+      alert('Please select Product SubCategory!');
       return;
     }
 
@@ -634,6 +658,15 @@ export class ProductSetupComponent implements OnInit {
       return;
     }
 
+    if (this.productCategoryIdSelectedValue == '0') {
+      alert('Please select Product Category!');
+      return;
+    }
+
+    if (this.productSubCategoryIdSelectedValue == '0') {
+      alert('Please select Product SubCategory!');
+      return;
+    }
     let formData: any = new FormData();
     formData.append("productCategoryId", this.productCategoryIdSelectedValue);
     formData.append("productSubCategoryId", this.productSubCategoryIdSelectedValue);
@@ -688,6 +721,10 @@ export class ProductSetupComponent implements OnInit {
   }
 
   loadProductsSetup(params: any) {
+  this.productCategoryIdSelectedValue= null;
+  this.productSubCategoryIdSelectedValue=null;
+  this.productBrandIdSelectedValue=null;
+  this.productColorIdSelectedValue=null;
 
     if (params.index == 0) {
       this.rowDataProductCategories = this.apiService.getProductCategories();

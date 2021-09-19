@@ -1,108 +1,113 @@
 <form [formGroup]="formFilters">
-<div class="card filters">
-
-  <div class="card-header">
-    <strong>Filters</strong>
-  </div>
-
-  <div class="card-body">
-    <div class="card-header">
-      <strong>Price</strong>
-     
-    </div>
-    <mat-slider thumbLabel min="0" max="10000" step="1" value="0" (input)="onInputChangePrice($event)"></mat-slider>
+  <div class="card filters">
 
     <div class="card-header">
-      <strong>Minimum Discount</strong>
-      
-    </div>
-    <mat-slider thumbLabel min="0" max="50" step="1" value="0" (input)="onInputChangeDiscount($event)"></mat-slider>
-    
-  </div>
-    <div class="card-body">
-      <div class="card-header">
-      <strong>Product Category</strong>
-     </div>
-     
-        <div class="form-group">
-          <br>
-  
-          <select class="form-control"    (change)="changeProductCategory($event)">
-            
-            <option [value]="0">Choose Product Category</option>
-            <option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory?._id">
-              {{productCategory?.productCategoryName}}</option>
-          </select>
-
-        </div>
-     
-    </div>
-
-
-    <div class="card-body">
-      <div class="card-header">
-      <strong>Product Sub-Category</strong>
-     </div>
-     
-        <div class="form-group">
-          <br>
-          <select class="form-control" (change)="changeProductSubCategory($event)">
-            <option [value]="0">Choose Product Sub-Category</option>
-            <option *ngFor="let productSubCategory of productSubCategoryList|async"
-              [value]="productSubCategory._id">{{productSubCategory.productSubCategoryName}}</option>
-          </select>
-
-        </div>
-
+      <strong>Filters</strong>
     </div>
 
     <div class="card-body">
       <div class="card-header">
-      <strong>Brand</strong>
-     </div>
-     
-        <div class="form-group">
-          <br>
-          <mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
+        <strong>Price</strong>
+
+      </div>
+      <mat-slider thumbLabel min="0" max="10000" step="1" value="0" (input)="onInputChangePrice($event)"></mat-slider>
+
+      <div class="card-header">
+        <strong>Minimum Discount</strong>
+
+      </div>
+      <mat-slider thumbLabel min="0" max="50" step="1" value="0" (input)="onInputChangeDiscount($event)"></mat-slider>
+
+    </div>
+    <div class="card-body">
+      <div class="card-header">
+        <strong>Product Category</strong>
+      </div>
+
+      <div class="form-group">
+        <br>
+
+        <mat-select class="form-control" [value]="0" placeholder="Choose Product Category"
+          (selectionChange)="changeProductCategory($event)">
+          <mat-option *ngFor="let productCategory of productCategoryList|async" [value]="productCategory._id">
+            <img alt="Image" width="5%" height="5%"
+              src="data:image/png;base64,{{productCategory.productCategoryImg}}" />
+            {{productCategory.productCategoryName}}
+          </mat-option>
+        </mat-select>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="card-body">
+      <div class="card-header">
+        <strong>Product Sub-Category</strong>
+      </div>
+
+      <div class="form-group">
+        <br>
+        <mat-select class="form-control" [value]="0" placeholder="Choose Product SubCategory"
+        (selectionChange)="changeProductSubCategory($event)">
+        <mat-option *ngFor="let productSubCategory of productSubCategoryList|async"
+          [value]="productSubCategory._id">
+          <img alt="Image" width="5%" height="5%"
+            src="data:image/png;base64,{{productSubCategory.productSubCategoryImg}}" />
+          {{productSubCategory.productSubCategoryName}}
+        </mat-option>
+      </mat-select>
+
+      </div>
+
+    </div>
+
+    <div class="card-body">
+      <div class="card-header">
+        <strong>Brand</strong>
+      </div>
+
+      <div class="form-group">
+        <br>
+        <mat-select class="form-control" [value]="0" placeholder="Choose Product Brand"
           (selectionChange)="changeProductBrand($event)">
           <mat-option *ngFor="let productBrand of productBrandList|async" [value]="productBrand._id">
-            <img alt="Image" width="10%" height="10%"
-              src="data:image/png;base64,{{productBrand.productBrandImg}}" />
+            <img alt="Image" width="10%" height="10%" src="data:image/png;base64,{{productBrand.productBrandImg}}" />
             {{productBrand.productBrandName}}
           </mat-option>
         </mat-select>
 
-        </div>
-   
+      </div>
+
     </div>
 
     <div class="card-body">
       <div class="card-header">
-      <strong>Color</strong>
-     </div>
-    
-        <div class="form-group">
-          <br>
-          <mat-select class="form-control" [value]="0" [(ngModel)]="selectedColor"  [ngModelOptions]="{standalone: true}" placeholder="Choose Product Color"
-          (selectionChange)="changeProductColor($event)">
+        <strong>Color</strong>
+      </div>
+
+      <div class="form-group">
+        <br>
+        <mat-select class="form-control" [value]="0" [(ngModel)]="selectedColor" [ngModelOptions]="{standalone: true}"
+          placeholder="Choose Product Color" (selectionChange)="changeProductColor($event)">
           <mat-option *ngFor="let productColor of productColorList|async" [value]="productColor._id">
-            <img alt="Image" width="10%" height="10%"
-              src="data:image/png;base64,{{productColor.productColorImg}}" />
+            <img alt="Image" width="10%" height="10%" src="data:image/png;base64,{{productColor.productColorImg}}" />
             {{productColor.productColorName}}
           </mat-option>
         </mat-select>
 
-        </div>
+      </div>
 
-        <br/>
-        <div>
-          <button type="button" class="btn btn-secondary"  (click)="reset();">Reset Search</button>
-        </div>
-      
-  
+      <br />
+      <div>
+        <button type="button" class="btn btn-secondary" (click)="reset();">Reset Search</button>
+      </div>
+
+
     </div>
 
 
 
-</div>
+  </div>
 </form>

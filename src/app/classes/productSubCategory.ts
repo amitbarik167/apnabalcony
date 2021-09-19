@@ -8,4 +8,5 @@ export class ProductSubCategory
     productCategory:ProductCategory;
     productSubCategoryDesc:string;
     productSubCategoryName:string
+    productSubCategoryImg:string
 }
