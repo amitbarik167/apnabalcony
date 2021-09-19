@@ -53,10 +53,10 @@ export class FiltersComponent implements OnInit {
 
     this.product = new Product();
 
-    this.productCategoryIdSelectedValue = e.target.value;
+    this.productCategoryIdSelectedValue = e.value;
     this.productSubCategoryList = this.apiService.getProductSubCategories().pipe(map(itemsProductSubCategory => itemsProductSubCategory.filter(ProductSubCategory => ProductSubCategory.productCategory?._id == this.productCategoryIdSelectedValue)));
 
-    this.productSubCategoryIdSelectedValue = e.target.value;
+    this.productSubCategoryIdSelectedValue = e.value;
     this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
 
     this.productCategory._id = this.productCategoryIdSelectedValue
@@ -70,7 +70,7 @@ export class FiltersComponent implements OnInit {
   }
 
   changeProductSubCategory(e: any) {
-    this.productSubCategoryIdSelectedValue = e.target.value;
+    this.productSubCategoryIdSelectedValue = e.value;
     this.productBrandList = this.apiService.getProductBrands().pipe(map(itemsProductBrand => itemsProductBrand.filter(ProductBrand => ProductBrand.productSubCategory._id == this.productSubCategoryIdSelectedValue)));
     this.productSubCategory._id = this.productSubCategoryIdSelectedValue;
     this.product.productSubCategory = this.productSubCategory;

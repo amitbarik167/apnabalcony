@@ -84,7 +84,7 @@ export class ProductSetupService {
   }
 
   addProductSubCategory(postData: string, productSubCategoryCode: string) {
-    return this.httpClient.post((this.nodeServer + "/" + "productSubCategory/" + productSubCategoryCode), postData, this.httpOptions);
+    return this.httpClient.post((this.nodeServer + "/" + "productSubCategory/" + productSubCategoryCode), postData, this.httpOptionsMultiFormData);
   }
 
   updateProductSubCategory(postData: string, id: string) {

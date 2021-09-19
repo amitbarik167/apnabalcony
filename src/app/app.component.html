@@ -29,7 +29,7 @@
           <form class="example-form" [formGroup]="searchForm">
             <mat-form-field>
 
-              <input #productInput type="text" size="1" placeholder="Search" matInput
+              <input #productInput type="text" size="1" placeholder="Search Balcony Products" matInput
                 [formControl]="productSearchControl" [(ngModel)]="productSearch" [ngModelOptions]="{standalone: true}"
                 (keyup)="getAllProducts(productInput.value)" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onEnter($event)">
@@ -158,22 +158,27 @@
     </mat-sidenav-container>
     <div>
       <mat-toolbar color="primary" style="font-weight:lighter; font-size: small;">
-        <div class="icon-bar">
+     
+       
+        
+        <div class="footer-copyright  py-3">Powered by RAT'z Solution <br>© 2021 Copyright: 
+          <a style="color: white;" href="https://www.apnabalcony.com/"> apnabalcony.com - All Rights Reserved.</a>
+         
+        </div>
+        <span class="flexspacer"></span>
+        <span flex></span>
+        <div class="icon-bar" style="padding-right: 20px;">
           <a style="color: white;" href="https://www.facebook.com/ApnaBalcony-105996071745123/" target="_blank" class="facebook"><i
               class="fa fa-facebook"></i></a>
           <a style="color: white;" href="#" class="twitter"><i class="fa fa-twitter"></i></a>
           <a style="color: white;" href="#" class="google"><i class="fa fa-google"></i></a>
           <a style="color: white;" href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
           <a style="color: white;" href="#" class="youtube"><i class="fa fa-youtube"></i></a>
-         <br>
-          Powered by RAT'z Solution
+        
         </div>
-        <span class="flexspacer"></span>
-        <span flex></span>
-        <div class="footer-copyright text-center py-3">© 2021 Copyright:
-          <a style="color: white;" href="https://www.apnabalcony.com/"> apnabalcony.com - All Rights Reserved.</a>
-         
-        </div>
+     
+      
+        
       </mat-toolbar>
     </div>
    

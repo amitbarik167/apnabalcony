@@ -1,4 +1,5 @@
-<h2> &nbsp; My Order</h2>
+<hr>
+<h3> &nbsp; All Orders</h3>
 <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-balham"
 				[rowData]="rowDataOrders | async" [columnDefs]="columnDefsOrders"
 				rowSelection="single" [pagination]="true" [paginationAutoPageSize]="true" [animateRows]="true"
@@ -13,6 +14,7 @@
 </div>
 
 <div *ngIf="customerDetails?.length > 0">
+	<hr>
 	<div  *ngFor='let details of customerDetails; let i = index' >
 		<h2>Customer Details:</h2>  
 		<span><h4>Name  : {{details.name}}</h4></span> 
@@ -26,6 +28,7 @@
 <br><br>
 
 <div *ngIf="orderItems?.length > 0">
+	<hr>
 	<h2> Item Details:</h2>
 </div>
 <div class="horizontal" *ngIf="orderItems?.length > 0">
