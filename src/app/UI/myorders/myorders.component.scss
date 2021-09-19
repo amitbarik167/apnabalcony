@@ -1,13 +1,8 @@
 .horizontal {
     display: flex;
-    justify-content: between;
+    justify-content: space-between;
     flex-wrap:wrap;
+    flex: 1 1 auto; 
     
 }
 
-p {
-    display: inline-block;
-    flex-grow: 1;
-    height:100px;    
-    width: calc(100% * (1/4) - 10px - 1px)
-}

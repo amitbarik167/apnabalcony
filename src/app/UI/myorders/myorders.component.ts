@@ -29,11 +29,11 @@ export class MyordersComponent implements OnInit {
   }
 
   columnDefsOrders = [
-    { headerName: 'Order No', field: 'orderNo', sortable: true, filter: true, editable: false },
-    { headerName: 'Customer EmailId', field: 'userId', sortable: true, filter: true, editable: false },
-    { headerName: 'Status', field: 'status', sortable: true, filter: true, editable: false },
-    { headerName: 'Expected Total Price', field: 'expectedTotalPrice', sortable: true, filter: true, editable: false },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false },
+    { headerName: 'Order No', field: 'orderNo', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Customer EmailId', field: 'userId', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Status', field: 'status', sortable: true, filter: true, editable: false ,  resizable: true },
+    { headerName: 'Expected Total Price', field: 'expectedTotalPrice', sortable: true, filter: true, editable: false,  resizable: true  },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false ,  resizable: true },
 ]
 
     onGridReadyOrders(params: any): void {
