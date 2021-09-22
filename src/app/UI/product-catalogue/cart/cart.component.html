@@ -105,6 +105,19 @@
 
     </div>
 
+    <div  class="form-group">
+      <label for="customerHomePlanImage" class="control-label"> Home Plan
+        Image (Not Mandatory. Browse multiple images at a time if available)</label>
+      <input type="file" formControlName="customerHomePlanImagesUploadControl" accept="image/*" multiple=""
+        (change)="onCustomerHomePlanImagesSelected($event)">
+      <div *ngIf="returnCustomerHomePlanImagesControls.customerHomePlanImagesUploadControl?.touched && returnCustomerHomePlanImagesControls.customerHomePlanImagesUploadControl?.invalid"
+        class="alert alert-danger">
+        <div
+          *ngIf="returnFormProductsImagesControls.customerHomePlanImagesUploadControl.errors?.required">
+          File is required.</div>
+      </div>
+    </div>
+
     <div class="form-group d-flex justify-content-end">
       <button type="submit" [disabled]="!formCustomerAddress.valid"
         class="btn btn-secondary">Place Order</button> &nbsp;

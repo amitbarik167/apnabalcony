@@ -14,7 +14,8 @@ export class OrderService {
   nodeServer: string;
   httpOptions: any;
   returnData: any;
-  private API_URL = environment.API_URL
+  private API_URL = environment.API_URL;
+
 
 
   public constructor(private httpClient: HttpClient) {
@@ -24,6 +25,8 @@ export class OrderService {
         'Content-Type': 'application/json',
       })
     };
+
+   
 
   }
 
@@ -67,6 +70,15 @@ export class OrderService {
   getOrderByUserId(userId:string){
     return this.httpClient.get((this.nodeServer + "/" + "ordersFindByUserId/"+ userId), this.httpOptions)
 
+  }
+
+  
+  addOrderCustomerHomePlanImages(postData: string, orderId: string) {
+    return this.httpClient.post((this.nodeServer + "/" + "orderCustomerHomePlan/" + orderId), postData);
+  }
+
+  getOrderHomePlanImages(orderId:string){
+    return this.httpClient.get(this.nodeServer + "/" + "orderCustomerHomePlan/"+ orderId)
   }
 
 }

@@ -18,7 +18,8 @@ export class MyordersComponent implements OnInit {
   socialUser: any;
   orderItems = [] as any;
   customerDetails=[] as any;
-  requirement:string =''
+  requirement:string ='';
+  orderHomePlanImages = [] as any;
 
   constructor(private apiOrderService: OrderService, private cookieService:CookieService, private toastrService: ToastrService,private msgService :MessengerService) { }
 
@@ -68,6 +69,9 @@ export class MyordersComponent implements OnInit {
           this.customerDetails= response)
 
           this.requirement = selectedData[0].requirement
+
+          this.apiOrderService.getOrderHomePlanImages(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
+          this.orderHomePlanImages= response)
       }
       else {
         alert('Please select a row!');
