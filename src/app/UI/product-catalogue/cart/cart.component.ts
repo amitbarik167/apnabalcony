@@ -5,8 +5,8 @@ import { ModalComponent } from 'src/app/UI/modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductListService } from 'src/app/services/product-list.services';
 import { Router } from '@angular/router';
-import { FormGroup,FormBuilder, Validators } from '@angular/forms';
-import {OrderService} from 'src/app/services/order.service'
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { OrderService } from 'src/app/services/order.service'
 import { UtilityService } from 'src/app/services/utility.services';
 import { error } from '@angular/compiler/src/util';
 import { ToastrService } from 'ngx-toastr';
@@ -26,11 +26,14 @@ export class CartComponent implements OnInit {
   productList = [] as any;
   product: any;
   filteredProduct: any;
-  formCustomerAddress:FormGroup;
+  formCustomerAddress: FormGroup;
   orderRes: any;
-  private fromEmail = environment.FROM_EMAIL
-  private toEmail = environment.TO_EMAIL
-  constructor(private msgService: MessengerService, private cookieService: CookieService, private router: Router, private dialog: MatDialog, private productListSrvice: ProductListService,private fb: FormBuilder, private orderService: OrderService,private utilityService: UtilityService,private toastrService: ToastrService,private miscService: MiscService) {
+  private fromEmail = environment.FROM_EMAIL;
+  private toEmail = environment.TO_EMAIL;
+  images: any = [];
+  imagesList: any = [];
+  fileSource: FileList;
+  constructor(private msgService: MessengerService, private cookieService: CookieService, private router: Router, private dialog: MatDialog, private productListSrvice: ProductListService, private fb: FormBuilder, private orderService: OrderService, private utilityService: UtilityService, private toastrService: ToastrService, private miscService: MiscService) {
     this.cartItems.length = 0;
   }
 
@@ -58,7 +61,7 @@ export class CartComponent implements OnInit {
     });
   }
 
- 
+
 
   addProductToCart(product: any) {
 
@@ -115,55 +118,84 @@ export class CartComponent implements OnInit {
     this.msgService.sendClearItemsFromCart();
   }
 
+  get returnFormProductsImagesControls() {
+    return this.formCustomerAddress.controls;
+  }
 
+  onSubmitOrder() {
 
-  onSubmitOrder(){
+    if(this.cartItems.length==0){
+      alert('Please add items to the cart and then submit order.')
+      return;
+    }
 
     if (this.cookieService.get('token') != "") {
       let formData: any = new FormData();
-      formData.append("userId",this.cookieService.get('userId'))
+      formData.append("userId", this.cookieService.get('userId'))
       formData.append("status", "Order Received")
-      formData.append("expectedTotalPrice",this.cartTotal)
-      formData.append("requirement",this.formCustomerAddress.get("Requirement")?.value)
-  
+      formData.append("expectedTotalPrice", this.cartTotal)
+      formData.append("requirement", this.formCustomerAddress.get("Requirement")?.value)
+
       let postData = this.utilityService.ConvertFormDataToJson(formData);
-      this.orderService.addOrder(postData).subscribe(res=>{
+      this.orderService.addOrder(postData).subscribe(res => {
         let formDataOrderItems: any = new FormData();
-        for(let i in this.cartItems){
-         
-          formDataOrderItems.append("orderId", res._id )
-          formDataOrderItems.append("productId", this.cartItems[i].id )
-          formDataOrderItems.append("qty", this.cartItems[i].qty )
+        for (let i in this.cartItems) {
+
+          formDataOrderItems.append("orderId", res._id)
+          formDataOrderItems.append("productId", this.cartItems[i].id)
+          formDataOrderItems.append("qty", this.cartItems[i].qty)
           let postDataOrderItems = this.utilityService.ConvertFormDataToJson(formDataOrderItems)
-          this.orderService.addOrderItems(postDataOrderItems).subscribe(resOrderItems=>{
+          this.orderService.addOrderItems(postDataOrderItems).subscribe(resOrderItems => {
             console.log(resOrderItems)
           })
         }
 
-        let formDataCustomerAddress:any = new FormData();
-        formDataCustomerAddress.append("orderId", res._id )
-        formDataCustomerAddress.append("name", this.formCustomerAddress.get('CustomerName')?.value )
-        formDataCustomerAddress.append("address", this.formCustomerAddress.get('CustomerAddress')?.value )
-        formDataCustomerAddress.append("emailId", this.formCustomerAddress.get('Email')?.value )
-        formDataCustomerAddress.append("phoneNo", this.formCustomerAddress.get('PhoneNo')?.value )
-       
-        let postDataOrderCustomerAddress = this.utilityService.ConvertFormDataToJson(formDataCustomerAddress)
-        this.orderService.addOrderCustomerAddress(postDataOrderCustomerAddress).subscribe(resOrderCustomerAddress =>{
-          console.log(resOrderCustomerAddress)
-        }),
+        if (this.fileSource != undefined){
+          for (let i = 0; i < this.fileSource.length; i++) {
 
-       ( this.toastrService.success('Order created successfully. We have sent an email to '+  this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderNo,'Confirmation Msg!')),(this.sendEmailToCustomer(res.orderNo)),(this.sendEmailToApnaBalcony(res.orderNo)),(this.formCustomerAddress.reset()),(this.clearCart())
-
-      },error=> (this.toastrService.error('Order creation failed!', 'Confirmation Msg!'))
-
+            let formData: any = new FormData();
+            formData.append("homePlanImgCounter", i + 1);
+            formData.append("homePlanImg", this.fileSource[i]);
+            formData.append("orderId", res._id);
+            let counter = i + 1
+            let postData = this.utilityService.ConvertFormDataToJson(formData);
+            if (postData.length > 0) {
+              this.orderService.addOrderCustomerHomePlanImages(formData, res._id).subscribe((response) => (console.log('Customer Homeplan images uploaded successfully!')),
       
+                error => (console.log('Error in uploading Homeplan images'))
+              )
+            }
+          }
+  
+        }
+        
+        let formDataCustomerAddress: any = new FormData();
+        formDataCustomerAddress.append("orderId", res._id)
+        formDataCustomerAddress.append("name", this.formCustomerAddress.get('CustomerName')?.value)
+        formDataCustomerAddress.append("address", this.formCustomerAddress.get('CustomerAddress')?.value)
+        formDataCustomerAddress.append("emailId", this.formCustomerAddress.get('Email')?.value)
+        formDataCustomerAddress.append("phoneNo", this.formCustomerAddress.get('PhoneNo')?.value)
+
+        let postDataOrderCustomerAddress = this.utilityService.ConvertFormDataToJson(formDataCustomerAddress)
+        this.orderService.addOrderCustomerAddress(postDataOrderCustomerAddress).subscribe(resOrderCustomerAddress => {
+          console.log(resOrderCustomerAddress)
+        }
+        ),
+
+     
+
+          (this.toastrService.success('Order created successfully. We have sent an email to ' + this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderNo, 'Confirmation Msg!')), (this.sendEmailToCustomer(res.orderNo)), (this.sendEmailToApnaBalcony(res.orderNo)), (this.formCustomerAddress.reset()), (this.clearCart())
+
+      }, error => (this.toastrService.error('Order creation failed!', 'Confirmation Msg!'))
+
+
       )
 
-     
-     
-      
+
+
+
     }
-  
+
     else {
       const dialogRef = this.dialog.open(ModalComponent, {
         width: '250px',
@@ -176,18 +208,18 @@ export class CartComponent implements OnInit {
     }
   }
 
-  private  sendEmailToCustomer(orderNo:string){
+  private sendEmailToCustomer(orderNo: string) {
     let formDataSendEmail: any = new FormData();
     formDataSendEmail.append("fromEmail", "noreply@apnabalcony.com");
     formDataSendEmail.append("toEmail", this.formCustomerAddress.get('Email')?.value);
-    formDataSendEmail.append("subject", "Thanks for your order. Your order tracking number : " + " " + orderNo );
-    formDataSendEmail.append("text", "Dear " + this.formCustomerAddress.get('CustomerName')?.value + ",<br/> Thanks for the booking. We will reach out to you shortly.<br/> Regards,<br/> Apna Balcony Sales Team" );
+    formDataSendEmail.append("subject", "Thanks for your order. Your order tracking number : " + " " + orderNo);
+    formDataSendEmail.append("text", "Dear " + this.formCustomerAddress.get('CustomerName')?.value + ",<br/> Thanks for the booking. We will reach out to you shortly.<br/> Regards,<br/> Apna Balcony Sales Team");
     let postData = this.utilityService.ConvertFormDataToJson(formDataSendEmail);
 
 
     if (postData.length > 0) {
-      this.miscService.sendEmail(postData).subscribe((response) =>(console.log('Email to customer sent successfully!')),
-   
+      this.miscService.sendEmail(postData).subscribe((response) => (console.log('Email to customer sent successfully!')),
+
         error => (console.log('Error in sending email to customer'))
       )
     }
@@ -196,31 +228,31 @@ export class CartComponent implements OnInit {
     }
   }
 
-    private  sendEmailToApnaBalcony(orderNo:string){
-      let formDataSendEmail: any = new FormData();
-      formDataSendEmail.append("fromEmail", "noreply@apnabalcony.com");
-      formDataSendEmail.append("toEmail", this.toEmail);
-      formDataSendEmail.append("subject", "Order received. Order No. : " + " " + orderNo );
-      formDataSendEmail.append("text", "Dear ApnaBalcony Sales Team" + ",<br/> A new order recieved with Order No. : " + orderNo +". Please check the details in https://apnabalcony.com/order. <br/> Regards,<br/> Apna Balcony Sales Team" );
-      let postData = this.utilityService.ConvertFormDataToJson(formDataSendEmail);
-  
-  
-      if (postData.length > 0) {
-        this.miscService.sendEmail(postData).subscribe((response) =>(console.log('Email to customer sent successfully!')),
-     
-          error => (console.log('Error in sending email to customer'))
-        )
-      }
-      else {
-        this.toastrService.error('Error in sending email to customer!', 'Confirmation Msg!');
-      }
-    
+  private sendEmailToApnaBalcony(orderNo: string) {
+    let formDataSendEmail: any = new FormData();
+    formDataSendEmail.append("fromEmail", "noreply@apnabalcony.com");
+    formDataSendEmail.append("toEmail", this.toEmail);
+    formDataSendEmail.append("subject", "Order received. Order No. : " + " " + orderNo);
+    formDataSendEmail.append("text", "Dear ApnaBalcony Sales Team" + ",<br/> A new order recieved with Order No. : " + orderNo + ". Please check the details in https://apnabalcony.com/order. <br/> Regards,<br/> Apna Balcony Sales Team");
+    let postData = this.utilityService.ConvertFormDataToJson(formDataSendEmail);
+
+
+    if (postData.length > 0) {
+      this.miscService.sendEmail(postData).subscribe((response) => (console.log('Email to customer sent successfully!')),
+
+        error => (console.log('Error in sending email to customer'))
+      )
+    }
+    else {
+      this.toastrService.error('Error in sending email to customer!', 'Confirmation Msg!');
+    }
+
 
 
   }
 
-    checkIfSignedIn(){
-    if (this.cookieService.get('token') == ""){
+  checkIfSignedIn() {
+    if (this.cookieService.get('token') == "") {
       const dialogRef = this.dialog.open(ModalComponent, {
         width: '250px',
       });
@@ -231,5 +263,30 @@ export class CartComponent implements OnInit {
       });
 
     }
+  }
+
+  get returnCustomerHomePlanImagesControls() {
+    return this.formCustomerAddress.controls;
+  }
+
+  
+  onCustomerHomePlanImagesSelected(event: any) {
+
+    this.images = []
+    this.fileSource = event.target.files
+    if (this.fileSource && this.fileSource[0]) {
+      var filesAmount = this.fileSource.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.images.push(e.target.result);
+
+        };
+
+        reader.readAsDataURL(this.fileSource[i]);
+      }
+    }
+
   }
 }
