@@ -85,11 +85,10 @@
       <a style="text-decoration: none;"
         routerLink="/cart">
         <small style="font-weight: 500;">{{cartQty}} Item(s) added</small>
-      
+        <mat-icon class="blue-icon" >shopping_cart</mat-icon>
       </a>
     </div>
-    <div class="divAlightContentRight" > <a style="text-decoration: none;"
-      routerLink="/cart"> <mat-icon class="blue-icon" >shopping_cart</mat-icon></a></div>
+   
    
 
 
@@ -132,7 +131,7 @@
           </div>
           <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
             <span class="full-width" *ngIf="isExpanded || isShowing">
-              <mat-icon class="blue-icon">wallpaper</mat-icon>Product Catalogue
+              <mat-icon class="blue-icon">weekend</mat-icon>Product Catalogue
             </span>
             <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">
               expand_more</mat-icon>
