@@ -83,11 +83,13 @@
     </div>
     <div class="divAlightContentRight" *ngIf="cartItems?.length > 0">
       <a style="text-decoration: none;"
-        routerLink="/productcatalogue">
+        routerLink="/cart">
         <small style="font-weight: 500;">{{cartQty}} Item(s) added</small>
-        <mat-icon>shopping_cart</mat-icon>
+        <mat-icon class="blue-icon" >shopping_cart</mat-icon>
       </a>
     </div>
+   
+   
 
 
 
@@ -129,7 +131,7 @@
           </div>
           <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
             <span class="full-width" *ngIf="isExpanded || isShowing">
-              <mat-icon class="blue-icon">wallpaper</mat-icon>Product Catalogue
+              <mat-icon class="blue-icon">weekend</mat-icon>Product Catalogue
             </span>
             <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">
               expand_more</mat-icon>
@@ -157,7 +159,7 @@
       </mat-sidenav-content>
     </mat-sidenav-container>
     <div>
-      <mat-toolbar color="primary" style="font-weight:lighter; font-size: small;">
+      <mat-toolbar color="primary" style="font-weight:lighter; font-size: x-small;">
      
        
         
@@ -167,7 +169,7 @@
         </div>
         <span class="flexspacer"></span>
         <span flex></span>
-        <div class="icon-bar" style="padding-right: 60px;">
+        <div class="icon-bar" style="padding-right: 20px;">
           <a style="color: white;" href="https://www.facebook.com/ApnaBalcony-105996071745123/" target="_blank" class="facebook"><i
               class="fa fa-facebook"></i></a>
           <a style="color: white;" href="#" class="twitter"><i class="fa fa-twitter"></i></a>

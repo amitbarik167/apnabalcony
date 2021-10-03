@@ -1,5 +1,5 @@
 <mat-progress-bar mode="determinate"  [value]="progressbarValue" ></mat-progress-bar>
-<a style="text-decoration: none; margin-left: 20px;" routerLink="/productcatalogue" >Go to Product Catalogue</a>
+<a style="text-decoration: none; margin-left: 20px;font-weight: 500; color: black;" routerLink="/productcatalogue" ><mat-icon>navigate_before</mat-icon>Go to Product Catalogue</a>
 <div class="row" style="margin-left: 20px;">
       <div class="col-md-4" *ngFor="let productItem of productList">
         <div class="card mb-4 shadow-sm">
@@ -38,8 +38,9 @@
       </div>
  
     </div>
+    <hr>
     <div class="row" *ngIf="imagesList?.length > 0">
-     <p  class="font-weight-bold" style="margin-left: 20px;" > Product Images</p>
+     <p   style="margin-left: 20px;font-weight: 500;" ><mat-icon>image</mat-icon> Product Images</p>
     </div>
     <div class="row" style="margin-left: 20px;">
         <div class="col-md-4"   *ngFor='let img of imagesList; let i = index' >
