@@ -39,6 +39,8 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+   
+
     if (localStorage.getItem('cart') != "") {
       this.cartItems = JSON.parse(localStorage.getItem('cart') || "[]")
     }
@@ -46,51 +48,23 @@ export class CartComponent implements OnInit {
       this.cartTotal = JSON.parse(localStorage.getItem('cartTotal') || "[]")
     }
 
-    this.msgService.getCartDetails().subscribe((product: any) => {
-      this.addProductToCart(product)
-    })
+  
   }
 
   createForm() {
+   
     this.formCustomerAddress = this.fb.group({
       Email: ['', Validators.required],
       PhoneNo: ['', Validators.required],
       CustomerName: ['', Validators.required],
       CustomerAddress: ['', Validators.required],
-      Requirement: ['', Validators.required]
+      Requirement: ['', Validators.required],
+      customerHomePlanImagesUploadControl:['']
     });
   }
 
 
 
-  addProductToCart(product: any) {
-
-    let productExists = false
-
-    for (let i in this.cartItems) {
-      if (this.cartItems[i].id === product._id) {
-        this.cartItems[i].qty++
-        productExists = true
-        this.recalculateTotalPrice()
-        localStorage.setItem('cart', JSON.stringify(this.cartItems))
-        return;
-      }
-    }
-
-    if (!productExists) {
-      this.cartItems.push({
-        id: product._id,
-        discount: product.productDiscount,
-        productName: product.productName,
-        qty: 1,
-        price: product.productPrice,
-        productImg: product.productImg
-      })
-
-      this.recalculateTotalPrice()
-      localStorage.setItem('cart', JSON.stringify(this.cartItems))
-    }
-  }
 
 
   removeItem(id: string) {

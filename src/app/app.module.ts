@@ -31,12 +31,13 @@ import { ProductSetupComponent } from './UI/product-setup/product-setup.componen
 import { HomeComponent } from './UI/home/home.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CartComponent } from './UI/product-catalogue/cart/cart.component';
+//import { CartComponent } from './UI/product-catalogue/cart/cart.component';
+import { CartComponent } from './UI/cart/cart.component';
 import { ProductListComponent } from './UI/product-catalogue/product-list/product-list.component';
 import { FiltersComponent } from './UI/product-catalogue/filters/filters.component';
 import {ProductCatalogueComponent} from './UI/product-catalogue/product-catalogue.component';
 import { ProductItemComponent } from './UI/product-catalogue/product-list/product-item/product-item.component';
-import { CartItemComponent } from './UI/product-catalogue/cart/cart-item/cart-item.component';
+import { CartItemComponent } from './UI/cart/cart-item/cart-item.component';
 import {MatSliderModule} from '@angular/material/slider';
 import { CookieService } from 'ngx-cookie-service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
