@@ -35,10 +35,18 @@
 	<div class="horizontal" *ngIf="orderItems?.length > 0">
 	
 		<div  *ngFor='let items of orderItems; let i = index'  >
-			<img src="data:image/png;base64,{{items.product.productImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
-			<span><h4>ProductCode  : {{items.product.productCode}}</h4></span> 
-			<span><h4>ProductName : {{items.product.productName}}</h4></span> 
-			<span><h4>Quantity : {{items.qty }}</h4></span>
+			<div *ngIf="items.product?.productImg.length>0">
+				<img src="data:image/png;base64,{{items.product.productImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
+				<span><h4>ProductCode  : {{items.product.productCode}}</h4></span> 
+				<span><h4>ProductName : {{items.product.productName}}</h4></span> 
+				<span><h4>Quantity : {{items.qty }}</h4></span>
+			</div>
+			<div *ngIf="items.template?.templateImg.length>0">
+				<img src="data:image/png;base64,{{items.template.templateImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
+				<span><h4>TemplateCode  : {{items.template.templateCode}}</h4></span> 
+				<span><h4>TemplateName : {{items.template.templateName}}</h4></span> 
+				<span><h4>Quantity : {{items.qty }}</h4></span>
+			</div>
 	
 		
 		</div>
@@ -49,10 +57,14 @@
 		<hr>
 		<h2> Home Plan Images:</h2>
 	</div>
-	<div class="horizontal" *ngIf="orderHomePlanImages?.length > 0">
+	<div class="row" *ngIf="orderHomePlanImages?.length > 0">
 	
-		<div  *ngFor='let plans of orderHomePlanImages; let i = index'  >
-			<img src="data:image/png;base64,{{plans.homePlanImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
+		<div class="col-md-4"  *ngFor='let plans of orderHomePlanImages; let i = index'  >
+			<div class="card mb-4 shadow-sm">
+                <div >
+			<img class="bd-placeholder-img card-img-top p-2" src="data:image/png;base64,{{plans.homePlanImg}}" style="width: 100%;height: 100%;"> <br/>
+		</div>
+	</div>
 		</div>
 	</div>
 	

@@ -13,11 +13,12 @@ import { OrderComponent } from './UI/order/order.component';
 import { ConfigurationComponent } from './UI/configuration/configuration.component';
 import { MyordersComponent } from './UI/myorders/myorders.component';
 import { CartComponent } from './UI/cart/cart.component';
+import { TemplateItemDetailsComponent } from './UI/template/template-item-details/template-item-details.component';
 
 
 const routes: Routes = [{path:'', component:HomeComponent},{path:'home', component:HomeComponent}, {path:'aboutus', component:AboutUsComponent}, {path:'contactus',component:ContactUsComponent},
 {path:'gallery', component:GalleryComponent}, {path:'policy', component:PolicyComponent}, {path:'productcatalogue', component: ProductCatalogueComponent},{path:'productcatalogue/{productCategoryId:id,productCategoryName:name}', component: ProductCatalogueComponent},
-{path:'productsetup', component: ProductSetupComponent}, {path:'template', component:TemplateComponent},{path:'productitemdetails', component:ProductItemDetailsComponent},{path:'order', component:OrderComponent}, {path:'configuration', component:ConfigurationComponent},{path:'myorders', component:MyordersComponent}, {path:'cart', component:CartComponent}];
+{path:'productsetup', component: ProductSetupComponent}, {path:'template', component:TemplateComponent},{path:'productitemdetails', component:ProductItemDetailsComponent},{path:'order', component:OrderComponent}, {path:'configuration', component:ConfigurationComponent},{path:'myorders', component:MyordersComponent}, {path:'cart', component:CartComponent},{path:'templateitemdetails', component:TemplateItemDetailsComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

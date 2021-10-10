@@ -13,12 +13,25 @@ export class UtilityService {
     }
 
     ConfirmDeleteDialog() {
-        if (confirm("Are you sure you want to soft delete? There could be some Products associated with this module. Please verify in 'Products Setup' tab before you delete.")) {
+        if (confirm("Are you sure you want to  delete? There could be some Products associated with this module. Please verify in 'Products Setup' tab before you delete.")) {
             return true;
         }
         else {
             return false;
         }
+        
+
+    }
+
+    
+    ConfirmDeleteTemplateDialog() {
+        if (confirm("Are you sure you want to  delete? ")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        
 
     }
 

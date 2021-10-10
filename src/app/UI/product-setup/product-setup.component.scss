@@ -19,3 +19,32 @@
     flex-wrap:wrap;
     padding-left: 20px;
 }
+
+
+/* Styles for tab labels */
+.mat-tab-label {
+  min-width: 14.28% !important;
+  padding: 5px;
+  background-color: #3F51B5;
+  color: white;
+  font-weight: 500;
+
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  min-width: 14.28% !important;
+  padding: 5px;
+  background-color: #3F51B5;
+  color: white;
+  font-weight: 500;
+}
+
+/* Styles for the ink bar */
+.mat-ink-bar {
+  background-color: #3F51B5;
+}
+
+p {
+  font-family: Lato;
+}
