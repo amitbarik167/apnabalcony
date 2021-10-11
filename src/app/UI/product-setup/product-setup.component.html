@@ -709,7 +709,7 @@
 					</div>
 
 					<div class="row">
-						<label class="label text-success"> Images uploaded (Below)</label>
+						<label class="label text-success" class="alert alert-info"> Images uploaded (Below)</label>
 					</div>
 					<div class="horizontal">
 						<div *ngFor='let img of imagesList; let i = index'>
@@ -719,6 +719,148 @@
 					</div>
 				</div>
 			</form>
+		</mat-tab>
+
+		<mat-tab label="Template Setup">
+			<form [formGroup]="formTemplate" style="margin-left: 20px;" novalidate (ngSubmit)="onSubmitTemplate()">
+				<div class="form-group">
+					<div class="row">
+						<div class="column">
+							<label for="template_code" class="control-label">Template Code</label>
+							<br>
+							<input type="text" class="form-control" id="template_code" maxlength="10"
+								formControlName="TemplateCode" placeholder="">
+
+							<div *ngIf="formTemplate.controls['TemplateCode'].invalid && (formTemplate.controls['TemplateCode'].dirty || formTemplate.controls['TemplateCode'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formTemplate.controls['TemplateCode'].errors?.required">
+									Template Code is required.
+								</div>
+							</div>
+							<div *ngIf="formTemplate.controls['TemplateCode'].errors?.maxlength">
+							</div>
+						</div>
+						<div class="column">
+							<label for="template_name" class="control-label">Template Name</label>
+							<input type="text" class="form-control" id="template_name" maxlength="50"
+								formControlName="TemplateName" placeholder="">
+
+							<div *ngIf="formTemplate.controls['TemplateName'].invalid && (formTemplate.controls['TemplateName'].dirty || formTemplate.controls['TemplateName'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formTemplate.controls['TemplateName'].errors?.required">
+									Template Name is required.
+								</div>
+							</div>
+							<div *ngIf="formTemplate.controls['TemplateName'].errors?.maxlength">
+
+							</div>
+						</div>
+						<div class="column">
+							<label for="template_description" class="control-label">Template
+								Description</label>
+							<textarea class="form-control" id="template_desc" maxlength="100"
+								formControlName="TemplateDesc" placeholder=""></textarea>
+
+							<div *ngIf="formTemplate.controls['TemplateDesc'].invalid && (formTemplate.controls['TemplateDesc'].dirty || formTemplate.controls['TemplateDesc'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formTemplate.controls['TemplateDesc'].errors?.required">
+									Template Description is required.
+								</div>
+							</div>
+							<div *ngIf="formTemplate.controls['TemplateDesc'].errors?.maxlength">
+
+							</div>
+						</div>
+
+						
+					</div>
+
+					<div class="row">
+						<div class="column">
+							<label for="template_price" class="control-label">Template Price</label>
+							<input type="text" class="form-control" id="template_price" maxlength="50"
+								formControlName="TemplatePrice" placeholder="">
+
+							<div *ngIf="formTemplate.controls['TemplatePrice'].invalid && (formTemplate.controls['TemplatePrice'].dirty || formTemplate.controls['TemplatePrice'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formTemplate.controls['TemplatePrice'].errors?.required">
+									Template Price is required.
+								</div>
+							</div>
+							<div *ngIf="formTemplate.controls['TemplatePrice'].errors?.maxlength">
+
+							</div>
+						</div>
+
+						<div class="column">
+							<label for="balcony_size" class="control-label">Balcony Size</label>
+							<input type="text" class="form-control" id="balcony_size" maxlength="50"
+								formControlName="BalconySize" placeholder="">
+
+							<div *ngIf="formTemplate.controls['BalconySize'].invalid && (formTemplate.controls['BalconySize'].dirty || formTemplate.controls['BalconySize'].touched)"
+								class="alert alert-danger">
+								<div *ngIf="formTemplate.controls['BalconySize'].errors?.required">
+									Balcony Size is required.
+								</div>
+							</div>
+							<div *ngIf="formTemplate.controls['BalconySize'].errors?.maxlength">
+
+							</div>
+						</div>
+
+						<div class="column">
+							<label for="template_image" class="control-label"> Template
+								Image (Browse multiple images at a time)</label>
+							<input type="file" formControlName="templateImagesUploadControl" accept="image/*" multiple=""
+								(change)="onTemplateImagesSelected($event)">
+							<div *ngIf="returnFormTemplateImagesControls.templateImagesUploadControl?.touched && returnFormTemplateImagesControls.templateImagesUploadControl?.invalid"
+								class="alert alert-danger">
+								<div
+									*ngIf="returnFormTemplateImagesControls.templateImagesUploadControl.errors?.required">
+									File is required.</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+						<!-- Submit Button -->
+						<button type="submit" class="btn btn-primary" [disabled]="!formTemplate.valid">Submit</button>
+					</div>
+				</div>
+
+			</form>
+
+			<div align="right">
+
+				<button mat-icon-button color="primary">
+					<mat-icon style="font-size: 30px" class="mat-icon-rtl-mirror" (click)="deleteRowTemplate();">delete
+					</mat-icon>
+				</button>
+
+
+			</div>
+
+
+			<ag-grid-angular class="ag-theme-balham" style="width: 100%; height: 60%;"
+				[rowData]="rowDataTemplate | async" [columnDefs]="columnDefsTemplate" rowSelection="single"
+				[pagination]="true" [paginationAutoPageSize]="true" [animateRows]="true" enableColResize enableRowResize
+				rowHeight="100" enableSorting enableFilter (gridReady)="onGridReadyTemplate($event)" 	(cellClicked)='getTemplateImages($event)'
+				(cellValueChanged)="onCellValueChangedTemplate($event)">
+
+			</ag-grid-angular>
+
+			<div class="row" style="padding-left: 10px;" class="alert alert-info">
+				<label class="label text-success"> Template Images uploaded (Below)</label>
+			</div>
+
+			<div class="horizontal">
+				<div *ngFor='let img of templateImageLIst; let i = index'>
+					<img src="data:image/png;base64,{{img.templateImg}}" height="250px" width="250px"
+						style="margin: 3px;"> <br />
+				</div>
+			</div>
 		</mat-tab>
 	</mat-tab-group>
 

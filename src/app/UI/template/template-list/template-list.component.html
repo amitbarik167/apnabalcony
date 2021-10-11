@@ -1,0 +1,12 @@
+
+
+<div class="row">
+    <div *ngIf="templateList.length > 0"  class="alert alert-info"> Displaying all default templates</div>
+
+    <mat-progress-bar mode="determinate"  [value]="progressbarValue" ></mat-progress-bar>
+      <div class="col-md-4" *ngFor="let template of templateList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+        <app-template-item [templateItem]= "template"> </app-template-item>
+      </div>
+      <ngb-pagination [collectionSize]="templateList.length" [(page)]="page" [pageSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+    </div>
+    

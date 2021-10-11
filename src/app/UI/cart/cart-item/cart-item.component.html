@@ -1,4 +1,6 @@
-<div class="cart-item">
+
+<div class="cart-item" *ngIf="cartItem?.productName?.length>0">
+  
      <img alt="Image" width="10%" height="10%" style="margin-right: 10px;"
     src="data:image/png;base64,{{cartItem.productImg}}" />
      
@@ -9,5 +11,15 @@
    <p style="text-align: center;" *ngIf="cartItem.discount > 0">
     <strong style="color:green; text-align: right;">- {{cartItem.discount}}%</strong>
    </p> 
+  </div>
+
+  <div class="cart-item" *ngIf="cartItem?.templateName?.length>0">
+   
+     <img alt="Image" width="10%" height="10%" style="margin-right: 10px;"
+    src="data:image/png;base64,{{cartItem.templateImg}}" />
+     
+    <span>{{cartItem.templateName}}</span> x
+    <span>{{cartItem.qty }}</span>:
+    <medium>{{(cartItem.qty * cartItem.price) | currency:'INR' }} </medium> 
   </div>
   

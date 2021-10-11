@@ -1,1 +1,44 @@
-<p>template works!</p>
+<hr>
+<div>
+  <mat-tab-group id="tab-group" [selectedIndex]="0" >
+    <mat-tab label="DEFAULT TEMPLATES">
+      <div class="row">
+        <div class="col-md-3">
+          <app-template-filters></app-template-filters>
+        </div>
+
+        <div class="col-md-9">
+          <app-template-list></app-template-list>
+        </div>
+
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="MAKE YOUR OWN">
+      <img src="/assets/Balcony1.jpg" width="100%" height="700px"  alt="Img 1" routerLink="/productcatalogue">
+      <div class="centered"><h1 style="font-size:300%;">
+        Coming Soon. 
+      </h1></div>
+      
+
+
+
+    </mat-tab>
+
+    <mat-tab label="LETS DECORATE WITH US">
+   
+     <div class='container-fluid mx-auto mt-5 mb-5 col-12' style="text-align: center">
+  
+      <div class="about-section">
+          <h1>Did n't like the default templates ? No issues. We are still learning and growing. </h1>
+          <p> Please visit our contact page to decorate your balcony with us. </p> 
+          <a style="text-decoration: none;"
+          routerLink="/contactus"> Contact us </a>
+
+        </div>
+     </div>
+
+    </mat-tab>
+  </mat-tab-group>
+</div>

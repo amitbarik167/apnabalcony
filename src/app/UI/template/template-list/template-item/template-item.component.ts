@@ -1,68 +1,66 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Product } from 'src/app/classes/product';
+import { Component, OnInit,Input } from '@angular/core';
+import { Template } from 'src/app/classes/template';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-product-item',
-  templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.scss']
+  selector: 'app-template-item',
+  templateUrl: './template-item.component.html',
+  styleUrls: ['./template-item.component.scss']
 })
-export class ProductItemComponent implements OnInit {
-  @Input() productItem: Product
+export class TemplateItemComponent implements OnInit {
+
+  @Input() templateItem: Template
   cartItems = [] as any;
   cartTotal = 0;
-  constructor(private msgService: MessengerService, private router: Router,) 
-  {
+
+  constructor(private msgService: MessengerService, private router: Router,) {
     this.cartItems.length = 0;
    }
 
   ngOnInit(): void {
-    
     if (localStorage.getItem('cart') != "") {
       this.cartItems = JSON.parse(localStorage.getItem('cart') || "[]")
     }
     if (localStorage.getItem('cartTotal') != "") {
       this.cartTotal = JSON.parse(localStorage.getItem('cartTotal') || "[]")
     }
-    this.msgService.getCartDetails().subscribe((product: any) => {
-      this.addProductToCart(product)
+    this.msgService.getTemplateCartDetails().subscribe((template: any) => {
+      this.addTemplateToCart(template)
     })
-
   }
 
   handleAddToCart() {
-    this.msgService.sendCartDetails(this.productItem)
-    this.msgService.sendCartItemsForQtyDisplay(this.productItem)
+    this.msgService.sendTemplateCartDetails(this.templateItem)
+    this.msgService.sendTemplateCartItemsForQtyDisplay(this.templateItem)
   }
 
   itemDetails(_id: string) {
-    this.router.navigate(['/productitemdetails', { productId: _id }]);
+    this.router.navigate(['/templateitemdetails', { templateId: _id }]);
   }
 
-  addProductToCart(product: any) {
+  addTemplateToCart(template: any) {
 
-    let productExists = false
+    let templateExists = false
 
     for (let i in this.cartItems) {
-      if (this.cartItems[i].productId === product._id) {
+      if (this.cartItems[i].templateId === template._id) {
         this.cartItems[i].qty++
-        productExists = true
+        templateExists = true
         this.recalculateTotalPrice()
         localStorage.setItem('cart', JSON.stringify(this.cartItems))
         return;
       }
     }
 
-    if (!productExists) {
+    if (!templateExists) {
       this.cartItems.push({
-        productId: product._id,
-        discount: product.productDiscount,
-        productName: product.productName,
+        templateId: template._id,
+        templateName: template.templateName,
         qty: 1,
-        price: product.productPrice,
-        productImg: product.productImg
+        discount:0,
+        price: template.templatePrice,
+        templateImg: template.templateImg
       })
 
       this.recalculateTotalPrice()
@@ -73,10 +71,11 @@ export class ProductItemComponent implements OnInit {
   recalculateTotalPrice() {
     this.cartTotal = 0
     this.cartItems.forEach((item: any) => {
-      this.cartTotal += (item.qty * (item.price * (100 - (item.discount)) / 100))
+      this.cartTotal += (item.qty * (item.price))
       localStorage.removeItem('cartTotal');
       localStorage.setItem('cartTotal', JSON.stringify(this.cartTotal))
     })
   }
+
 
 }

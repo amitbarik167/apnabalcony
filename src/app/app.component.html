@@ -76,7 +76,14 @@
           [routerLink]="['/productcatalogue',{productCategoryId:productCategory._id,productCategoryName:productCategory.productCategoryName}]">
           <img src="data:image/png;base64,{{productCategory.productCategoryImg}}" height="80px" width="80px"
             style="margin: 3px;"> <br>{{productCategory.productCategoryName}}</a>
+           
+        
       </div>
+      <a style="text-decoration: none;font-size: 15px; font-size: small; color: black; font-weight: 500;"
+        [routerLink]="'/template'"><img src="/assets/template.jpg" height="80px" width="80px"
+        style="margin: 3px;">
+        <br> Templates
+      </a>
       <span class="flexspacer"></span>
       <span flex></span>
 
@@ -111,7 +118,7 @@
           </a>
           <div *ngIf="isLoggedin === true && userAuth.isAdmin === true">
             <a mat-list-item (click)="openDialogIfNotLoggedIn('productSetup'); sidenav.toggle();">
-              <mat-icon class="blue-icon">cloud_upload</mat-icon> Product Setup
+              <mat-icon class="blue-icon">cloud_upload</mat-icon> Inventory
             </a>
           </div>
           <div *ngIf="isLoggedin === true &&  userAuth.isAdmin === true">
@@ -129,6 +136,9 @@
               <mat-icon class="blue-icon">ballot</mat-icon> My Orders
             </a>
           </div>
+          <a mat-list-item style="text-decoration: none;" (click)="sidenav.toggle()" [routerLink]="'/template'">
+            <mat-icon class="blue-icon">image</mat-icon> Templates
+          </a>
           <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
             <span class="full-width" *ngIf="isExpanded || isShowing">
               <mat-icon class="blue-icon">weekend</mat-icon>Product Catalogue
