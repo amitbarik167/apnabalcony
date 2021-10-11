@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -25,12 +25,14 @@ import { MessengerService } from 'src/app/services/messenger.service';
   selector: 'app-product-setup',
   templateUrl: './product-setup.component.html',
   styleUrls: ['./product-setup.component.scss'],
-  providers: [ProductSetupService, UtilityService]
+  providers: [ProductSetupService, UtilityService],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ProductSetupComponent implements OnInit {
 
-  formProductCategories: FormGroup; formProductSubCategories: FormGroup; formProductColors: FormGroup; formProductBrands: FormGroup; formProducts: FormGroup; formProductImages: FormGroup
+  formProductCategories: FormGroup; formProductSubCategories: FormGroup; formProductColors: FormGroup; formProductBrands: FormGroup; formProducts: FormGroup; formProductImages: FormGroup;
+  formTemplate: FormGroup;
   socialUser: any;
   productCategoryList: any;
   productSubCategoryList: any;
@@ -64,6 +66,7 @@ export class ProductSetupComponent implements OnInit {
   productList: Product[] = [];
   images: any = [];
   imagesList: any = [];
+  templateImageLIst: any =[];
   formData: any = new FormData();
   selectedColor: string;
 
@@ -82,6 +85,7 @@ export class ProductSetupComponent implements OnInit {
     this.rowDataProductColors = this.apiService.getProductColors();
     this.rowDataProductBrands = this.apiService.getProductBrands();
     this.rowDataProducts = this.apiService.getProducts();
+    this.rowDataTemplate = this.apiService.getAllTemplates();
     this.productCategoryList = this.rowDataProductCategories;
     this.productColorList = this.rowDataProductColors;
     this.productSizeList = this.utilityService.ConvertEnumToObject(ProductSize);
@@ -100,66 +104,80 @@ export class ProductSetupComponent implements OnInit {
   @Pipe({ name: 'safeHtml' })
 
   columnDefsProductCategories = [
-    { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Product Category Name', field: 'productCategoryName', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true ,  resizable: true },
-    { headerName: 'Product Category Image', field: 'productCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }];
+    { headerName: 'Product Category Code', field: 'productCategoryCode', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product Category Name', field: 'productCategoryName', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Category Desc', field: 'productCategoryDesc', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Category Image', field: 'productCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false, resizable: true }];
 
   columnDefsProductSubCategories = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true ,  resizable: true },
-    { headerName: 'Product SubCategory Image', field: 'productSubCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false ,  resizable: true }];
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product SubCategory Code', field: 'productSubCategoryCode', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategoryName', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product SubCategory Desc', field: 'productSubCategoryDesc', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product SubCategory Image', field: 'productSubCategoryImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false, resizable: true }];
 
   columnDefsProductColors = [
-    { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Product Color Name', field: 'productColorName', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Product Color Desc', field: 'productColorDesc', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product Color Image', field: 'productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }];
+    { headerName: 'Product Color Code', field: 'productColorCode', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product Color Name', field: 'productColorName', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product Color Desc', field: 'productColorDesc', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Color Image', field: 'productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false, resizable: true }];
 
   columnDefsProductBrands = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Product Brand Code', field: 'productBrandCode', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Product Brand Name', field: 'productBrandName', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product Brand Desc', field: 'productBrandDesc', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product Brand Image', field: 'productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product Brand Code', field: 'productBrandCode', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Product Brand Name', field: 'productBrandName', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Brand Desc', field: 'productBrandDesc', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Brand Image', field: 'productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false, resizable: true }
   ];
 
   columnDefsProducts = [
-    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, tooltipField: 'productCategory.productCategoryName',  resizable: true },
-    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false, tooltipField: 'productSubCategory.productSubCategoryName',  resizable: true},
-    { headerName: 'Product Brand', field: 'productBrand.productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Product Color', field: 'productColor.productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Product Code', field: 'productCode', sortable: true, filter: true, editable: false,tooltipField: 'productCode',  resizable: true },
-    { headerName: 'Product Name', field: 'productName', sortable: true, filter: true, editable: true,tooltipField: 'productName',  resizable: true  },
-    { headerName: 'Product Desc', field: 'productDesc', sortable: true, filter: true, editable: true,tooltipField: 'productDesc',  resizable: true  },
-    { headerName: 'Product Image', field: 'productImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent,  resizable: true  },
-    { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true,  resizable: true  },
-    { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true ,  resizable: true },
-    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false ,  resizable: true },
-    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false,  resizable: true  },
-    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false,  resizable: true  }
+    { headerName: 'Product Category Name', field: 'productCategory.productCategoryName', sortable: true, filter: true, editable: false, tooltipField: 'productCategory.productCategoryName', resizable: true },
+    { headerName: 'Product SubCategory Name', field: 'productSubCategory.productSubCategoryName', sortable: true, filter: true, editable: false, tooltipField: 'productSubCategory.productSubCategoryName', resizable: true },
+    { headerName: 'Product Brand', field: 'productBrand.productBrandImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Product Color', field: 'productColor.productColorImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Product Code', field: 'productCode', sortable: true, filter: true, editable: false, tooltipField: 'productCode', resizable: true },
+    { headerName: 'Product Name', field: 'productName', sortable: true, filter: true, editable: true, tooltipField: 'productName', resizable: true },
+    { headerName: 'Product Desc', field: 'productDesc', sortable: true, filter: true, editable: true, tooltipField: 'productDesc', resizable: true },
+    { headerName: 'Product Image', field: 'productImg', sortable: true, filter: true, editable: false, cellRendererFramework: ImageFormatterComponent, resizable: true },
+    { headerName: 'Product Price', field: 'productPrice', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Discount', field: 'productDiscount', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Product Stock Units', field: 'productStockUnits', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false, resizable: true }
   ];
+
+  columnDefsTemplate = [
+
+    { headerName: 'Template Code', field: 'templateCode', sortable: true, filter: true, editable: false, tooltipField: 'productCode', resizable: true },
+    { headerName: 'Template Name', field: 'templateName', sortable: true, filter: true, editable: true, tooltipField: 'productName', resizable: true },
+    { headerName: 'Template Desc', field: 'templateDesc', sortable: true, filter: true, editable: true, tooltipField: 'productDesc', resizable: true },
+    { headerName: 'Template Price', field: 'templatePrice', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Balcony Size', field: 'balconySize', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
+    { headerName: 'Updated At', field: 'updatedAt', sortable: true, filter: true, editable: false, resizable: true }
+  ];
+
 
 
 
@@ -169,12 +187,13 @@ export class ProductSetupComponent implements OnInit {
   rowDataProductColors: any;
   rowDataProductBrands: any;
   rowDataProducts: any;
+  rowDataTemplate: any;
   isSubmitted = false;
 
 
   // gridApi and columnApi
-  private apiProductCategory: GridApi; apiProductSubCategory: GridApi; apiProductColor: GridApi; apiProductBrand: GridApi; apiProduct: GridApi;
-  private columnApiProductCategory: ColumnApi; columnApiProductSubCategory: ColumnApi; columnApiProductColor: ColumnApi; columnApiProductBrand: ColumnApi; columnApiProduct: ColumnApi;
+  private apiProductCategory: GridApi; apiProductSubCategory: GridApi; apiProductColor: GridApi; apiProductBrand: GridApi; apiProduct: GridApi; apiTemplate: GridApi
+  private columnApiProductCategory: ColumnApi; columnApiProductSubCategory: ColumnApi; columnApiProductColor: ColumnApi; columnApiProductBrand: ColumnApi; columnApiProduct: ColumnApi; columnApiTemplate: ColumnApi;
 
 
   private itemsProductSubCategory: Observable<ProductSubCategory[]>;
@@ -237,7 +256,17 @@ export class ProductSetupComponent implements OnInit {
     this.formProductImages = this.fb.group({
       productImagesUploadControl: new FormControl('', [Validators.required])
 
-    })
+    });
+
+    this.formTemplate = this.fb.group({
+      TemplateCode: ['', Validators.required],
+      TemplateName: ['', Validators.required],
+      TemplateDesc: ['', Validators.required],
+      TemplatePrice: ['', Validators.required],
+      BalconySize: ['', Validators.required],
+      templateImagesUploadControl: new FormControl('', [Validators.required])
+    });
+
 
   }
 
@@ -323,7 +352,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProductSubCategory(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product SubCategory updated successfully!', 'Confirmation Msg!'),  this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
+      (this.toastrService.success('Product SubCategory updated successfully!', 'Confirmation Msg!'), this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
       error => (this.toastrService.error('Product SubCategory update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
@@ -340,12 +369,12 @@ export class ProductSetupComponent implements OnInit {
 
 
   onSubmitProductSubCategories() {
-   
+
     if (this.productCategoryIdSelectedValue == '0') {
       alert('Please select Product Category!');
       return;
     }
-    else if  (this.selectedProductSubCategoryImage == null) {
+    else if (this.selectedProductSubCategoryImage == null) {
       alert('Please upload Product SubCategory Image!');
       return;
     }
@@ -364,10 +393,10 @@ export class ProductSetupComponent implements OnInit {
       if (postData.length > 0) {
         this.apiService.addProductSubCategory(formData, productSubCategoryCode).subscribe((response) =>
         (this.toastrService.success('Product Sub Category saved successfully!', 'Confirmation Msg!'),
-           this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
+          this.rowDataProductSubCategories = this.apiService.getProductSubCategories()),
           error => (this.toastrService.error('Product  SubCategory save failed!', 'Confirmation Msg!'), console.log('error'))
         )
-       
+
       }
 
       else {
@@ -435,7 +464,7 @@ export class ProductSetupComponent implements OnInit {
       alert('Please upload Product color Image!');
       return;
     }
-    
+
 
     let formData: any = new FormData();
 
@@ -599,7 +628,7 @@ export class ProductSetupComponent implements OnInit {
     if (params.oldValue === params.newValue) return;
     params.data.modifiedBy = this.socialUser;
     this.apiService.updateProduct(JSON.stringify(params.data), params.data._id).subscribe((response) =>
-      (this.toastrService.success('Product  updated successfully!', 'Confirmation Msg!'),  this.rowDataProducts = this.apiService.getProducts()),
+      (this.toastrService.success('Product  updated successfully!', 'Confirmation Msg!'), this.rowDataProducts = this.apiService.getProducts()),
       error => (this.toastrService.error('Product  update failed!', 'Confirmation Msg!'), console.log('error'))
     )
 
@@ -700,11 +729,20 @@ export class ProductSetupComponent implements OnInit {
     var selectedData = this.apiProduct.getSelectedRows();
     if (selectedData.length > 0) {
       if (this.utilityService.ConfirmDeleteDialog()) {
+
+        this.apiService.deleteProductImagesByProductId(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
+        (this.toastrService.success('Product images  deleted successfully!',
+          'Confirmation Msg!'), this.rowDataProducts = this.apiService.getProducts()),
+          error => (this.toastrService.error('Product images delete failed!', 'Confirmation Msg!'), console.log('error'))
+        )
+
         this.apiService.deleteProduct(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
         (this.toastrService.success('Product  deleted successfully!',
           'Confirmation Msg!'), this.rowDataProducts = this.apiService.getProducts()),
           error => (this.toastrService.error('Product delete failed!', 'Confirmation Msg!'), console.log('error'))
         )
+
+      
       }
     }
     else {
@@ -721,10 +759,10 @@ export class ProductSetupComponent implements OnInit {
   }
 
   loadProductsSetup(params: any) {
-  this.productCategoryIdSelectedValue= null;
-  this.productSubCategoryIdSelectedValue=null;
-  this.productBrandIdSelectedValue=null;
-  this.productColorIdSelectedValue=null;
+    this.productCategoryIdSelectedValue = null;
+    this.productSubCategoryIdSelectedValue = null;
+    this.productBrandIdSelectedValue = null;
+    this.productColorIdSelectedValue = null;
 
     if (params.index == 0) {
       this.rowDataProductCategories = this.apiService.getProductCategories();
@@ -814,8 +852,142 @@ export class ProductSetupComponent implements OnInit {
 
   }
 
+  //Template
 
+  onGridReadyTemplate(params: any): void {
+    this.apiTemplate = params.api;
+    this.columnApiTemplate = params.columnApi;
+    this.apiTemplate.hideOverlay();
+  }
+
+  get returnFormTemplateImagesControls() {
+    return this.formTemplate.controls;
+  }
+
+  onTemplateImagesSelected(event: any) {
+    this.images = []
+    this.fileSource = event.target.files
+
+    if (this.fileSource && this.fileSource[0]) {
+
+      var filesAmount = this.fileSource.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.images.push(e.target.result);
+
+        };
+
+        reader.readAsDataURL(this.fileSource[i]);
+      }
+    }
+
+  }
+
+  onCellValueChangedTemplate(params: any) {
+    if (params.oldValue === params.newValue) return;
+    params.data.modifiedBy = this.socialUser;
+    this.apiService.updateTemplate(JSON.stringify(params.data), params.data._id).subscribe((response) =>
+      (this.toastrService.success('Template  updated successfully!', 'Confirmation Msg!'), this.rowDataTemplate = this.apiService.getAllTemplates()),
+      error => (this.toastrService.error('Template  update failed!', 'Confirmation Msg!'), console.log('error'))
+    )
+
+  }
+
+  deleteRowTemplate() {
+    var selectedData = this.apiTemplate.getSelectedRows();
+    if (selectedData.length > 0) {
+      if (this.utilityService.ConfirmDeleteTemplateDialog()) {
+       
+
+        this.apiService.deleteTemplateImages(selectedData.find(x => x._id)["_id"]).subscribe((response) => ((this.toastrService.success('Template Images  deleted successfully!', 'Confirmation Msg!')),
+        this.formTemplate.reset(), (this.templateImageLIst = [])),
+        error => (this.toastrService.error('Template Images  deletion failed!', 'Confirmation Msg!'), console.log('error'), (this.images = [])))
+
+        this.apiService.deleteTemplate(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
+        (this.toastrService.success('Product  deleted successfully!',
+          'Confirmation Msg!'), this.rowDataTemplate = this.apiService.getAllTemplates()),
+          error => (this.toastrService.error('Product delete failed!', 'Confirmation Msg!'), console.log('error'))
+        )
+      }
+    }
+    else {
+      alert('Please select a row!');
+    }
+  }
+
+
+  onSubmitTemplate() {
+    if (this.fileSource) {
+     
+      this.formData.append("templateCode", this.formTemplate.get('TemplateCode')?.value);
+      this.formData.append("templateName", this.formTemplate.get('TemplateName')?.value);
+      this.formData.append("templateDesc", this.formTemplate.get('TemplateDesc')?.value);
+      this.formData.append("templatePrice", this.formTemplate.get('TemplatePrice')?.value);
+      this.formData.append("templateImg", this.fileSource[0]);
+      this.formData.append("balconySize", this.formTemplate.get('BalconySize')?.value);
+      this.formData.append("createdBy", this.socialUser);
+      let postData = this.utilityService.ConvertFormDataToJson( this.formData);
+      let templateCode = this.formTemplate.get('TemplateCode')?.value;
+
+      if (postData.length > 0) {
+        this.apiService.addTemplate( this.formData, templateCode).subscribe(res => {
+          this.apiService.deleteTemplateImages(res._id).subscribe((response) => ((this.toastrService.success('Template Images  deleted successfully!', 'Confirmation Msg!')),
+            this.formTemplate.reset(), (this.images = [])),
+            error => (this.toastrService.error('Template Images  deletion failed!', 'Confirmation Msg!'), console.log('error'), (this.images = []))
+          )
+
+
+          for (let i = 0; i < this.fileSource.length; i++) {
+
+            this.formData.append("templateImgCounter", i + 1);
+            this.formData.append("templateImg", this.fileSource[i]);
+            this.formData.append("templateId", res._id);
+            this.formData.append("createdBy", this.socialUser);
+            let postData = this.utilityService.ConvertFormDataToJson(this.formData);
+
+            let counter = i + 1
+            if (postData.length > 0) {
+              this.apiService.addTemplateImages(this.formData, res._id).subscribe((response) =>
+              (this.toastrService.success('Template Image ' + counter + ' saved successfully!', 'Confirmation Msg!'),
+                this.formProductImages.reset(), (this.images = []), this.apiService.getProductImagesByProductId(this.productIdSelectedValue).subscribe(res => { this.imagesList = res })),
+                error => (this.toastrService.error('Template Image ' + counter + ' save failed!', 'Confirmation Msg!'), console.log('error'), (this.images = []))
+              )
+              this.resetAllDropDowns();
+            }
+
+            else {
+              this.toastrService.error('Template Images save failed!', 'Confirmation Msg!');
+            }
+          }
+
+          (this.toastrService.success('Template saved successfully!', 'Confirmation Msg!'),
+            this.formTemplate.reset(), this.rowDataTemplate = this.apiService.getAllTemplates())
+        },
+          error => (this.toastrService.error('Template save failed!', 'Confirmation Msg!'),
+            console.log('error'))
+
+        )
+
+      }
+    }
+    else{
+      alert('Please upload template image(s)')
+    }
+  }
+
+  getTemplateImages(params:any) {
+    var selectedData = this.apiTemplate.getSelectedRows();
+    if (selectedData.length > 0) {
+        this.apiService.getTemplateImages(selectedData.find(x => x._id)["_id"]).subscribe((response) =>
+        this.templateImageLIst= response)
+    }
+    else {
+      alert('Please select a row!');
+    }
 }
-
+}
 
 

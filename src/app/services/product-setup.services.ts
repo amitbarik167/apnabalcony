@@ -196,6 +196,46 @@ export class ProductSetupService {
     return this.httpClient.delete((this.nodeServer + "/" + "productImages/" + _id), this.httpOptionsMultiFormData);
   }
 
+  deleteProductImagesByProductId(productId: string) {
+    return this.httpClient.delete((this.nodeServer + "/" + "productImagesDeleteByProductId/" + productId), this.httpOptionsMultiFormData);
+  }
+
+
+
+
+  addTemplate(postData: string, templateCode:string): Observable<any> {
+
+    return this.httpClient.post((this.nodeServer + "/" + "templateCreate/" + templateCode), postData, this.httpOptionsMultiFormData);
+  }
+
+  updateTemplate(postData: string, id: string) {
+
+    return this.httpClient.put((this.nodeServer + "/" + "templateUpdate/" + id), postData, this.httpOptions);
+  }
+
+  deleteTemplate(id: string) {
+    return this.httpClient.delete((this.nodeServer + "/" + "templateDelete/" + id), this.httpOptions);
+  }
+
+  getAllTemplates(){
+    return this.httpClient.get((this.nodeServer + "/" + "templateAll"),this.httpOptions)
+  }
+
+
+  addTemplateImages(postData: string, templateId: string) {
+    return this.httpClient.post((this.nodeServer + "/" + "templateImagesCreate/" + templateId), postData, this.httpOptionsMultiFormData);
+  }
+
+  deleteTemplateImages(templateId: string) {
+    return this.httpClient.delete((this.nodeServer + "/" + "templateImagesDelete/" + templateId), this.httpOptionsMultiFormData);
+  }
+
+  getTemplateImages(templateId: string) {
+    return this.httpClient.get(this.nodeServer + "/" + "templateImages/" + templateId, this.httpOptionsMultiFormData);
+  }
+
+
+
 }
 
 

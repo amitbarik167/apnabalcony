@@ -1,13 +1,13 @@
 <div *ngIf="cartItems?.length === 0" class="alert alert-info">No Items added</div>
 
 <ul *ngIf="cartItems?.length > 0" class="list-group">
-  <div class="card-header">
-    <strong>Cart</strong>
+  <div class="card-header" class="list-group-item active">
+    <strong>Shopping Cart</strong>
   </div>
   <li class="list-group-item" *ngFor="let item of cartItems">
     <app-cart-item [cartItem]="item">
     </app-cart-item>
-    <button type="button" class="close" aria-label="Close" (click)=removeItem(item.id);>
+    <button type="button" class="close" aria-label="Close" (click)=removeItem(item.templateId,item.productId);>
       <span aria-hidden="true">&times;</span>
     </button>
 

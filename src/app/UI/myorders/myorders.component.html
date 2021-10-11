@@ -1,6 +1,8 @@
+<hr>
 <div style="padding-left: 10px;">
-	<hr>
-<h3> &nbsp; All Orders</h3>
+	<div class="alert alert-info">
+		<h2>All Orders</h2>
+	</div>
 
 <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-balham"
 				[rowData]="rowDataOrders | async" [columnDefs]="columnDefsOrders"
@@ -12,8 +14,9 @@
 
 			
 <div *ngIf="requirement.length > 0">
-	<hr>
-	<h2>Requirement:</h2>  
+	<div class="alert alert-info">
+		<h2>Requirement:</h2>
+	</div>
 	<span>	<p>{{requirement}}</p> </span>
 </div>
 
@@ -31,24 +34,34 @@
 <br><br>
 
 <div *ngIf="orderItems?.length > 0">
-	<hr>
-	<h2> Item Details:</h2>
+	<div class="alert alert-info">
+		<h2>Templates/Item Details:</h2>
+	</div>
 </div>
 <div class="horizontal" *ngIf="orderItems?.length > 0">
-
+	
 	<div  *ngFor='let items of orderItems; let i = index'  >
-		<img src="data:image/png;base64,{{items.product.productImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
-		<span><h4>ProductCode  : {{items.product.productCode}}</h4></span> 
-		<span><h4>ProductName : {{items.product.productName}}</h4></span> 
-		<span><h4>Quantity : {{items.qty }}</h4></span>
+		<div *ngIf="items.product?.productImg.length>0">
+			<img src="data:image/png;base64,{{items.product.productImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
+			<span><h4>ProductCode  : {{items.product.productCode}}</h4></span> 
+			<span><h4>ProductName : {{items.product.productName}}</h4></span> 
+			<span><h4>Quantity : {{items.qty }}</h4></span>
+		</div>
+		<div *ngIf="items.template?.templateImg.length>0">
+			<img src="data:image/png;base64,{{items.template.templateImg}}" height="250px" width="250px" style="margin: 3px;"> <br/>
+			<span><h4>TemplateCode  : {{items.template.templateCode}}</h4></span> 
+			<span><h4>TemplateName : {{items.template.templateName}}</h4></span> 
+			<span><h4>Quantity : {{items.qty }}</h4></span>
+		</div>
 
 	
-</div>
+	</div>
 </div>
 
 <div *ngIf="orderHomePlanImages?.length > 0">
-	<hr>
-	<h2> Home Plan Images:</h2>
+	<div class="alert alert-info">
+		<h2>Home Plan Images:</h2>
+	</div>
 </div>
 <div class="horizontal" *ngIf="orderHomePlanImages?.length > 0">
 

@@ -43,12 +43,16 @@ import { CookieService } from 'ngx-cookie-service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ModalComponent } from './UI/modal/modal.component';
-import { ProductItemDetailsComponent } from './UI/product-item-details/product-item-details.component';
+import { ProductItemDetailsComponent } from './UI/product-catalogue/product-item-details/product-item-details.component';
 import { ContactUsComponent } from './UI/contact-us/contact-us.component';
 import { OrderComponent } from './UI/order/order.component';
 import { ConfigurationComponent } from './UI/configuration/configuration.component';
 import { MyordersComponent } from './UI/myorders/myorders.component';
-
+import { TemplateListComponent } from './UI/template/template-list/template-list.component';
+import { TemplateItemComponent } from './UI/template/template-list/template-item/template-item.component';
+import { TemplateFiltersComponent } from './UI/template/template-filters/template-filters.component';
+import { TemplateComponent } from './UI/template/template.component';
+import { TemplateItemDetailsComponent } from './UI/template/template-item-details/template-item-details.component';
 
 
 
@@ -69,7 +73,13 @@ import { MyordersComponent } from './UI/myorders/myorders.component';
     ContactUsComponent,
     OrderComponent,
     ConfigurationComponent,
-    MyordersComponent
+    MyordersComponent,
+    TemplateListComponent,
+    TemplateItemComponent,
+    TemplateFiltersComponent,
+    TemplateComponent,
+    TemplateItemDetailsComponent
+
    
   ],
   imports: [

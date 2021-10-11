@@ -67,13 +67,26 @@ export class CartComponent implements OnInit {
 
 
 
-  removeItem(id: string) {
-    this.cartItems = this.cartItems.filter((item: any) => item.id !== id);
+  removeItem(templateId:string,productId:string) {
+   
+    if(templateId!= undefined)
+    {
+    this.cartItems = this.cartItems.filter((item: any) => item.templateId !== templateId);
     localStorage.removeItem('cart');
     localStorage.setItem('cart', JSON.stringify(this.cartItems))
     this.recalculateTotalPrice()
 
-    this.msgService.sendRemoveItemFromCart(id)
+    this.msgService.sendRemoveTemplateItemFromCart(templateId)
+    }
+    if(productId!= undefined)
+    {
+    this.cartItems = this.cartItems.filter((item: any) => item.productId !== productId);
+    localStorage.removeItem('cart');
+    localStorage.setItem('cart', JSON.stringify(this.cartItems))
+    this.recalculateTotalPrice()
+
+    this.msgService.sendRemoveProductItemFromCart(productId)
+    }
 
   }
 
@@ -112,11 +125,16 @@ export class CartComponent implements OnInit {
 
       let postData = this.utilityService.ConvertFormDataToJson(formData);
       this.orderService.addOrder(postData).subscribe(res => {
-        let formDataOrderItems: any = new FormData();
+       
         for (let i in this.cartItems) {
-
+          let formDataOrderItems: any = new FormData();
           formDataOrderItems.append("orderId", res._id)
-          formDataOrderItems.append("productId", this.cartItems[i].id)
+          if(this.cartItems[i].productId != undefined){
+            formDataOrderItems.append("productId", this.cartItems[i].productId)
+          }
+          if(this.cartItems[i].templateId != undefined){
+          formDataOrderItems.append("templateId", this.cartItems[i].templateId)
+          }
           formDataOrderItems.append("qty", this.cartItems[i].qty)
           let postDataOrderItems = this.utilityService.ConvertFormDataToJson(formDataOrderItems)
           this.orderService.addOrderItems(postDataOrderItems).subscribe(resOrderItems => {
@@ -155,9 +173,6 @@ export class CartComponent implements OnInit {
           console.log(resOrderCustomerAddress)
         }
         ),
-
-     
-
           (this.toastrService.success('Order created successfully. We have sent an email to ' + this.formCustomerAddress.get('Email')?.value + '. Your Order No is ' + res.orderNo, 'Confirmation Msg!')), (this.sendEmailToCustomer(res.orderNo)), (this.sendEmailToApnaBalcony(res.orderNo)), (this.formCustomerAddress.reset()), (this.clearCart())
 
       }, error => (this.toastrService.error('Order creation failed!', 'Confirmation Msg!'))

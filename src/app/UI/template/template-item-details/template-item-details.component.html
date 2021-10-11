@@ -1,0 +1,53 @@
+<mat-progress-bar mode="determinate"  [value]="progressbarValue" ></mat-progress-bar>
+<a style="text-decoration: none; margin-left: 20px;font-weight: 500; color: black;" routerLink="/template" ><mat-icon>navigate_before</mat-icon>Go to template</a>
+<div class="row" style="margin-left: 20px;">
+      <div class="col-md-4" *ngFor="let templateItem of templateList">
+        <div class="card mb-4 shadow-sm">
+            <img class="bd-placeholder-img card-img-top p-2" width="100%"
+              src="data:image/png;base64,{{templateItem.templateImg}}" />
+          
+            <div class="card-body">
+              <p class="card-text">
+                <medium>{{ templateItem.templateName }}</medium> 
+              </p>
+        
+              <br/>  <br/>    
+              <p class="card-text">
+                <medium>Estimated Price : {{ templateItem.templatePrice | currency:'INR' }}</medium> 
+              </p>
+              <p class="card-text">
+                <medium>Balcony Size : {{ templateItem.balconySize }}</medium> 
+              </p>
+              
+              
+             
+              <p class="card-text"> {{templateItem.templateDesc}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" (click) = "handleAddToCart(templateItem)" class="btn btn-sm btn-primary template-btn">Add to Cart</button>
+               
+                </div>
+              </div>
+            </div>
+            
+          </div>
+      </div>
+ 
+    </div>
+    <hr>
+    <div class="alert alert-info"  *ngIf="imagesList?.length > 0">
+     <p   style="margin-left: 20px;font-weight: 500;" ><mat-icon>image</mat-icon> Template Images</p>
+    </div>
+    <div class="row" style="margin-left: 20px;">
+        <div class="col-md-4"   *ngFor='let img of imagesList; let i = index' >
+            <div class="card mb-4 shadow-sm">
+                <div >
+               
+                    <img class="bd-placeholder-img card-img-top p-2" src="data:image/png;base64,{{img.templateImg}}"  style="width: 100%;height: 100%;"> <br/>
+              
+              </div>
+            </div>
+        </div>
+    </div>
+   
+    
