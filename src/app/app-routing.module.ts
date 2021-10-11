@@ -8,7 +8,7 @@ import { PolicyComponent } from './UI/policy/policy.component';
 import { ProductCatalogueComponent } from './UI/product-catalogue/product-catalogue.component';
 import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
 import { TemplateComponent } from './UI/template/template.component';
-import { ProductItemDetailsComponent } from './UI/product-item-details/product-item-details.component';
+import { ProductItemDetailsComponent } from './UI/product-catalogue/product-item-details/product-item-details.component';
 import { OrderComponent } from './UI/order/order.component';
 import { ConfigurationComponent } from './UI/configuration/configuration.component';
 import { MyordersComponent } from './UI/myorders/myorders.component';
