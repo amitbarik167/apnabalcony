@@ -809,6 +809,13 @@
 						</div>
 
 						<div class="column">
+							<label for="balcony_size" class="control-label">Is Balcony Template Empty</label> &nbsp;
+							<input type="checkbox" (change)="fieldsChange($event)" value ="checked"  id="is_empty" 
+								formControlName="BalconyIsEmpty" placeholder="">
+
+						</div>
+
+						<div class="column">
 							<label for="template_image" class="control-label"> Template
 								Image (Browse multiple images at a time)</label>
 							<input type="file" formControlName="templateImagesUploadControl" accept="image/*" multiple=""

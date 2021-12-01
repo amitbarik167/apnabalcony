@@ -47,7 +47,7 @@ export class CartComponent implements OnInit {
     if (localStorage.getItem('cartTotal') != "") {
       this.cartTotal = JSON.parse(localStorage.getItem('cartTotal') || "[]")
     }
-
+   
   
   }
 

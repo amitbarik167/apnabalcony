@@ -69,6 +69,7 @@ export class ProductSetupComponent implements OnInit {
   templateImageLIst: any =[];
   formData: any = new FormData();
   selectedColor: string;
+  isChecked : boolean=false;
 
   constructor(private fb: FormBuilder, private apiService: ProductSetupService, private utilityService: UtilityService, private toastrService: ToastrService,
     private cookieService: CookieService, private msgService: MessengerService) {
@@ -172,6 +173,7 @@ export class ProductSetupComponent implements OnInit {
     { headerName: 'Template Desc', field: 'templateDesc', sortable: true, filter: true, editable: true, tooltipField: 'productDesc', resizable: true },
     { headerName: 'Template Price', field: 'templatePrice', sortable: true, filter: true, editable: true, resizable: true },
     { headerName: 'Balcony Size', field: 'balconySize', sortable: true, filter: true, editable: true, resizable: true },
+    { headerName: 'Is Empty', field: 'isEmpty', sortable: true, filter: true, editable: true, resizable: true },
     { headerName: 'Created By', field: 'createdBy', sortable: true, filter: true, editable: false, resizable: true },
     { headerName: 'Modified By', field: 'modifiedBy', sortable: true, filter: true, editable: false, resizable: true },
     { headerName: 'Created At', field: 'createdAt', sortable: true, filter: true, editable: false, resizable: true },
@@ -928,6 +930,7 @@ export class ProductSetupComponent implements OnInit {
       this.formData.append("templatePrice", this.formTemplate.get('TemplatePrice')?.value);
       this.formData.append("templateImg", this.fileSource[0]);
       this.formData.append("balconySize", this.formTemplate.get('BalconySize')?.value);
+      this.formData.append("isEmpty", this.isChecked);
       this.formData.append("createdBy", this.socialUser);
       let postData = this.utilityService.ConvertFormDataToJson( this.formData);
       let templateCode = this.formTemplate.get('TemplateCode')?.value;
@@ -987,6 +990,10 @@ export class ProductSetupComponent implements OnInit {
     else {
       alert('Please select a row!');
     }
+}
+
+fieldsChange(values:any):void {
+  this.isChecked = values.currentTarget.checked;
 }
 }
 
