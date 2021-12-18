@@ -12,6 +12,7 @@
     </button>
 
   </li>
+  
 
   <li class="list-group-item active">
     <strong>Expected Total</strong> {{ cartTotal| currency:'INR' }}
@@ -106,8 +107,7 @@
     </div>
 
     <div  class="form-group">
-      <label for="customerHomePlanImage" class="control-label"> Home Plan
-        Image (Not Mandatory. Browse multiple images at a time if available)</label>
+      <label for="customerHomePlanImage" class="control-label"> Template Screenshot images (Browse multiple images at a time if available)</label>
       <input type="file" formControlName="customerHomePlanImagesUploadControl" accept="image/*" multiple=""
         (change)="onCustomerHomePlanImagesSelected($event)">
       <div *ngIf="returnCustomerHomePlanImagesControls.customerHomePlanImagesUploadControl?.touched && returnCustomerHomePlanImagesControls.customerHomePlanImagesUploadControl?.invalid"

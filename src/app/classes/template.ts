@@ -6,6 +6,7 @@ export class Template {
     templatePrice:number;
     templateImg: string;
     balconySize:string;
+    isEmpty:boolean;
     isActive:Boolean;
     createdBy:string;
     modifiedBy:string;

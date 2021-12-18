@@ -1,6 +1,70 @@
 <hr>
 <div>
-  <mat-tab-group id="tab-group" [selectedIndex]="0" >
+  <mat-tab-group id="tab-group" [selectedIndex]="0" #tabs>
+    <mat-tab label="MAKE YOUR OWN">
+      <!-- <img src="/assets/Balcony1.jpg" width="100%" height="700px"  alt="Img 1" routerLink="/productcatalogue">
+      <div class="centered"><h1 style="font-size:300%;">
+        Coming Soon. 
+      </h1></div> -->
+      <br />
+      <label for="own_upload" class="control-label" style="padding-left: 10px;"><h3>Do you have your Balcony plan? &nbsp;</h3></label>
+      <input #Image type="file" (change)="handleFileInput($event)"/>
+      <label  class="control-label"><h3> If no, then let's choose our blank templates </h3></label>
+      <div class="row" style="height: 1000px; padding-left: 20px; ">
+        <br />
+        <div class="col-md-6 alert alert-info">
+         <b>DRAG AND DROP BELOW &nbsp;</b> 
+         <button class="btn btn-secondary" (click)="capture()">Revert Completely <mat-icon>undo</mat-icon> </button>
+         <br/> Focus Screen Print in the daggable area, save the screenshot and upload in the Cart page.
+        </div>
+        <div class="col-md-3 alert alert-info">
+         <b>CHOOSE BLANK TEMPLATES</b> 
+        </div>
+        <div class="col-md-3 alert alert-info">
+         <b>CHOOSE PRODUCTS</b> 
+        </div>
+
+        <div #screenshot class="example-boundary col-md-6"
+          style="height: 100%; width: 100%; border: 1px solid cornflowerblue;" >
+          <img width="100%"   *ngIf="imageUrl" [src]="imageUrl" class="image">
+        
+        </div>
+
+
+        <div class="col-md-3" style="border: 1px solid cornflowerblue">
+          <div style=" border: none; height: 100% ; width: 100%;">
+
+            <div ngResizable [rzHandles]="'n,e,s,w,se,sw,ne,nw'" class="example-boundary example-box" cdkDragBoundary=".example-boundary"
+              style=" border: none; height: 100% ; width: 100%;" cdkDrag (cdkDragEnded)="drop($event)"
+              *ngFor="let template of templateList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+              <img width="100%" height="100%"
+                style="margin-right: 10px; size: inherit; "
+                src="data:image/png;base64,{{template.templateImg}}" />
+            </div>
+            <div style="padding-bottom: 10px;">
+              <ngb-pagination [collectionSize]="templateList.length" [(page)]="page" [pageSize]="pageSize"
+                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 " style="border: 1px solid cornflowerblue">
+
+          <div *ngFor='let items of cartItems; let i = index' ngResizable [rzHandles]="'n,e,s,w,se,sw,ne,nw'"
+            style="background-color: transparent; border: none;" class="example-boundary example-box"
+            cdkDragBoundary=".example-boundary" cdkDrag (cdkDragEnded)="drop($event)" >
+            <img alt="Image" width="100%" height="100%"
+              style="margin-right: 10px; "
+              src="data:image/png;base64,{{items.productImg}}" />
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </mat-tab>
     <mat-tab label="DEFAULT TEMPLATES">
       <div class="row">
         <div class="col-md-3">
@@ -15,29 +79,19 @@
 
     </mat-tab>
 
-    <mat-tab label="MAKE YOUR OWN">
-      <img src="/assets/Balcony1.jpg" width="100%" height="700px"  alt="Img 1" routerLink="/productcatalogue">
-      <div class="centered"><h1 style="font-size:300%;">
-        Coming Soon. 
-      </h1></div>
-      
-
-
-
-    </mat-tab>
+   
 
     <mat-tab label="LETS DECORATE WITH US">
-   
-     <div class='container-fluid mx-auto mt-5 mb-5 col-12' style="text-align: center">
-  
-      <div class="about-section">
+
+      <div class='container-fluid mx-auto mt-5 mb-5 col-12' style="text-align: center">
+
+        <div class="about-section">
           <h1>Did n't like the default templates ? No issues. We are still learning and growing. </h1>
-          <p> Please visit our contact page to decorate your balcony with us. </p> 
-          <a style="text-decoration: none;"
-          routerLink="/contactus"> Contact us </a>
+          <p> Please visit our contact page to decorate your balcony with us. </p>
+          <a style="text-decoration: none;" routerLink="/contactus"> Contact us </a>
 
         </div>
-     </div>
+      </div>
 
     </mat-tab>
   </mat-tab-group>

@@ -1,7 +1,7 @@
 
 
 <div class="row">
-  <div *ngIf="productCategoryDisplay.length > 0" class="alert alert-info"> Displaying all {{productCategoryDisplay}}</div>
+  <div *ngIf="productCategoryDisplay.length > 0" class="alert alert-info"> Displaying all {{productCategoryDisplay}}. Total Products found: {{productList.length}}</div>
   <div *ngIf="productCategoryDisplay.length === 0" class="alert alert-info"> Displaying all Products </div>
   <mat-progress-bar mode="determinate"  [value]="progressbarValue" ></mat-progress-bar>
     <div class="col-md-4" *ngFor="let product of productList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
