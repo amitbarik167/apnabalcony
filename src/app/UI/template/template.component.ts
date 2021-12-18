@@ -3,7 +3,7 @@ import { Component, OnInit, ViewEncapsulation, Renderer2, ViewChild, ElementRef 
 import { Template } from 'src/app/classes/template';
 import { TemplateListService } from 'src/app/services/template-list.services';
 import { NgxCaptureService } from 'ngx-capture';
-import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd,moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
 import { MatTabGroup } from '@angular/material/tabs';
 
@@ -43,6 +43,8 @@ export class TemplateComponent implements OnInit {
 
     if (localStorage.getItem('cart') != "") {
       this.cartItems = JSON.parse(localStorage.getItem('cart') || "[]")
+      this.cartItems= this.cartItems.filter((item:any) => Boolean(item.productId));
+      //this.cartItems = this.cartItems.filter((products:any)=> products.templateName.length===0)
     }
     this.template = new Template();
     this.template.isEmpty = true;
@@ -78,7 +80,7 @@ export class TemplateComponent implements OnInit {
     
 
   }
-  drop(ev: any): void {
+  drop(event: any): void {
    
     // if (!this.draggables.find(f => f == ev.source)) {
     //   this.draggables.push(ev.source);
@@ -89,5 +91,21 @@ export class TemplateComponent implements OnInit {
     //  this.image = this.screenshot.nativeElement;
     // this.screenshot.nativeElement.innerHTML;
     // this.image = this.screenshot.nativeElement;
+
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+   } else {
+      transferArrayItem(event.previousContainer.data,
+         event.container.data,
+         event.previousIndex,
+         event.currentIndex);
+   }
   }
+
+   saveScreenshot()
+  {
+    window.print()
+  
+  }
+
 }
