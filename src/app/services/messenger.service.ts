@@ -18,6 +18,7 @@ export class MessengerService {
   subjectRemoveTemplateItemFromCart = new Subject();
   subjectClearItemsFromCart = new Subject();
   subjectClearSearchTextBox = new Subject();
+  subjectTemplateScreenshotString = new Subject();
 
   constructor() { }
 
@@ -111,5 +112,12 @@ export class MessengerService {
 
   getSearchTemplateFilters(){
     return this.subjectTemplateSearchItems.asObservable();
+   }
+
+   sendTemplateScreenshotString(imageString: any){
+     this.subjectTemplateScreenshotString.next(imageString)
+   }
+   getTemplateScreenshotString(){
+     return this.subjectTemplateScreenshotString.asObservable();
    }
 }

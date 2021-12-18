@@ -53,8 +53,9 @@ import { TemplateItemComponent } from './UI/template/template-list/template-item
 import { TemplateFiltersComponent } from './UI/template/template-filters/template-filters.component';
 import { TemplateComponent } from './UI/template/template.component';
 import { TemplateItemDetailsComponent } from './UI/template/template-item-details/template-item-details.component';
-
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { AngularDraggableModule } from 'angular2-draggable';
+import { NgxCaptureModule } from 'ngx-capture';
 
 
 @NgModule({
@@ -113,10 +114,11 @@ import { TemplateItemDetailsComponent } from './UI/template/template-item-detail
     NgbModule,
     MatSliderModule  ,
     MatAutocompleteModule,
-    MatProgressBarModule
-  
-    
-    
+    MatProgressBarModule,
+    DragDropModule,
+    AngularDraggableModule,
+    NgxCaptureModule
+
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
  
