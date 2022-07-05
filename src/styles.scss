@@ -77,7 +77,15 @@ body, html{
   width: 100%;
 }
 
+*::-webkit-scrollbar {
+  width: 0.5em;
+}
 
+
+*::-webkit-scrollbar-thumb {
+  background-color: cornflowerblue;
+  outline: 1px solid slategrey;
+}
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
