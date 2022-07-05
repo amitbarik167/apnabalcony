@@ -1,4 +1,4 @@
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+
 import { Component, OnInit, ViewEncapsulation, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { Template } from 'src/app/classes/template';
 import { TemplateListService } from 'src/app/services/template-list.services';

@@ -29,7 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ProductSetupService } from './services/product-setup.services';
 import { ProductSetupComponent } from './UI/product-setup/product-setup.component';
 import { HomeComponent } from './UI/home/home.component';
-import { MatCarouselModule } from '@ngmodule/material-carousel';
+//import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //import { CartComponent } from './UI/product-catalogue/cart/cart.component';
 import { CartComponent } from './UI/cart/cart.component';
@@ -110,7 +110,7 @@ import { NgxCaptureModule } from 'ngx-capture';
     MatDialogModule,
     ToastrModule.forRoot(), // ToastrModule added
     AgGridModule.withComponents([ImageFormatterComponent]),
-    MatCarouselModule.forRoot(),
+   // MatCarouselModule.forRoot(),
     NgbModule,
     MatSliderModule  ,
     MatAutocompleteModule,
