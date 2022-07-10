@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/0811854b-393a-4c5c-8bd0-fd67fd45c396/microsoft.web/sites/subscriptions/0811854b-393a-4c5c-8bd0-fd67fd45c396/resourceGroups/DesignApnaBalconyApps/providers/Microsoft.Web/sites/apnabalcony",
+    "appService.deploySubpath": "dist"
+}

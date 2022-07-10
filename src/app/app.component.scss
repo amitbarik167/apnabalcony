@@ -27,7 +27,11 @@ mat-form-field {
 }
 
 .mat-toolbar-row, .mat-toolbar-single-row {
-  height: 103px;
+  height: 135px;
+}
+
+.mat-toolbar-row-topmenu{
+height: auto;
 }
 
 .divMainSearch{
@@ -100,6 +104,14 @@ mat-form-field {
 
   .mat-sidenav {
   overflow-y: hidden;
+  }
+  
+  ul.a {
+    list-style-type: circle;
+  }
+  
+  ul.b {
+    list-style-type: square;
   }
   
 }

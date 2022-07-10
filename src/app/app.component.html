@@ -16,12 +16,14 @@
 
   <div>
     <mat-toolbar color="primary" style="font-weight:lighter; font-size: small;">
+    
       <mat-toolbar-row>
+        
         <button mat-icon-button>
           <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
         </button>
         <div>
-          <img src="/assets/ABLogo.png" style="height:110%;width:110%;">
+          <img src="/assets/ABLogo.png" style="height:80%;width:80%;">
         </div>
 
         <div class="divMainSearch">
@@ -171,11 +173,21 @@
     <div>
       <mat-toolbar color="primary" style="font-weight:lighter; font-size: x-small;">
      
+      
+      
+         
+        
+        
        
         
         <div class="footer-copyright  py-3">Powered by RAT'z Solution <br>© 2022 Copyright: 
-          <a style="color: white;" href="https://www.apnabalcony.com/"> apnabalcony.com - All Rights Reserved.</a>
-         
+          <a style="color: white;" href="https://www.apnabalcony.com/"> apnabalcony.com - All Rights Reserved.</a><br>
+          <a  [routerLink]="'/aboutus'" style="color: white; font-weight: lighter;">
+            About Us
+           </a> &nbsp;
+           <a  [routerLink]="'/contactus'" style="color: white;font-weight: lighter;">
+           Contact Us
+            </a>
         </div>
         <span class="flexspacer"></span>
         <span flex></span>
